@@ -20,7 +20,9 @@ public class LevelLoader : MonoBehaviour
     {
         if (other.tag == "toRoom")
         {
-            SceneManager.LoadScene(1);
+            Scene scene = SceneManager.GetActiveScene();
+            Debug.Log("Active Scene is '" + scene.name + "'.");
+            SceneManager.LoadScene(scene.buildIndex + 1);
         }
         
     }

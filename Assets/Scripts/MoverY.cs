@@ -27,7 +27,10 @@ public class MoverY : MonoBehaviour
     {
         if (other.tag == eventTag)
         {
-            SceneManager.LoadScene(1);
+            //SceneManager.LoadScene(1);
+            Scene scene = SceneManager.GetActiveScene();
+            Debug.Log("Active Scene is '" + scene.name + "'.");
+            SceneManager.LoadScene(scene.buildIndex + 1);
         }
 
     }
