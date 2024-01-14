@@ -131,11 +131,14 @@ public class ExpCondition : MonoBehaviour
 
     public void GenCondition()
     {
-        for (int i_g = 0; i_g < all_gain.Count; i_g++)
+        for (int i_repeat = 0; i_repeat < exp_repeat; i_repeat++)
         {
-            for (int i_d = 0; i_d < all_distance.Count; i_d++)
+            for (int i_g = 0; i_g < all_gain.Count; i_g++)
             {
-                exp_conditions.Add(new object[] { all_gain[i_g], all_distance[i_d] });
+                for (int i_d = 0; i_d < all_distance.Count; i_d++)
+                {
+                    exp_conditions.Add(new object[] { all_gain[i_g], all_distance[i_d] });
+                }
             }
         }
         //Debug.Log("[log] at gencondition()");
