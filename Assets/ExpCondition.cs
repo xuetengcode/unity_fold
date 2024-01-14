@@ -14,7 +14,7 @@ public class ExpCondition : MonoBehaviour
 {
     [SerializeField] private string tester = "tx";
     [SerializeField] private string viewing = "bino";
-    [SerializeField] private float exp_gain = 1f;
+    public float exp_gain = 1f; // pass to ApplyGain.cs
     [SerializeField] private int exp_repeat = 2;
 
     //[SerializeField] private Vector3 _rotation;
@@ -32,9 +32,11 @@ public class ExpCondition : MonoBehaviour
     private int exp_more = 1;
     private int exp_less = 0;
 
+    private int curr_exp = 0;
+
     private List<object[]> exp_conditions = new List<object[]>();
-    private List<float> all_gain = new List<float> { 0.5f, 1f, 1.5f, 1.75f, 2f };
-    private List<float> all_distance = new List<float> { 0.1f, 0.2f, 0.3f };
+    private List<float> all_gain = new List<float> { 0.5f, 2f/3.0f, 0.8f, 1f, 1.25f, 1.5f, 2f };
+    private List<float> all_distance = new List<float> { 1.5f };
 
     private Vector3 base_location;
     private string resultFileName;
@@ -62,23 +64,11 @@ public class ExpCondition : MonoBehaviour
         /*
          * change the location of player
          */
-        base_location = _stand.transform.position;
+        
         //_xrOrigin.transform.position = _PlayerLocation;
         _xrOrigin.transform.position = _stand.transform.position;
 
-        /*
-         * fold: x -> left/right, y -> height, z -> far
-         */
-        _left.transform.position = new Vector3(base_location.x, 3f, 5f);
-        _left.transform.Rotate(new Vector3(-90, 45, 0));
-
-        _right.transform.position = new Vector3(base_location.x, 3f, 5f);
-        _right.transform.Rotate(new Vector3(-90, -45, 0));
-
-        /*
-         * top/bottom apperture: x -> left/right, y -> height, z -> far
-         */
-        float distance = base_location.z - _left.transform.position.z;
+        SetFold(1f); // initial position
 
         // get size of fold
         renderer = GetComponentInChildren<MeshRenderer>();
@@ -98,13 +88,19 @@ public class ExpCondition : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             GenAngle();
-            
+
             /*
             // change angle by rotation
             Debug.Log("random rotation is '" + rand_rotation + "'.");
             _left.transform.Rotate(rand_rotation);
             _right.transform.Rotate(-rand_rotation);
             */
+            exp_gain = (float)exp_conditions[curr_exp][0];
+            exp_width = 1f;
+            exp_distance = (float)exp_conditions[curr_exp][1];
+            Debug.Log($"Gain: {exp_gain}, Width: {exp_width}, Distance: {exp_distance}");
+
+            SetFold(exp_distance);
 
             // change angle by set value
             Debug.Log("random angle is '" + rand_rotation + "'.");
@@ -113,13 +109,36 @@ public class ExpCondition : MonoBehaviour
 
             // distance, gain, width, angle, more, less
             File.AppendAllText(resultFileName, exp_distance + ", " + exp_gain + ", " + exp_width + ", " + rand_rotation + ", " + exp_more + ", " + exp_less + "\n");
+
+            curr_exp += 1;
+            if (curr_exp >= exp_conditions.Count)
+            {
+                Application.Quit();
+            }
         }
         else if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             Debug.Log("[Log] Exp done. Saving results to '" + rand_rotation + "'.");
-
+            
         }
         
+    }
+    void SetFold(float distance)
+    {
+        base_location = _stand.transform.position;
+        /*
+         * fold: x -> left/right, y -> height, z -> far
+         */
+        _left.transform.position = new Vector3(base_location.x, 3f, 15f + distance);
+        _left.transform.Rotate(new Vector3(-90, 45, 0));
+
+        _right.transform.position = new Vector3(base_location.x, 3f, 5f);
+        _right.transform.Rotate(new Vector3(-90, -45, 0));
+
+        /*
+         * top/bottom apperture: x -> left/right, y -> height, z -> far
+         */
+        //float distance = base_location.z - _left.transform.position.z;
     }
     public void GenAngle()
     {

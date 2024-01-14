@@ -1356,7 +1356,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1174860785}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbacbf3167af3104da873eaae5434b9f, type: 3}
   m_Name: 
@@ -1403,7 +1403,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1174860785}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9244cd86d5b8ce94195a63f9ce5650da, type: 3}
   m_Name: 
@@ -2000,7 +2000,7 @@ MonoBehaviour:
       m_Name: Is Tracked
       m_Type: 1
       m_ExpectedControlType: 
-      m_Id: 
+      m_Id: f4e2f1b4-d42c-4381-aa6b-b852670c1639
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
@@ -2103,7 +2103,7 @@ MonoBehaviour:
       m_Name: UI Scroll
       m_Type: 0
       m_ExpectedControlType: Vector2
-      m_Id: 
+      m_Id: b140abd7-5ed1-4b92-828d-d00649ccae00
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
@@ -2171,6 +2171,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1656473234}
   - component: {fileID: 1656473233}
+  - component: {fileID: 1656473235}
   m_Layer: 0
   m_Name: ExperimentManager
   m_TagString: Untagged
@@ -2190,6 +2191,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b60411bc7232e641a1dd816747cf805, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tester: tx
+  viewing: bino
+  exp_gain: 1
+  exp_repeat: 2
   _left: {fileID: 980844565}
   _right: {fileID: 920670135}
   _xrOrigin: {fileID: 1174860787}
@@ -2217,6 +2222,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1656473235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1656473232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60cb55e0990bf4a4a87d5d7ac95978a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1783385962
 GameObject:
   m_ObjectHideFlags: 0
