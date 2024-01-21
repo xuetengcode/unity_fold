@@ -9,7 +9,7 @@ using Unity.XR.CoreUtils;
 using System.IO;
 using System;
 using System.Linq;
-using UnityEngine.SceneManagement;
+//using UnityEngine.SceneManagement;
 public class ExpCondition : MonoBehaviour
 {
     [SerializeField] private string tester = "tx";
@@ -76,7 +76,7 @@ public class ExpCondition : MonoBehaviour
         size = renderer.bounds.size;
         Debug.Log("fold size is '" + size + "'.");
 
-        //_left.transform.localScale = new Vector3(1.414f, 0, 2);
+        //   _left.transform.localScale = new Vector3(1.414f, 0, 2);
 
         // generate all experiment conditions
         GenCondition();
