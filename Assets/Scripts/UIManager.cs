@@ -2,12 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.XR.CoreUtils;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class RoomExperiment : MonoBehaviour
+public class UIManager : MonoBehaviour
 {
     // Start is called before the first frame update
-    [SerializeField] public float adaptation_gain = 1f;
-    //public float exp_gain = 1f; // pass to ApplyGain.cs
     // scene setup
     [SerializeField] private GameObject _stand;
     [SerializeField] private XROrigin _xrOrigin;
@@ -19,6 +18,11 @@ public class RoomExperiment : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            UnityEngine.SceneManagement.Scene scene = SceneManager.GetActiveScene();
+            Debug.Log("Active Scene is '" + scene.name + "'.");
+            SceneManager.LoadScene(scene.buildIndex + 1);
+        }
     }
 }

@@ -27,6 +27,8 @@ public class ExpCondition : MonoBehaviour
 
     //private GameObject _stand = GameObject.Find("stand");
     [SerializeField] private GameObject _stand;
+    public GameObject _cameraL;
+
     private float rand_rotation;
     private float exp_distance = 1f;
     private float exp_width = 1f;
@@ -44,6 +46,8 @@ public class ExpCondition : MonoBehaviour
 
     public Vector3 size;
     private new MeshRenderer renderer;
+
+    List<int> LocalConditions = LaunchUI.SharedConditions;
 
     // Start is called before the first frame update
     private void Start()
@@ -80,6 +84,19 @@ public class ExpCondition : MonoBehaviour
 
         // generate all experiment conditions
         GenCondition();
+
+        // bino or mono
+        if (LocalConditions[0] == 0)
+        {
+            // bino
+            _cameraL.SetActive(false);
+        }
+        else
+        {
+            // mono
+            _cameraL.SetActive(true);
+        }
+        
     }
 
 
