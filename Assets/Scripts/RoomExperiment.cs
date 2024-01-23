@@ -16,6 +16,8 @@ public class RoomExperiment : MonoBehaviour
     public GameObject _cameraL;
     // different gains
     public float adaptation_gain = 1f;
+
+    private float timer = 0f;
     //public float exp_gain = 1f; // pass to ApplyGain.cs
 
     List<int> LocalConditions = LaunchUI.SharedConditions;
@@ -58,10 +60,19 @@ public class RoomExperiment : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        timer += Time.deltaTime;
+        float seconds = timer % 60;
+
+        UnityEngine.SceneManagement.Scene scene = SceneManager.GetActiveScene();
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            UnityEngine.SceneManagement.Scene scene = SceneManager.GetActiveScene();
             Debug.Log("Active Scene is '" + scene.name + "'.");
+            SceneManager.LoadScene(scene.buildIndex + 1);
+        }
+        if (seconds > 60)
+        {
+            Debug.Log("Time out and jump to next scene");
             SceneManager.LoadScene(scene.buildIndex + 1);
         }
     }

@@ -21,6 +21,7 @@ public class LaunchUI : MonoBehaviour
     [SerializeField]
     private Button ConfirmBttn;
 
+    private string playerName = "";
     public static List<int> SharedConditions = new List<int> { 0, 1};
     private void Awake()
     {
@@ -56,5 +57,11 @@ public class LaunchUI : MonoBehaviour
             Debug.Log("Active Scene is '" + scene.name + "'.");
             SceneManager.LoadScene(scene.buildIndex + 1);
         });
+    }
+
+    public void ReadStringInput(string s)
+    {
+        playerName = s;
+        Debug.Log(playerName);
     }
 }

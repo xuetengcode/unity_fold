@@ -12,7 +12,8 @@ using System.Linq;
 //using UnityEngine.SceneManagement;
 public class ExpCondition : MonoBehaviour
 {
-    [SerializeField] private string tester = "tx";
+    //[SerializeField] private string tester = "tx";
+    private float tester = DropDownControl.playerName;
     [SerializeField] private string viewing = "bino";
     [SerializeField] private float adaptation_gain = 1f;
     public float exp_gain = 1f; // pass to ApplyGain.cs

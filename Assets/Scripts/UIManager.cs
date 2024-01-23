@@ -22,7 +22,11 @@ public class UIManager : MonoBehaviour
         {
             UnityEngine.SceneManagement.Scene scene = SceneManager.GetActiveScene();
             Debug.Log("Active Scene is '" + scene.name + "'.");
-            SceneManager.LoadScene(scene.buildIndex + 1);
+            if (scene.buildIndex + 1 < 4 )
+            {
+                SceneManager.LoadScene(scene.buildIndex + 1);
+            }
+            
         }
     }
 }
