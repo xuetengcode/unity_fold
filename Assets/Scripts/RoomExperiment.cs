@@ -61,7 +61,7 @@ public class RoomExperiment : MonoBehaviour
     void Update()
     {
         timer += Time.deltaTime;
-        float seconds = timer % 60;
+        float seconds = timer % 10;
 
         UnityEngine.SceneManagement.Scene scene = SceneManager.GetActiveScene();
 
