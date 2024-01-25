@@ -356,7 +356,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!20 &109926322
 Camera:
   m_ObjectHideFlags: 0
@@ -969,11 +969,11 @@ PrefabInstance:
     - target: {fileID: 761779905214266785, guid: f303515d153bf5f409d946843a4ba93b, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 36bfd8a1c5634134aad3766ff1aed36e, type: 2}
+      objectReference: {fileID: 2100000, guid: a0a3fdacb67d01843b91e5675e732ee7, type: 2}
     - target: {fileID: 1034954074166461303, guid: f303515d153bf5f409d946843a4ba93b, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 36bfd8a1c5634134aad3766ff1aed36e, type: 2}
+      objectReference: {fileID: 2100000, guid: a0a3fdacb67d01843b91e5675e732ee7, type: 2}
     - target: {fileID: 1355262296778993958, guid: f303515d153bf5f409d946843a4ba93b, type: 3}
       propertyPath: m_Name
       value: bucket
@@ -985,15 +985,15 @@ PrefabInstance:
     - target: {fileID: 2482587836253262329, guid: f303515d153bf5f409d946843a4ba93b, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 36bfd8a1c5634134aad3766ff1aed36e, type: 2}
+      objectReference: {fileID: 2100000, guid: a0a3fdacb67d01843b91e5675e732ee7, type: 2}
     - target: {fileID: 3650059651140049279, guid: f303515d153bf5f409d946843a4ba93b, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 36bfd8a1c5634134aad3766ff1aed36e, type: 2}
+      objectReference: {fileID: 2100000, guid: a0a3fdacb67d01843b91e5675e732ee7, type: 2}
     - target: {fileID: 5661031987940584710, guid: f303515d153bf5f409d946843a4ba93b, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 36bfd8a1c5634134aad3766ff1aed36e, type: 2}
+      objectReference: {fileID: 2100000, guid: a0a3fdacb67d01843b91e5675e732ee7, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f303515d153bf5f409d946843a4ba93b, type: 3}
 --- !u!1 &1889277882 stripped
