@@ -5,7 +5,7 @@
 *.cs.meta
 *.csv
 /Assets/output
-/Assets/Materials/images
+#/Assets/Materials/images
 
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
