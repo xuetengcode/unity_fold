@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Threading;
 using Unity.XR.CoreUtils;
 using UnityEditor.SearchService;
 using UnityEngine;
@@ -83,8 +84,9 @@ public class RoomExperiment : MonoBehaviour
 
             LaunchUI.SharedCounters[1] += 1;
             Debug.Log("Active Scene is '" + scene.name + "'.");
-            StartCoroutine(_ChangeScene(scene));
-            
+            //StartCoroutine(_ChangeScene(scene));
+            // Use a coroutine to load the Scene in the background
+            StartCoroutine(LoadYourAsyncScene(scene));
         }
         if (seconds > _timeLimit)
         {
@@ -92,15 +94,33 @@ public class RoomExperiment : MonoBehaviour
 
             LaunchUI.SharedCounters[1] += 1;
             Debug.Log("Time out and jump to next scene");
-            SceneManager.LoadScene(scene.buildIndex + 1);
+            //SceneManager.LoadScene(scene.buildIndex + 1);
+            StartCoroutine(LoadYourAsyncScene(scene));
         }
     }
 
-    public IEnumerator _ChangeScene(UnityEngine.SceneManagement.Scene scene)
+    IEnumerator _ChangeScene(UnityEngine.SceneManagement.Scene scene)
     {
         fade.FadeIn();
         yield return new WaitForSeconds(1);
         SceneManager.LoadScene(scene.buildIndex + 1);
     }
-    
+    IEnumerator LoadYourAsyncScene(UnityEngine.SceneManagement.Scene scene)
+    {
+        // The Application loads the Scene in the background as the current Scene runs.
+        // This is particularly good for creating loading screens.
+        // You could also load the Scene by using sceneBuildIndex. In this case Scene2 has
+        // a sceneBuildIndex of 1 as shown in Build Settings.
+
+        fade.FadeIn();
+        yield return new WaitForSeconds(1);
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(scene.buildIndex + 1);
+
+        // Wait until the asynchronous scene fully loads
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+    }
+
 }
