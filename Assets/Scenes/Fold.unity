@@ -1039,7 +1039,7 @@ MonoBehaviour:
   canvasGroup: {fileID: 114355805}
   fadeOutCanvasGroup: {fileID: 1162433676}
   StepsFadeIn: 1
-  StepsFadeOut: 1000
+  StepsFadeOut: 1
   fadein: 0
   fadeout: 0
 --- !u!114 &1084371199
