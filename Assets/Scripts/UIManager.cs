@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Unity.XR.Oculus;
 
 public class UIManager : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private XROrigin _xrOrigin;
     void Start()
     {
+        Performance.TrySetDisplayRefreshRate(90.0f);
         _xrOrigin.transform.position = _stand.transform.position;
     }
 

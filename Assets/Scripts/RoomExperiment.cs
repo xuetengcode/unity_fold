@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Threading;
 using Unity.XR.CoreUtils;
-using UnityEditor.SearchService;
+using Unity.XR.Oculus;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -24,7 +22,8 @@ public class RoomExperiment : MonoBehaviour
     List<int> LocalConditions = LaunchUI.SharedConditions;
     void Start()
     {
-        
+        Debug.Log($"Setting Display Refresh Rate: {Performance.TrySetDisplayRefreshRate(90.0f)}");
+
         fade = GetComponentInChildren<FadeInOut>();
         if (LaunchUI.SharedCounters[0] == 1)
         {
@@ -78,6 +77,7 @@ public class RoomExperiment : MonoBehaviour
         UnityEngine.SceneManagement.Scene scene = SceneManager.GetActiveScene();
 
         
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Debug.Log("Updating shared counter '" + LaunchUI.SharedCounters[0] + ", " + +LaunchUI.SharedCounters[1] + "'.");
