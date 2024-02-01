@@ -27,7 +27,7 @@ Material:
     m_Colors:
     - _Color: {r: 0.98039216, g: 0.577451, b: 0.577451, a: 0.19607843}
     - _ColorCenter: {r: 1, g: 0.99528295, b: 0.99528295, a: 0}
-    - _ColorEdge: {r: 0.9811321, g: 0, b: 0, a: 0.50980395}
+    - _ColorEdge: {r: 0.9811321, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &4092461986268552684
 MonoBehaviour:
