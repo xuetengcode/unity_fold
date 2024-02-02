@@ -30,6 +30,10 @@ public class ExpCondition : MonoBehaviour
     //private GameObject _stand = GameObject.Find("stand");
     [SerializeField] private GameObject _stand;
     public GameObject _cameraL;
+    [SerializeField]
+    public CanvasGroup _blindCanvasGroup;
+
+    public List<int> parallax = new List<int> { 0, 0 };
 
     private float rand_rotation;
     private float exp_distance = 1f;
@@ -55,6 +59,9 @@ public class ExpCondition : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
+        // start in dark
+        _blindCanvasGroup.alpha = 1;
+
         fade = GetComponentInChildren<FadeInOut>();
         /*
          * Initialize output file
@@ -142,6 +149,9 @@ public class ExpCondition : MonoBehaviour
                 Debug.Log("Active Scene is '" + scene.name + "'.");
                 SceneManager.LoadScene(scene.buildIndex + 1);
             }
+
+            _blindCanvasGroup.alpha = 1;
+            parallax = new List<int> { 0, 0 };
         }
         else if (Input.GetKeyDown(KeyCode.LeftShift))
         {
