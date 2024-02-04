@@ -25,7 +25,7 @@ public class FadeInOut : MonoBehaviour
     {
         if (fadein)
         {
-            Debug.Log("  => Fade in");
+            //Debug.Log("  => Fade in");
             if (canvasGroup.alpha < 1)
             {
                 canvasGroup.alpha += StepsFadeIn * Time.deltaTime;

@@ -24,6 +24,9 @@ public class LaunchUI : MonoBehaviour
     private string playerName = "";
     public static List<int> SharedConditions = new List<int> { 0, 1};
     public static List<int> SharedCounters = new List<int> { 0, 0 };
+
+    public FadeInOut fade;
+
     private void Awake()
     {
         ViewingBBttn.onClick.AddListener(() =>
@@ -57,7 +60,8 @@ public class LaunchUI : MonoBehaviour
             Debug.Log("Confirm button clicked.");
             UnityEngine.SceneManagement.Scene scene = SceneManager.GetActiveScene();
             Debug.Log("Active Scene is '" + scene.name + "'.");
-            SceneManager.LoadScene(scene.buildIndex + 1);
+            //SceneManager.LoadScene(scene.buildIndex + 1);
+            StartCoroutine(_ChangeScene(scene.buildIndex + 1));
         });
     }
 
@@ -65,5 +69,17 @@ public class LaunchUI : MonoBehaviour
     {
         playerName = s;
         Debug.Log(playerName);
+    }
+
+    private void Start()
+    {
+        fade = GetComponentInChildren<FadeInOut>();
+    }
+    public IEnumerator _ChangeScene(int nextIdx)
+    {
+        //fade.fadein = true;
+        fade.FadeIn();
+        yield return new WaitForSeconds(1);
+        SceneManager.LoadScene(nextIdx);
     }
 }

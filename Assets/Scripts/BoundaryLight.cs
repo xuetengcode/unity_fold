@@ -10,6 +10,7 @@ public class BoundaryLight : MonoBehaviour
 
     [SerializeField]
     public CanvasGroup _blindCanvasGroup;
+    public CanvasGroup _greyCanvasGroup;
 
     public string eventTagL = "boundaryL";
     public string eventTagR = "boundaryR";
@@ -30,6 +31,7 @@ public class BoundaryLight : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log(other.tag);
         //Debug.Log("Event!!!");
         if (other.tag == eventTagL)
         {
@@ -43,11 +45,17 @@ public class BoundaryLight : MonoBehaviour
             _bRight.SetActive(true);
             GetComponentInParent<ExpCondition>().parallax[1] += 1;
         }
+
+        if (other.tag == "boundaryF" ^ other.tag == "boundaryB") 
+        {
+            _greyCanvasGroup.alpha = 0.7f;
+        }
         //Debug.Log(GetComponentInParent<ExpCondition>().parallax);
     }
     private void OnTriggerExit(Collider other)
     {
         _bLeft.SetActive(false);
         _bRight.SetActive(false);
+        _greyCanvasGroup.alpha = 0;
     }
 }
