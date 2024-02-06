@@ -15,8 +15,8 @@ public class ApplyGain : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
 
+        curr_gain = GetComponent<RoomExperiment>().adaptation_gain;
         xrOrigin = GetComponentInChildren<XROrigin>();
         if (xrOrigin == null)
         {
@@ -32,7 +32,7 @@ public class ApplyGain : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        curr_gain = GetComponent<RoomExperiment>().adaptation_gain;
+        
         //Debug.Log($"Applying Gain: {curr_gain}");
 
         // Get the current position of the VR headset

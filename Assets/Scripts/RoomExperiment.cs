@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Threading;
+//using System.Drawing;
+//using System.Threading;
 using Unity.XR.CoreUtils;
-using UnityEditor.SearchService;
+//using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,15 +16,29 @@ public class RoomExperiment : MonoBehaviour
     [SerializeField] private float _timeLimit = 30f;
     public GameObject _cameraL;
     // different gains
-    public float adaptation_gain = 1f;
+    public float adaptation_gain;
 
     private float timer = 0f;
     //public float exp_gain = 1f; // pass to ApplyGain.cs
 
     List<int> LocalConditions = LaunchUI.SharedConditions;
+    private int Apressed;
+    private int Bpressed;
+    private int Xpressed;
+    private int Ypressed;
+    
+    private int LastA = 0;
+    private int LastB = 0;
+    private int LastX = 0;
+    private int LastY = 0;
+
     void Start()
     {
-        
+        LastA = GetComponent<DataInput>().bttnApressed;
+        LastB = GetComponent<DataInput>().bttnBpressed;
+        LastX = GetComponent<DataInput>().bttnXpressed;
+        LastY = GetComponent<DataInput>().bttnYpressed;
+
         fade = GetComponentInChildren<FadeInOut>();
         if (LaunchUI.SharedCounters[0] == 1)
         {
@@ -72,13 +86,18 @@ public class RoomExperiment : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Apressed = GetComponent<DataInput>().bttnApressed;
+        Bpressed = GetComponent<DataInput>().bttnBpressed;
+        Xpressed = GetComponent<DataInput>().bttnXpressed;
+        Ypressed = GetComponent<DataInput>().bttnYpressed;
+
         timer += Time.deltaTime;
         float seconds = timer % 10;
 
         UnityEngine.SceneManagement.Scene scene = SceneManager.GetActiveScene();
 
         
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) | Xpressed > LastX)
         {
             Debug.Log("Updating shared counter '" + LaunchUI.SharedCounters[0] + ", " + +LaunchUI.SharedCounters[1] + "'.");
 
@@ -97,6 +116,8 @@ public class RoomExperiment : MonoBehaviour
             //SceneManager.LoadScene(scene.buildIndex + 1);
             StartCoroutine(LoadYourAsyncScene(scene));
         }
+        LastA = Apressed; LastB = Bpressed;
+        LastX = Xpressed; LastY = Ypressed;
     }
 
     IEnumerator _ChangeScene(UnityEngine.SceneManagement.Scene scene)

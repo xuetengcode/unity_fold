@@ -15,8 +15,8 @@ public class ExpCondition : MonoBehaviour
     public FadeInOut fade;
     //[SerializeField] private string tester = "tx";
     private float tester = DropDownControl.playerName;
-    [SerializeField] private string viewing = "bino";
-    [SerializeField] private float adaptation_gain = 1f;
+    private string viewing;
+    private float adaptation_gain;
     public float exp_gain = 1f; // pass to ApplyGain.cs
     [SerializeField] private int exp_repeat = 2;
 
@@ -30,8 +30,8 @@ public class ExpCondition : MonoBehaviour
     //private GameObject _stand = GameObject.Find("stand");
     [SerializeField] private GameObject _stand;
     public GameObject _cameraL;
-    [SerializeField]
-    public CanvasGroup _blindCanvasGroup;
+    [SerializeField] public CanvasGroup _blindCanvasGroup;
+    [SerializeField] private GameObject _floor;
 
     public List<int> parallax = new List<int> { 0, 0 };
 
@@ -55,14 +55,49 @@ public class ExpCondition : MonoBehaviour
 
     List<int> LocalConditions = LaunchUI.SharedConditions;
 
-    
+    private int Apressed;
+    private int Bpressed;
+    private int Xpressed;
+    private int Ypressed;
+    //public bool bttn_reset = false;
+    private int LastA = 0;
+    private int LastB = 0;
+    private int LastX = 0;
+    private int LastY = 0;
     // Start is called before the first frame update
     private void Start()
     {
+        _floor.SetActive(false);
+        LastA = GetComponent<DataInput>().bttnApressed;
+        LastB = GetComponent<DataInput>().bttnBpressed;
+        LastX = GetComponent<DataInput>().bttnXpressed;
+        LastY = GetComponent<DataInput>().bttnYpressed;
         // start in dark
         _blindCanvasGroup.alpha = 1;
 
         fade = GetComponentInChildren<FadeInOut>();
+        // bino or mono
+        if (LocalConditions[0] == 0)
+        {
+            // bino
+            _cameraL.SetActive(false);
+            viewing = "bino";
+        }
+        else
+        {
+            // mono
+            _cameraL.SetActive(true);
+            viewing = "mono";
+        }
+
+        if (LocalConditions[1] == 0)
+        {
+            adaptation_gain = 0.5f;
+        }
+        else
+        {
+            adaptation_gain = 2f;
+        }
         /*
          * Initialize output file
          */
@@ -84,8 +119,6 @@ public class ExpCondition : MonoBehaviour
         //_xrOrigin.transform.position = _PlayerLocation;
         _xrOrigin.transform.position = _stand.transform.position;
 
-        SetFold(1f); // initial position
-
         // get size of fold
         renderer = GetComponentInChildren<MeshRenderer>();
         size = renderer.bounds.size;
@@ -96,28 +129,36 @@ public class ExpCondition : MonoBehaviour
         // generate all experiment conditions
         GenCondition();
 
-        // bino or mono
-        if (LocalConditions[0] == 0)
-        {
-            // bino
-            _cameraL.SetActive(false);
-        }
-        else
-        {
-            // mono
-            _cameraL.SetActive(true);
-        }
-        
+        SetFold((float)exp_conditions[curr_exp][1]); // initial position
+
     }
 
 
     // Update is called once per frame
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        Apressed = GetComponent<DataInput>().bttnApressed;
+        Bpressed = GetComponent<DataInput>().bttnBpressed;
+        Xpressed = GetComponent<DataInput>().bttnXpressed;
+        Ypressed = GetComponent<DataInput>().bttnYpressed;
+
+        if (Input.GetKeyDown(KeyCode.Space) | Apressed > LastA | Bpressed > LastB)
         {
             GenAngle();
-
+            if (Apressed > LastA)
+            {
+                exp_more = 1;
+            }
+            else if (Bpressed > LastB)
+            {
+                exp_less = 1;
+            }
+            else
+            {
+                exp_more = 0;
+                exp_less = 0;
+            }
+            //bttn_reset = true;
             /*
             // change angle by rotation
             Debug.Log("random rotation is '" + rand_rotation + "'.");
@@ -152,17 +193,15 @@ public class ExpCondition : MonoBehaviour
 
             _blindCanvasGroup.alpha = 1;
             parallax = new List<int> { 0, 0 };
+            _floor.SetActive(false);
+            _xrOrigin.transform.position = _stand.transform.position;
         }
-        else if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            Debug.Log("[Log] Exp done. Saving results to '" + rand_rotation + "'.");
-            
-        }
-        else if (Input.GetKeyDown(KeyCode.Escape))
+        else if (Input.GetKeyDown(KeyCode.Escape) | Xpressed > LastX)
         {
             UnityEngine.SceneManagement.Scene scene = SceneManager.GetActiveScene();
             Debug.Log("Active Scene is '" + scene.name + "'.");
-            Debug.Log("Updating shared counter '" + LaunchUI.SharedCounters[0] + ", " + +LaunchUI.SharedCounters[1] + "'.");
+            //Debug.Log("Updating shared counter '" + LaunchUI.SharedCounters[0] + ", " + +LaunchUI.SharedCounters[1] + "'.");
+            Debug.Log("[========] X event");
 
             LaunchUI.SharedCounters[0] += 1;
 
@@ -179,9 +218,15 @@ public class ExpCondition : MonoBehaviour
                 //SceneManager.LoadScene(scene.buildIndex - 1);
             }
             
-            
-            
         }
+        else if (Ypressed > LastY)
+        {
+            Debug.Log("[========] Y event");
+            _xrOrigin.transform.position = _stand.transform.position;
+            _xrOrigin.transform.rotation = _stand.transform.rotation;
+        }
+        LastA = Apressed; LastB = Bpressed;
+        LastX = Xpressed; LastY = Ypressed;
 
     }
 
@@ -199,11 +244,11 @@ public class ExpCondition : MonoBehaviour
         /*
          * fold: x -> left/right, y -> height, z -> far
          */
-        _left.transform.position = new Vector3(base_location.x, 3f, 5f + distance);
-        _left.transform.Rotate(new Vector3(-90, 45, 0));
+        _left.transform.position = new Vector3(base_location.x, 3f, 8f + distance);
+        //_left.transform.Rotate(new Vector3(-90, 45, 0));
 
-        _right.transform.position = new Vector3(base_location.x, 3f, 5f+ distance);
-        _right.transform.Rotate(new Vector3(-90, -45, 0));
+        _right.transform.position = new Vector3(base_location.x, 3f, 8f+ distance);
+        //_right.transform.Rotate(new Vector3(-90, -45, 0));
 
         /*
          * top/bottom apperture: x -> left/right, y -> height, z -> far

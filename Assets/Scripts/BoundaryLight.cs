@@ -11,6 +11,7 @@ public class BoundaryLight : MonoBehaviour
     [SerializeField]
     public CanvasGroup _blindCanvasGroup;
     public CanvasGroup _greyCanvasGroup;
+    [SerializeField] private GameObject _floor;
 
     public string eventTagL = "boundaryL";
     public string eventTagR = "boundaryR";
@@ -26,27 +27,29 @@ public class BoundaryLight : MonoBehaviour
         if (GetComponentInParent<ExpCondition>().parallax[0] > 2 & GetComponentInParent<ExpCondition>().parallax[1]>2) 
         {
             _blindCanvasGroup.alpha = 0;
+            _floor.SetActive(true);
         }
         //local_parallax = GetComponentInParent<ExpCondition>().parallax;
     }
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.tag);
+        //Debug.Log(other.tag);
         //Debug.Log("Event!!!");
         if (other.tag == eventTagL)
         {
             _bLeft.SetActive(true);
             _bRight.SetActive(false);
             GetComponentInParent<ExpCondition>().parallax[0] += 1;
+            //_greyCanvasGroup.alpha = 0;
         }
         else if (other.tag == eventTagR)
         {
             _bLeft.SetActive(false);
             _bRight.SetActive(true);
             GetComponentInParent<ExpCondition>().parallax[1] += 1;
+            //_greyCanvasGroup.alpha = 0;
         }
-
-        if (other.tag == "boundaryF" ^ other.tag == "boundaryB") 
+        else if (other.tag == "boundaryF" | other.tag == "boundaryB") 
         {
             _greyCanvasGroup.alpha = 0.7f;
         }
@@ -54,8 +57,17 @@ public class BoundaryLight : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        _bLeft.SetActive(false);
-        _bRight.SetActive(false);
-        _greyCanvasGroup.alpha = 0;
+        if (other.tag == eventTagL)
+        {
+            _bLeft.SetActive(false);
+        }
+        else if (other.tag == eventTagR)
+        {
+            _bRight.SetActive(false);
+        }
+        else if (other.tag == "boundaryF" | other.tag == "boundaryB")
+        {
+            _greyCanvasGroup.alpha = 0;
+        }
     }
 }
