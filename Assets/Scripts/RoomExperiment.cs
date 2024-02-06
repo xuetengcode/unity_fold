@@ -61,7 +61,7 @@ public class RoomExperiment : MonoBehaviour
 
         // set initial location
         _xrOrigin.transform.position = _stand.transform.position;
-
+        _xrOrigin.transform.rotation = _stand.transform.rotation;
         // bino or mono
         /* 
          * if do this way, cameraL initially has to be enabled in the scene 
@@ -69,7 +69,7 @@ public class RoomExperiment : MonoBehaviour
          */
         //GameObject _leftCam = GameObject.Find("CameraL"); 
         //if (_leftCam != null )
-        
+
         if (LocalConditions[0] == 0)
         {
             // bino

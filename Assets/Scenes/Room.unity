@@ -158,7 +158,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 52559be8019f9cb4ca69c794ba570261, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 52559be8019f9cb4ca69c794ba570261, type: 3}
       propertyPath: m_LocalPosition.z
@@ -531,6 +531,16 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.0076500075, y: 0.015300001, z: 0.0072999992}
   m_Center: {x: -0.014079826, y: -0.018627599, z: -0.0124155525}
+--- !u!1 &395457602 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2392575424262883632, guid: 83a3ca38d5327264bb8a57719b7dcd8c, type: 3}
+  m_PrefabInstance: {fileID: 3257650465687098037}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &433582061 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3257650465864944005, guid: 83a3ca38d5327264bb8a57719b7dcd8c, type: 3}
+  m_PrefabInstance: {fileID: 3257650465687098037}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &481193637 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5880594444180052332, guid: 52559be8019f9cb4ca69c794ba570261, type: 3}
@@ -992,11 +1002,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3257650465864944004, guid: 83a3ca38d5327264bb8a57719b7dcd8c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.03
+      value: 0.06
       objectReference: {fileID: 0}
     - target: {fileID: 3257650465864944004, guid: 83a3ca38d5327264bb8a57719b7dcd8c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.63
+      value: -2.96
+      objectReference: {fileID: 0}
+    - target: {fileID: 3257650465864944004, guid: 83a3ca38d5327264bb8a57719b7dcd8c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3257650465864944004, guid: 83a3ca38d5327264bb8a57719b7dcd8c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3257650465864944004, guid: 83a3ca38d5327264bb8a57719b7dcd8c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: 3257650466259977408, guid: 83a3ca38d5327264bb8a57719b7dcd8c, type: 3}
       propertyPath: m_Name
@@ -1203,23 +1225,25 @@ MonoBehaviour:
       m_Action: Btn Y
       m_Flags: 0
     m_Flags: 0
-  menuR:
-    m_Name: Menu R
+  menuL:
+    m_Name: Menu L
     m_Type: 0
     m_ExpectedControlType: 
-    m_Id: 09babae2-f40f-4f35-a283-64176cdb1ee6
+    m_Id: 23dd3fc7-2a13-4b6b-a0fe-8b9708537e53
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings:
     - m_Name: 
-      m_Id: 407dd12a-c7a8-4c57-bd99-60e75b3c9a81
-      m_Path: <OculusTouchController>{RightHand}/menu
+      m_Id: 7e915deb-855a-4bdf-a7f2-6e16a9e7bde5
+      m_Path: <OculusTouchController>{LeftHand}/menu
       m_Interactions: 
       m_Processors: 
       m_Groups: 
-      m_Action: Menu R
+      m_Action: Menu L
       m_Flags: 0
     m_Flags: 0
+  _stand: {fileID: 433582061}
+  _xrOrigin: {fileID: 395457602}
   bttnApressed: 0
   bttnBpressed: 0
   bttnXpressed: 0

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.InputSystem.Interactions;
+using Unity.XR.CoreUtils;
 
 public class DataInput : MonoBehaviour
 {
@@ -18,7 +19,10 @@ public class DataInput : MonoBehaviour
     private InputAction btnY;
 
     [SerializeField]
-    private InputAction menuR;
+    private InputAction menuL;
+
+    [SerializeField] private GameObject _stand;
+    [SerializeField] private GameObject _xrOrigin;
 
     public int bttnApressed = 0;
     public int bttnBpressed = 0;
@@ -95,13 +99,14 @@ public class DataInput : MonoBehaviour
                 //       but rather a [0..1] value range.
             };
 
-        menuR.performed +=
+        menuL.performed +=
             ctx =>
             {
                 var button = (ButtonControl)ctx.control;
                 if (button.wasPressedThisFrame)
                 {
                     menuRpressed += 1;
+                    _xrOrigin.transform.position = new Vector3(_stand.transform.position.x, _xrOrigin.transform.position.y, _stand.transform.position.z);
                     Debug.Log($"Menu R {ctx.control} was pressed");
                 }
                 else if (button.wasReleasedThisFrame)
@@ -118,7 +123,7 @@ public class DataInput : MonoBehaviour
         btnX.Enable();
         btnY.Enable();
 
-        menuR.Enable();
+        menuL.Enable();
     }
 
     // Update is called once per frame
