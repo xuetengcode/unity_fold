@@ -55,8 +55,8 @@ public class ApplyGainFold : MonoBehaviour
         // Update last tracked position for the next frame
         lastTrackedPosition = currentTrackedPosition;
         
-        _leftCollider.transform.position += new Vector3(deltaMovement.x * (curr_gain - 1), 0, 0);
-        _rightCollider.transform.position += new Vector3(deltaMovement.x * (curr_gain - 1), 0, 0);
-        _stand.transform.position += new Vector3(deltaMovement.x * (curr_gain - 1), 0, 0);
+        //_leftCollider.transform.position += new Vector3(deltaMovement.x * (curr_gain - 1), 0, 0);
+        //_rightCollider.transform.position += new Vector3(deltaMovement.x * (curr_gain - 1), 0, 0);
+        //_stand.transform.position += new Vector3(deltaMovement.x * (curr_gain - 1), 0, 0);
     }
 }
