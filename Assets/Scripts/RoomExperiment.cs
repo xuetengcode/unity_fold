@@ -3,6 +3,7 @@ using System.Collections.Generic;
 //using System.Drawing;
 //using System.Threading;
 using Unity.XR.CoreUtils;
+using UnityEditor.SearchService;
 //using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -26,12 +27,13 @@ public class RoomExperiment : MonoBehaviour
     private int Bpressed;
     private int Xpressed;
     private int Ypressed;
-    
+
     private int LastA = 0;
     private int LastB = 0;
     private int LastX = 0;
     private int LastY = 0;
 
+    public bool _collideNext = false;
     void Start()
     {
         LastA = GetComponent<DataInput>().bttnApressed;
@@ -42,7 +44,7 @@ public class RoomExperiment : MonoBehaviour
         fade = GetComponentInChildren<FadeInOut>();
         if (LaunchUI.SharedCounters[0] == 1)
         {
-            _timeLimit = 10* 60f;
+            _timeLimit = 10 * 60f;
         }
         else
         {
@@ -80,7 +82,7 @@ public class RoomExperiment : MonoBehaviour
             // mono
             _cameraL.SetActive(true);
         }
-        
+
     }
 
     // Update is called once per frame
@@ -96,7 +98,7 @@ public class RoomExperiment : MonoBehaviour
 
         UnityEngine.SceneManagement.Scene scene = SceneManager.GetActiveScene();
 
-        
+
         if (Input.GetKeyDown(KeyCode.Escape) | Xpressed > LastX)
         {
             Debug.Log("Updating shared counter '" + LaunchUI.SharedCounters[0] + ", " + +LaunchUI.SharedCounters[1] + "'.");
@@ -143,5 +145,5 @@ public class RoomExperiment : MonoBehaviour
             yield return null;
         }
     }
-
+    
 }
