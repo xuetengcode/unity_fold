@@ -3,7 +3,7 @@ using System.Collections.Generic;
 //using System.Drawing;
 //using System.Threading;
 using Unity.XR.CoreUtils;
-using UnityEditor.SearchService;
+//using UnityEditor.SearchService;
 //using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -17,7 +17,7 @@ public class RoomExperiment : MonoBehaviour
     [SerializeField] private float _timeLimit = 30f;
     public GameObject _cameraL;
     // different gains
-    public float adaptation_gain;
+    public float adaptation_gain=1f;
 
     private float timer = 0f;
     //public float exp_gain = 1f; // pass to ApplyGain.cs

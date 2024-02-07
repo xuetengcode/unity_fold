@@ -1,8 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
+//using System.Collections;
+//using System.Collections.Generic;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+//using Unity.XR.Oculus;
+//using UnityEditor.SearchService;
 
 public class UIManager : MonoBehaviour
 {
@@ -12,6 +14,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private XROrigin _xrOrigin;
     void Start()
     {
+        Unity.XR.Oculus.Performance.TrySetDisplayRefreshRate(30);
+        //Application.targetFrameRate = 90;
+        //Debug.Log("FPS '" + Application. + "'.");
         _xrOrigin.transform.position = _stand.transform.position;
     }
 

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.30083102, g: 0.32745272, b: 0.44225183, a: 1}
+  m_IndirectSpecularColor: {r: 0.30085826, g: 0.32747495, b: 0.44227064, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -653,7 +653,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 339630050}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -3.625408, z: 6.080122}
+  m_LocalPosition: {x: 0, y: 2.57, z: 5.13}
   m_LocalScale: {x: 2, y: 1, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -816,7 +816,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 486864343}
   m_LocalRotation: {x: -0.6532815, y: -0.27059805, z: -0.27059805, w: 0.6532815}
-  m_LocalPosition: {x: 0, y: 4.11459, z: 15}
+  m_LocalPosition: {x: 0, y: 7.58, z: 15}
   m_LocalScale: {x: 1, y: 1, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1115,7 +1115,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1010815055}
   m_LocalRotation: {x: -0.6532815, y: 0.27059805, z: 0.27059805, w: 0.6532815}
-  m_LocalPosition: {x: 0, y: 5.06, z: 15}
+  m_LocalPosition: {x: 0, y: 8.52541, z: 15}
   m_LocalScale: {x: 1, y: 1, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1427,23 +1427,17 @@ MonoBehaviour:
       m_Action: Btn Y
       m_Flags: 0
     m_Flags: 0
-  menuR:
-    m_Name: Menu R
+  menuL:
+    m_Name: 
     m_Type: 0
     m_ExpectedControlType: 
-    m_Id: 37a96f75-bfd0-4c4a-8ae9-73b5fbee73a5
+    m_Id: 
     m_Processors: 
     m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: 668225ca-b043-4614-b77b-5474cd918464
-      m_Path: <OculusTouchController>{RightHand}/menu
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Menu R
-      m_Flags: 0
+    m_SingletonActionBindings: []
     m_Flags: 0
+  _stand: {fileID: 0}
+  _xrOrigin: {fileID: 0}
   bttnApressed: 0
   bttnBpressed: 0
   bttnXpressed: 0
@@ -1489,7 +1483,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1109605570}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -1, y: 0, z: 0.579}
+  m_LocalPosition: {x: -1.043, y: 0, z: 0.579}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1776,7 +1770,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1170903167}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 7.82, z: 6.080122}
+  m_LocalPosition: {x: 0, y: 14.0154085, z: 5.13}
   m_LocalScale: {x: 2, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
