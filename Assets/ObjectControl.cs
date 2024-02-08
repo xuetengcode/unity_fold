@@ -76,7 +76,7 @@ public class ObjectControl : MonoBehaviour
         Bpressed = GetComponent<DataInput>().bttnBpressed;
         Xpressed = GetComponent<DataInput>().bttnXpressed;
         Ypressed = GetComponent<DataInput>().bttnYpressed;
-        if (Input.GetKeyDown(KeyCode.Space) | Apressed > LastA | Bpressed > LastB | _roomExp.GetComponent<RoomExperiment>()._collideNext)
+        if (Input.GetKeyDown(KeyCode.Space) | Xpressed > LastX | _roomExp.GetComponent<RoomExperiment>()._collideNext)
         {
 
             idxCube = Random.Range(3, 7);

@@ -198,10 +198,16 @@ public class ExpCondition : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Escape) | Xpressed > LastX)
         {
+            Debug.Log("[========] X event");
+
+        }
+        else if (Ypressed > LastY)
+        {
+            Debug.Log("[========] Y event");
             UnityEngine.SceneManagement.Scene scene = SceneManager.GetActiveScene();
             Debug.Log("Active Scene is '" + scene.name + "'.");
             //Debug.Log("Updating shared counter '" + LaunchUI.SharedCounters[0] + ", " + +LaunchUI.SharedCounters[1] + "'.");
-            Debug.Log("[========] X event");
+            
 
             LaunchUI.SharedCounters[0] += 1;
 
@@ -213,17 +219,12 @@ public class ExpCondition : MonoBehaviour
             else
             {
                 Debug.Log("[Debug] here1");
-                if(fade == null) { Debug.Log("fade is Null"); }
+                if (fade == null) { Debug.Log("fade is Null"); }
                 StartCoroutine(_ChangeScene(scene.buildIndex - 1));
                 //SceneManager.LoadScene(scene.buildIndex - 1);
             }
-            
-        }
-        else if (Ypressed > LastY)
-        {
-            Debug.Log("[========] Y event");
-            _xrOrigin.transform.position = _stand.transform.position;
-            _xrOrigin.transform.rotation = _stand.transform.rotation;
+            //_xrOrigin.transform.position = _stand.transform.position;
+            //_xrOrigin.transform.rotation = _stand.transform.rotation;
         }
         LastA = Apressed; LastB = Bpressed;
         LastX = Xpressed; LastY = Ypressed;

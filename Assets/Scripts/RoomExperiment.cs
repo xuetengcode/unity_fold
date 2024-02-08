@@ -99,7 +99,7 @@ public class RoomExperiment : MonoBehaviour
         UnityEngine.SceneManagement.Scene scene = SceneManager.GetActiveScene();
 
 
-        if (Input.GetKeyDown(KeyCode.Escape) | Xpressed > LastX)
+        if (Input.GetKeyDown(KeyCode.Escape) | Ypressed > LastY)
         {
             Debug.Log("Updating shared counter '" + LaunchUI.SharedCounters[0] + ", " + +LaunchUI.SharedCounters[1] + "'.");
 

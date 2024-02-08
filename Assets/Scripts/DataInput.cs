@@ -38,7 +38,7 @@ public class DataInput : MonoBehaviour
                 var button = (ButtonControl)ctx.control;
                 if (button.wasPressedThisFrame)
                 {
-                    //bttnApressed += 1;
+                    bttnApressed += 1;
                     Debug.Log($"Button A {ctx.control} was pressed");
                 }
                 else if (button.wasReleasedThisFrame)
@@ -71,7 +71,7 @@ public class DataInput : MonoBehaviour
                 var button = (ButtonControl)ctx.control;
                 if (button.wasPressedThisFrame)
                 {
-                    bttnApressed += 1;
+                    bttnXpressed += 1;
                     Debug.Log($"Button X {ctx.control} was pressed, {bttnXpressed}");
                 }
                 else if (button.wasReleasedThisFrame)
@@ -88,7 +88,7 @@ public class DataInput : MonoBehaviour
                 var button = (ButtonControl)ctx.control;
                 if (button.wasPressedThisFrame)
                 {
-                    bttnXpressed += 1;
+                    bttnYpressed += 1;
                     Debug.Log($"Button Y {ctx.control} was pressed");
                 }
                 else if (button.wasReleasedThisFrame)
@@ -107,10 +107,10 @@ public class DataInput : MonoBehaviour
                 {
                     menuRpressed += 1;
                     _xrOrigin.transform.position = new Vector3(_stand.transform.position.x, _xrOrigin.transform.position.y, _stand.transform.position.z);
-                    Debug.Log($"Menu R {ctx.control} was pressed");
+                    Debug.Log($"Menu L {ctx.control} was pressed");
                 }
                 else if (button.wasReleasedThisFrame)
-                    Debug.Log($"Menu R {ctx.control} was released");
+                    Debug.Log($"Menu L {ctx.control} was released");
                 // NOTE: We may get calls here in which neither the if nor the else
                 //       clause are true here. A button like the gamepad left and right
                 //       triggers, for example, do not just have a binary on/off state

@@ -14,8 +14,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private XROrigin _xrOrigin;
     void Start()
     {
-        Unity.XR.Oculus.Performance.TrySetDisplayRefreshRate(30);
-        //Application.targetFrameRate = 90;
+        //Unity.XR.Oculus.Performance.TrySetDisplayRefreshRate(30);
+        Application.targetFrameRate = 90;
         //Debug.Log("FPS '" + Application. + "'.");
         _xrOrigin.transform.position = _stand.transform.position;
     }
