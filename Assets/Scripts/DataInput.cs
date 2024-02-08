@@ -38,7 +38,7 @@ public class DataInput : MonoBehaviour
                 var button = (ButtonControl)ctx.control;
                 if (button.wasPressedThisFrame)
                 {
-                    bttnApressed += 1;
+                    //bttnApressed += 1;
                     Debug.Log($"Button A {ctx.control} was pressed");
                 }
                 else if (button.wasReleasedThisFrame)
@@ -71,7 +71,7 @@ public class DataInput : MonoBehaviour
                 var button = (ButtonControl)ctx.control;
                 if (button.wasPressedThisFrame)
                 {
-                    bttnXpressed += 1;
+                    bttnApressed += 1;
                     Debug.Log($"Button X {ctx.control} was pressed, {bttnXpressed}");
                 }
                 else if (button.wasReleasedThisFrame)
@@ -88,7 +88,7 @@ public class DataInput : MonoBehaviour
                 var button = (ButtonControl)ctx.control;
                 if (button.wasPressedThisFrame)
                 {
-                    bttnYpressed += 1;
+                    bttnXpressed += 1;
                     Debug.Log($"Button Y {ctx.control} was pressed");
                 }
                 else if (button.wasReleasedThisFrame)
@@ -136,8 +136,8 @@ public class DataInput : MonoBehaviour
     {
         
         
-        btnA.Enable();
-        btnB.Enable();
+        //btnA.Enable();
+        //btnB.Enable();
         //resetButton.Enable();
     }
 
