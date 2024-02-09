@@ -25,13 +25,13 @@ public class ObjectControl : MonoBehaviour
     };
 
     float[,] bucket_areas = { // xxyyzz
-        {-1.631f, -1.12f,    -0.8f, -0.8f,    -3.442f, -2.074f}, // 0 xxyyzz
-        {-1.631f, -1.12f,    -0.8f, -0.8f,    -1.625f, -0.328f}, // 1 xxyyzz
-        {-0.608f, -0.307f,   -0.262f, -0.262f,    3.916f, 4.469f}, // 2 xxyyzz
-        {1.287f, 1.815f,    -0.76f, -0.76f,    0.9f, 1.869f}, // 3 xxyyzz
-        {1.287f, 1.564f,    -0.82f, -0.82f,    -0.328f, 0.567f}, // 4 xxyyzz
-        {1.287f, 1.815f,    -0.893f, -0.893f,    -2.208f, -1.14f}, // 5 xxyyzz
-        {-0.841f, 1f,    -1.377f, -1.377f,    -4.2f, 3.18f}, // 6 floor
+        {-1.929f, -1.4152f,    -0.8653f, -0.8f,    -3.665f, -2.417f}, // 0 xxyyzz
+        {-1.929f, -1.4152f,    -0.9128f, -0.8f,    -1.867f, -0.6604f}, // 1 xxyyzz
+        {-0.8251f, -0.5829f,  -0.3623f, -0.3623f,    3.916f, 4.108f}, // 2 xxyyzz
+        {1.287f, 1.534f,    -0.8122f, -0.8122f,    0.9f, 1.542f}, // 3 xxyyzz
+        {1.287f, 1.2458f,    -0.911f, -0.82f,    -1.03f, 0.255f}, // 4 xxyyzz
+        {1.287f, 1.534f,    -1.003f, -0.893f,    -2.429f,-1.367f}, // 5 xxyyzz
+        {-0.841f, 0.8f,    -1.601f, -1.377f,    -4.2f, 3.18f}, // 6 floor
 
     };
     private int Apressed;
@@ -79,7 +79,7 @@ public class ObjectControl : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) | Xpressed > LastX | _roomExp.GetComponent<RoomExperiment>()._collideNext)
         {
 
-            idxCube = Random.Range(3, 7);
+            idxCube = Random.Range(0, 7);
 
             Debug.Log("Cube at Area:" + idxCube + ", " + object_areas[idxCube, 0] + ", " + object_areas[idxCube, 1]);
 
@@ -90,7 +90,7 @@ public class ObjectControl : MonoBehaviour
 
             while (true)
             {
-                idxBucket = Random.Range(3, 7);
+                idxBucket = Random.Range(0, 7);
                 if (idxBucket != idxCube) break;
             }
             
