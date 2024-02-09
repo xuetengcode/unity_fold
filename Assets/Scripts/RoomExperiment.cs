@@ -34,6 +34,9 @@ public class RoomExperiment : MonoBehaviour
     private int LastY = 0;
 
     public bool _collideNext = false;
+
+    public bool _expReady = false;
+
     void Start()
     {
         LastA = GetComponent<DataInput>().bttnApressed;
@@ -83,6 +86,7 @@ public class RoomExperiment : MonoBehaviour
             _cameraL.SetActive(true);
         }
 
+        _expReady = true;
     }
 
     // Update is called once per frame

@@ -12,8 +12,8 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: YorkU
-  productName: Adaptation Gain of 2
+  companyName: DefaultCompany
+  productName: MonoFold
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -134,10 +134,8 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 0.2
-  preloadedAssets:
-  - {fileID: -901025571822273742, guid: 35d0efbde1159144bbc3983ab4162a95, type: 2}
-  - {fileID: 1476347202603853666, guid: 37e521a0c170488409b7fabf3df6c1b2, type: 2}
+  bundleVersion: 0.1
+  preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -157,7 +155,8 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.DefaultCompany.MonoFold
+    Android: com.YorkU.AdaptationGainof2
+    Standalone: com.DefaultCompany.MonoFold
   buildNumber:
     Standalone: 0
     iPhone: 0

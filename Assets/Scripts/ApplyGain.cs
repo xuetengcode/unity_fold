@@ -8,40 +8,48 @@ public class ApplyGain : MonoBehaviour
 {
     //public GameObject otherGameObject;
 
+    [SerializeField]
+    private RoomExperiment experiment;
+
     private Vector3 lastTrackedPosition;
     private XROrigin xrOrigin;
     private Transform cameraTransform;
 
     private float curr_gain;
     List<int> LocalConditions = LaunchUI.SharedConditions;
-    // Start is called before the first frame update
-    void Start()
-    {
-        if (LocalConditions[1] == 0)
-        {
-            curr_gain = 0.5f;
-        }
-        else
-        {
-            curr_gain = 2f;
-        }
-        //curr_gain = GetComponent<RoomExperiment>().adaptation_gain;
-        xrOrigin = GetComponentInChildren<XROrigin>();
-        if (xrOrigin == null)
-        {
-            Debug.LogError("TranslationalGain script requires XROrigin component");
-            enabled = false;
-            return;
-        }
 
-        cameraTransform = xrOrigin.Camera.transform;
-        lastTrackedPosition = cameraTransform.localPosition;
-    }
+    private bool setUp = true;
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (!experiment._expReady) return;
+
+        if(setUp)
+        {
+            if (LocalConditions[1] == 0)
+            {
+                curr_gain = 0.5f;
+            }
+            else
+            {
+                curr_gain = 2f;
+            }
+            //curr_gain = GetComponent<RoomExperiment>().adaptation_gain;
+            xrOrigin = GetComponentInChildren<XROrigin>();
+            if (xrOrigin == null)
+            {
+                Debug.LogError("TranslationalGain script requires XROrigin component");
+                enabled = false;
+                return;
+            }
+
+            cameraTransform = xrOrigin.Camera.transform;
+            lastTrackedPosition = cameraTransform.localPosition;
+
+            setUp = false;
+        }
+
         //Debug.Log($"Applying Gain: {curr_gain}");
         if (curr_gain != 1)
         {
