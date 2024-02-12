@@ -36,6 +36,8 @@ public class RoomExperiment : MonoBehaviour
     public bool _collideNext = false;
 
     public bool _expReady = false;
+    private Vector3 lastTrackedPosition;
+    private Transform cameraTransform;
 
     void Start()
     {
@@ -87,6 +89,9 @@ public class RoomExperiment : MonoBehaviour
         }
 
         _expReady = true;
+
+        cameraTransform = _xrOrigin.Camera.transform;
+        lastTrackedPosition = cameraTransform.localPosition;
     }
 
     // Update is called once per frame
@@ -122,6 +127,25 @@ public class RoomExperiment : MonoBehaviour
             //SceneManager.LoadScene(scene.buildIndex + 1);
             StartCoroutine(LoadYourAsyncScene(scene));
         }
+        // apply gain
+        if (adaptation_gain != 1)
+        {
+            // Get the current position of the VR headset
+            Vector3 currentTrackedPosition = cameraTransform.localPosition;
+
+            // Calculate the physical movement delta
+            Vector3 deltaMovement = currentTrackedPosition - lastTrackedPosition;
+
+            // Apply the gain factors separately for X and Z axes
+            Vector3 gainedMovement = new Vector3(deltaMovement.x * (adaptation_gain - 1), 0, deltaMovement.z * (adaptation_gain - 1));
+            //Vector3 gainedMovement = new Vector3(deltaMovement.z * gainZ, 0, -deltaMovement.x * gainX);
+            // Update the XR Origin's position
+            _xrOrigin.transform.position += gainedMovement;
+
+            // Update last tracked position for the next frame
+            lastTrackedPosition = currentTrackedPosition;
+        }
+
         LastA = Apressed; LastB = Bpressed;
         LastX = Xpressed; LastY = Ypressed;
     }

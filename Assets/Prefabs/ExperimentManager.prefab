@@ -218,10 +218,10 @@ MonoBehaviour:
   m_PositionInput:
     m_UseReference: 1
     m_Action:
-      m_Name: Position Input
+      m_Name: 
       m_Type: 0
       m_ExpectedControlType: 
-      m_Id: f8277e89-eb90-4cd2-909a-174d39fbf1d3
+      m_Id: 
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
@@ -230,10 +230,10 @@ MonoBehaviour:
   m_RotationInput:
     m_UseReference: 1
     m_Action:
-      m_Name: Rotation Input
+      m_Name: 
       m_Type: 0
       m_ExpectedControlType: 
-      m_Id: ac537ea7-ea86-4f57-af1c-286a5b81dde3
+      m_Id: 
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
@@ -2085,7 +2085,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3257650466259977411}
   - component: {fileID: 3257650466259977410}
-  - component: {fileID: 3257650466259977421}
   - component: {fileID: 3257650466259977420}
   - component: {fileID: 3257650466259977423}
   m_Layer: 0
@@ -2130,23 +2129,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaef9d212ee93f7428cb3bc21630f437, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _stand: {fileID: 3257650465864944005}
   _xrOrigin: {fileID: 6020151166388128309}
+  MainCamera: {fileID: 0}
   _timeLimit: 30
+  _square: {fileID: 0}
+  _bucket: {fileID: 0}
+  _stand: {fileID: 3257650465864944005}
   _cameraL: {fileID: 3257650465779156229}
   adaptation_gain: 1
---- !u!114 &3257650466259977421
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3257650466259977408}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 810f05b6116043844933a1f2be26ce5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  _collideNext: 0
+  _expReady: 0
 --- !u!114 &3257650466259977420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5157,10 +5149,10 @@ MonoBehaviour:
   m_PositionInput:
     m_UseReference: 1
     m_Action:
-      m_Name: Position Input
+      m_Name: 
       m_Type: 0
       m_ExpectedControlType: 
-      m_Id: ca01fc97-0e39-4036-b931-98dfbffd202d
+      m_Id: 
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
@@ -5169,10 +5161,10 @@ MonoBehaviour:
   m_RotationInput:
     m_UseReference: 1
     m_Action:
-      m_Name: Rotation Input
+      m_Name: 
       m_Type: 0
       m_ExpectedControlType: 
-      m_Id: 5a3ee5b1-dfd9-4e4b-8ba9-f45db67beb28
+      m_Id: 
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []

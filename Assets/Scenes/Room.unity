@@ -1107,6 +1107,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: ExperimentManager
       objectReference: {fileID: 0}
+    - target: {fileID: 3257650466259977410, guid: 83a3ca38d5327264bb8a57719b7dcd8c, type: 3}
+      propertyPath: _bucket
+      value: 
+      objectReference: {fileID: 402802845}
+    - target: {fileID: 3257650466259977410, guid: 83a3ca38d5327264bb8a57719b7dcd8c, type: 3}
+      propertyPath: _square
+      value: 
+      objectReference: {fileID: 1280873691}
+    - target: {fileID: 3257650466259977410, guid: 83a3ca38d5327264bb8a57719b7dcd8c, type: 3}
+      propertyPath: MainCamera
+      value: 
+      objectReference: {fileID: 1878912515}
     - target: {fileID: 3257650466259977411, guid: 83a3ca38d5327264bb8a57719b7dcd8c, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -1151,10 +1163,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3257650466259977421, guid: 83a3ca38d5327264bb8a57719b7dcd8c, type: 3}
-      propertyPath: experiment
-      value: 
-      objectReference: {fileID: 3257650465687098040}
     - target: {fileID: 3257650466686814547, guid: 83a3ca38d5327264bb8a57719b7dcd8c, type: 3}
       propertyPath: m_IsTrigger
       value: 0
@@ -1254,45 +1262,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3257650466259977408, guid: 83a3ca38d5327264bb8a57719b7dcd8c, type: 3}
   m_PrefabInstance: {fileID: 3257650465687098037}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3257650465687098039
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3257650465687098038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01ae11525e1ba5049a09ce72a88b2f12, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _square: {fileID: 1280873691}
-  _bucket: {fileID: 402802845}
-  _roomExp: {fileID: 3257650465687098038}
---- !u!114 &3257650465687098040 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3257650466259977410, guid: 83a3ca38d5327264bb8a57719b7dcd8c, type: 3}
-  m_PrefabInstance: {fileID: 3257650465687098037}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3257650465687098038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aaef9d212ee93f7428cb3bc21630f437, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &3257650465687098045
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3257650465687098038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db3acfc56023fcd4482a944c155c5795, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MainCamera: {fileID: 1878912515}
 --- !u!114 &3257650465687098046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1397,3 +1366,18 @@ MonoBehaviour:
   bttnXpressed: 0
   bttnYpressed: 0
   menuRpressed: 0
+--- !u!114 &3257650465687098051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3257650465687098038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01ae11525e1ba5049a09ce72a88b2f12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _square: {fileID: 1280873691}
+  _bucket: {fileID: 402802845}
+  _roomExp: {fileID: 3257650465687098038}
