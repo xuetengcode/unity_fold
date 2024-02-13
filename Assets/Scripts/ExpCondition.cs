@@ -68,10 +68,10 @@ public class ExpCondition : MonoBehaviour
     private void Start()
     {
         _floor.SetActive(false);
-        LastA = GetComponent<DataInput>().bttnApressed;
-        LastB = GetComponent<DataInput>().bttnBpressed;
-        LastX = GetComponent<DataInput>().bttnXpressed;
-        LastY = GetComponent<DataInput>().bttnYpressed;
+        LastA = GetComponent<DataInputFold>().bttnApressed;
+        LastB = GetComponent<DataInputFold>().bttnBpressed;
+        LastX = GetComponent<DataInputFold>().bttnXpressed;
+        LastY = GetComponent<DataInputFold>().bttnYpressed;
         // start in dark
         _blindCanvasGroup.alpha = 1;
 
@@ -133,14 +133,15 @@ public class ExpCondition : MonoBehaviour
 
     }
 
-
+    
     // Update is called once per frame
     private void Update()
     {
-        Apressed = GetComponent<DataInput>().bttnApressed;
-        Bpressed = GetComponent<DataInput>().bttnBpressed;
-        Xpressed = GetComponent<DataInput>().bttnXpressed;
-        Ypressed = GetComponent<DataInput>().bttnYpressed;
+        /*
+        Apressed = GetComponent<DataInputFold>().bttnApressed;
+        Bpressed = GetComponent<DataInputFold>().bttnBpressed;
+        Xpressed = GetComponent<DataInputFold>().bttnXpressed;
+        Ypressed = GetComponent<DataInputFold>().bttnYpressed;
 
         if (Input.GetKeyDown(KeyCode.Space) | Apressed > LastA | Bpressed > LastB)
         {
@@ -159,12 +160,7 @@ public class ExpCondition : MonoBehaviour
                 exp_less = 0;
             }
             //bttn_reset = true;
-            /*
-            // change angle by rotation
-            Debug.Log("random rotation is '" + rand_rotation + "'.");
-            _left.transform.Rotate(rand_rotation);
-            _right.transform.Rotate(-rand_rotation);
-            */
+            
             exp_gain = (float)exp_conditions[curr_exp][0];
             exp_width = 1f;
             exp_distance = (float)exp_conditions[curr_exp][1];
@@ -228,7 +224,7 @@ public class ExpCondition : MonoBehaviour
         }
         LastA = Apressed; LastB = Bpressed;
         LastX = Xpressed; LastY = Ypressed;
-
+        */
     }
 
     public IEnumerator _ChangeScene(int nextIdx)
