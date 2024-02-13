@@ -34,6 +34,7 @@ public class ExpCondition : MonoBehaviour
     [SerializeField] private GameObject _floor;
 
     public List<int> parallax = new List<int> { 0, 0 };
+    public bool save_file = false;
 
     private float rand_rotation;
     private float exp_distance = 1f;
@@ -67,14 +68,18 @@ public class ExpCondition : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        _floor.SetActive(false);
-        LastA = GetComponent<DataInputFold>().bttnApressed;
-        LastB = GetComponent<DataInputFold>().bttnBpressed;
-        LastX = GetComponent<DataInputFold>().bttnXpressed;
-        LastY = GetComponent<DataInputFold>().bttnYpressed;
         // start in dark
-        _blindCanvasGroup.alpha = 1;
-
+        if (_blindCanvasGroup == null)
+        {
+            Debug.Log("_blindCanvasGroup not set");
+            _floor.SetActive(true);
+        }
+        else
+        {
+            _blindCanvasGroup.alpha = 1;
+            _floor.SetActive(false);
+        }
+        
         fade = GetComponentInChildren<FadeInOut>();
         // bino or mono
         if (LocalConditions[0] == 0)
@@ -101,17 +106,21 @@ public class ExpCondition : MonoBehaviour
         /*
          * Initialize output file
          */
-        Directory.CreateDirectory(Application.dataPath + "/output/");
-        DateTime currentDateTime = DateTime.Now;
-        //string dateString = currentDateTime.ToString("yyyyMMddHHmmss");
-        string dateString = currentDateTime.ToString("yyyy'-'MM'-'dd'_'HH'-'mm'-'ss");
-        // name_gain_yyyy-mm-dd_tt-tt-tt(24h)_viewing
-        
-        resultFileName = Application.dataPath + "/output/" + tester + "_" + adaptation_gain + "_" + dateString + "_" + viewing + "_test.csv";
-        if (!File.Exists(resultFileName))
+        if (save_file)
         {
-            File.WriteAllText(resultFileName, "distance, gain, width, angle, more, less \n");
+            Directory.CreateDirectory(Application.dataPath + "/output/");
+            DateTime currentDateTime = DateTime.Now;
+            //string dateString = currentDateTime.ToString("yyyyMMddHHmmss");
+            string dateString = currentDateTime.ToString("yyyy'-'MM'-'dd'_'HH'-'mm'-'ss");
+            // name_gain_yyyy-mm-dd_tt-tt-tt(24h)_viewing
+
+            resultFileName = Application.dataPath + "/output/" + tester + "_" + adaptation_gain + "_" + dateString + "_" + viewing + "_test.csv";
+            if (!File.Exists(resultFileName))
+            {
+                File.WriteAllText(resultFileName, "distance, gain, width, angle, more, less \n");
+            }
         }
+        
         /*
          * change the location of player
          */
@@ -120,9 +129,9 @@ public class ExpCondition : MonoBehaviour
         _xrOrigin.transform.position = _stand.transform.position;
 
         // get size of fold
-        renderer = GetComponentInChildren<MeshRenderer>();
-        size = renderer.bounds.size;
-        Debug.Log("fold size is '" + size + "'.");
+        //renderer = GetComponentInChildren<MeshRenderer>();
+        //size = renderer.bounds.size;
+        //Debug.Log("fold size is '" + size + "'.");
 
         //   _left.transform.localScale = new Vector3(1.414f, 0, 2);
 
@@ -131,13 +140,24 @@ public class ExpCondition : MonoBehaviour
 
         SetFold((float)exp_conditions[curr_exp][1]); // initial position
 
+        //LastA = DataInput.bttnApressed;
+        //LastB = DataInput.bttnBpressed;
+        //LastX = DataInput.bttnXpressed;
+        //LastY = DataInput.bttnYpressed;
+
+        LastA = GetComponent<DataInputFold>().bttnApressed;
+        LastB = GetComponent<DataInputFold>().bttnBpressed;
+        LastX = GetComponent<DataInputFold>().bttnXpressed;
+        LastY = GetComponent<DataInputFold>().bttnYpressed;
+
+
     }
 
-    
+
     // Update is called once per frame
     private void Update()
     {
-        /*
+        //if (exp_conditions.Count == 0) GenCondition();
         Apressed = GetComponent<DataInputFold>().bttnApressed;
         Bpressed = GetComponent<DataInputFold>().bttnBpressed;
         Xpressed = GetComponent<DataInputFold>().bttnXpressed;
@@ -145,6 +165,9 @@ public class ExpCondition : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) | Apressed > LastA | Bpressed > LastB)
         {
+            LastA = Apressed; LastB = Bpressed;
+            LastX = Xpressed; LastY = Ypressed;
+
             GenAngle();
             if (Apressed > LastA)
             {
@@ -160,7 +183,7 @@ public class ExpCondition : MonoBehaviour
                 exp_less = 0;
             }
             //bttn_reset = true;
-            
+
             exp_gain = (float)exp_conditions[curr_exp][0];
             exp_width = 1f;
             exp_distance = (float)exp_conditions[curr_exp][1];
@@ -174,20 +197,22 @@ public class ExpCondition : MonoBehaviour
             _right.transform.eulerAngles = new Vector3(-90, -45, -rand_rotation);
 
             // distance, gain, width, angle, more, less
-            File.AppendAllText(resultFileName, exp_distance + ", " + exp_gain + ", " + exp_width + ", " + rand_rotation + ", " + exp_more + ", " + exp_less + "\n");
-
+            if (save_file)
+            {
+                File.AppendAllText(resultFileName, exp_distance + ", " + exp_gain + ", " + exp_width + ", " + rand_rotation + ", " + exp_more + ", " + exp_less + "\n");
+            }
             curr_exp += 1;
             
             if (curr_exp > exp_conditions.Count-1)
             {
                 Debug.Log("Reached limit " + curr_exp);
-                Application.Quit();
+                //Application.Quit();
                 UnityEngine.SceneManagement.Scene scene = SceneManager.GetActiveScene();
                 Debug.Log("Active Scene is '" + scene.name + "'.");
                 SceneManager.LoadScene(scene.buildIndex + 1);
             }
 
-            _blindCanvasGroup.alpha = 1;
+            if (_blindCanvasGroup != null) _blindCanvasGroup.alpha = 1;
             parallax = new List<int> { 0, 0 };
             _floor.SetActive(false);
             _xrOrigin.transform.position = _stand.transform.position;
@@ -224,13 +249,13 @@ public class ExpCondition : MonoBehaviour
         }
         LastA = Apressed; LastB = Bpressed;
         LastX = Xpressed; LastY = Ypressed;
-        */
+        
     }
 
     public IEnumerator _ChangeScene(int nextIdx)
     {
         //fade.fadein = true;
-        fade.FadeIn();
+        if (fade != null) fade.FadeIn();
         yield return new WaitForSeconds(1);
         SceneManager.LoadScene(nextIdx);
     }
@@ -274,7 +299,7 @@ public class ExpCondition : MonoBehaviour
         }
         //Debug.Log("[log] at gencondition()");
         ShuffleExpConditions(exp_conditions);
-        //PrintExpConditions(exp_conditions);
+        PrintExpConditions(exp_conditions);
     }
     void PrintExpConditions(List<object[]> conditions)
     {

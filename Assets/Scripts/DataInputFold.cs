@@ -23,18 +23,25 @@ public class DataInputFold : MonoBehaviour
 
     [SerializeField] private GameObject _stand;
     [SerializeField] private GameObject _xrOrigin;
+    [SerializeField] private AudioClip _click;
 
     public int bttnApressed = 0;
     public int bttnBpressed = 0;
     public int bttnXpressed = 0;
     public int bttnYpressed = 0;
     public int menuRpressed = 0;
+
+    private AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {
+        //audioSource = GetComponent<AudioSource>();
+        //SoundFXManager.Instance.ExampleFunction();
         btnA.performed +=
             ctx =>
             {
+                //ClickSound();
+                SoundFXManager.Instance.PlaySoundFXClip(_click, transform, 1f);
                 var button = (ButtonControl)ctx.control;
                 if (button.wasPressedThisFrame)
                 {
@@ -51,6 +58,7 @@ public class DataInputFold : MonoBehaviour
         btnB.performed +=
             ctx =>
             {
+                SoundFXManager.Instance.PlaySoundFXClip(_click, transform, 1f);
                 var button = (ButtonControl)ctx.control;
                 if (button.wasPressedThisFrame)
                 {
@@ -68,6 +76,7 @@ public class DataInputFold : MonoBehaviour
         btnX.performed +=
             ctx =>
             {
+                SoundFXManager.Instance.PlaySoundFXClip(_click, transform, 1f);
                 var button = (ButtonControl)ctx.control;
                 if (button.wasPressedThisFrame)
                 {
@@ -85,6 +94,7 @@ public class DataInputFold : MonoBehaviour
         btnY.performed +=
             ctx =>
             {
+                SoundFXManager.Instance.PlaySoundFXClip(_click, transform, 1f);
                 var button = (ButtonControl)ctx.control;
                 if (button.wasPressedThisFrame)
                 {
@@ -140,6 +150,6 @@ public class DataInputFold : MonoBehaviour
         //btnB.Enable();
         //resetButton.Enable();
     }
-
+    
 
 }

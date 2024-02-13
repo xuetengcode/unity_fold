@@ -41,10 +41,10 @@ public class RoomExperiment : MonoBehaviour
 
     void Start()
     {
-        LastA = GetComponent<DataInput>().bttnApressed;
-        LastB = GetComponent<DataInput>().bttnBpressed;
-        LastX = GetComponent<DataInput>().bttnXpressed;
-        LastY = GetComponent<DataInput>().bttnYpressed;
+        LastA = DataInput.bttnApressed;
+        LastB = DataInput.bttnBpressed;
+        LastX = DataInput.bttnXpressed;
+        LastY = DataInput.bttnYpressed;
 
         fade = GetComponentInChildren<FadeInOut>();
         if (LaunchUI.SharedCounters[0] == 1)
@@ -97,10 +97,10 @@ public class RoomExperiment : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Apressed = GetComponent<DataInput>().bttnApressed;
-        Bpressed = GetComponent<DataInput>().bttnBpressed;
-        Xpressed = GetComponent<DataInput>().bttnXpressed;
-        Ypressed = GetComponent<DataInput>().bttnYpressed;
+        Apressed = DataInput.bttnApressed;
+        Bpressed = DataInput.bttnBpressed;
+        Xpressed = DataInput.bttnXpressed;
+        Ypressed = DataInput.bttnYpressed;
 
         timer += Time.deltaTime;
         float seconds = timer % 10;

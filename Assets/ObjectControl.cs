@@ -54,10 +54,10 @@ public class ObjectControl : MonoBehaviour
      * */
     void Start()
     {
-        Apressed = GetComponent<DataInput>().bttnApressed;
-        Bpressed = GetComponent<DataInput>().bttnBpressed;
-        Xpressed = GetComponent<DataInput>().bttnXpressed;
-        Ypressed = GetComponent<DataInput>().bttnYpressed;
+        Apressed = DataInput.bttnApressed;
+        Bpressed = DataInput.bttnBpressed;
+        Xpressed = DataInput.bttnXpressed;
+        Ypressed = DataInput.bttnYpressed;
         base_location = _square.transform.position;
 
         Vector3 size = _square.GetComponent<Collider>().bounds.size;
@@ -72,10 +72,10 @@ public class ObjectControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Apressed = GetComponent<DataInput>().bttnApressed;
-        Bpressed = GetComponent<DataInput>().bttnBpressed;
-        Xpressed = GetComponent<DataInput>().bttnXpressed;
-        Ypressed = GetComponent<DataInput>().bttnYpressed;
+        Apressed = DataInput.bttnApressed;
+        Bpressed = DataInput.bttnBpressed;
+        Xpressed = DataInput.bttnXpressed;
+        Ypressed = DataInput.bttnYpressed;
         if (Input.GetKeyDown(KeyCode.Space) | Xpressed > LastX | _roomExp.GetComponent<RoomExperiment>()._collideNext)
         {
 

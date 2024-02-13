@@ -23,18 +23,20 @@ public class DataInput : MonoBehaviour
 
     [SerializeField] private GameObject _stand;
     [SerializeField] private GameObject _xrOrigin;
+    [SerializeField] private AudioClip _click;
 
-    public int bttnApressed = 0;
-    public int bttnBpressed = 0;
-    public int bttnXpressed = 0;
-    public int bttnYpressed = 0;
-    public int menuRpressed = 0;
+    public static int bttnApressed = 0;
+    public static int bttnBpressed = 0;
+    public static int bttnXpressed = 0;
+    public static int bttnYpressed = 0;
+    public static int menuRpressed = 0;
     // Start is called before the first frame update
     void Start()
     {
         btnA.performed +=
             ctx =>
             {
+                SoundFXManager.Instance.PlaySoundFXClip(_click, transform, 1f);
                 var button = (ButtonControl)ctx.control;
                 if (button.wasPressedThisFrame)
                 {
