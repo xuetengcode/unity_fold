@@ -32,6 +32,8 @@ public class ExpCondition : MonoBehaviour
     public GameObject _cameraL;
     [SerializeField] public CanvasGroup _blindCanvasGroup;
     [SerializeField] private GameObject _floor;
+    [SerializeField] private GameObject _appertureTop;
+    [SerializeField] private GameObject _appertureBottom;
 
     public List<int> parallax = new List<int> { 0, 0 };
     public bool save_file = false;
@@ -79,7 +81,10 @@ public class ExpCondition : MonoBehaviour
             _blindCanvasGroup.alpha = 1;
             _floor.SetActive(false);
         }
-        
+        _appertureTop.SetActive(false);
+        _appertureBottom.SetActive(false);
+        _left.SetActive(false);
+        _right.SetActive(false);
         fade = GetComponentInChildren<FadeInOut>();
         // bino or mono
         if (LocalConditions[0] == 0)
@@ -108,7 +113,7 @@ public class ExpCondition : MonoBehaviour
          */
         if (save_file)
         {
-            Directory.CreateDirectory(Application.dataPath + "/output/");
+            Directory.CreateDirectory(Application.persistentDataPath + "/output/");
             DateTime currentDateTime = DateTime.Now;
             //string dateString = currentDateTime.ToString("yyyyMMddHHmmss");
             string dateString = currentDateTime.ToString("yyyy'-'MM'-'dd'_'HH'-'mm'-'ss");
@@ -215,6 +220,10 @@ public class ExpCondition : MonoBehaviour
             if (_blindCanvasGroup != null) _blindCanvasGroup.alpha = 1;
             parallax = new List<int> { 0, 0 };
             _floor.SetActive(false);
+            _appertureTop.SetActive(false);
+            _appertureBottom.SetActive(false);
+            _left.SetActive(false);
+            _right.SetActive(false);
             _xrOrigin.transform.position = _stand.transform.position;
         }
         else if (Input.GetKeyDown(KeyCode.Escape) | Xpressed > LastX)
@@ -266,10 +275,10 @@ public class ExpCondition : MonoBehaviour
         /*
          * fold: x -> left/right, y -> height, z -> far
          */
-        _left.transform.position = new Vector3(base_location.x, 3f, 8f + distance);
+        _left.transform.position = new Vector3(base_location.x, 2.1f, distance);
         //_left.transform.Rotate(new Vector3(-90, 45, 0));
 
-        _right.transform.position = new Vector3(base_location.x, 3f, 8f+ distance);
+        _right.transform.position = new Vector3(base_location.x, 2.1f, distance);
         //_right.transform.Rotate(new Vector3(-90, -45, 0));
 
         /*

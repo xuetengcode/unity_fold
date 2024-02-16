@@ -53,6 +53,7 @@ public class DataInput : MonoBehaviour
         btnB.performed +=
             ctx =>
             {
+                SoundFXManager.Instance.PlaySoundFXClip(_click, transform, 1f);
                 var button = (ButtonControl)ctx.control;
                 if (button.wasPressedThisFrame)
                 {
@@ -70,6 +71,7 @@ public class DataInput : MonoBehaviour
         btnX.performed +=
             ctx =>
             {
+                SoundFXManager.Instance.PlaySoundFXClip(_click, transform, 1f);
                 var button = (ButtonControl)ctx.control;
                 if (button.wasPressedThisFrame)
                 {
@@ -87,6 +89,7 @@ public class DataInput : MonoBehaviour
         btnY.performed +=
             ctx =>
             {
+                SoundFXManager.Instance.PlaySoundFXClip(_click, transform, 1f);
                 var button = (ButtonControl)ctx.control;
                 if (button.wasPressedThisFrame)
                 {
@@ -104,6 +107,7 @@ public class DataInput : MonoBehaviour
         menuL.performed +=
             ctx =>
             {
+                SoundFXManager.Instance.PlaySoundFXClip(_click, transform, 1f);
                 var button = (ButtonControl)ctx.control;
                 if (button.wasPressedThisFrame)
                 {

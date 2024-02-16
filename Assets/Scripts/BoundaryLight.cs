@@ -11,7 +11,11 @@ public class BoundaryLight : MonoBehaviour
     [SerializeField]
     public CanvasGroup _blindCanvasGroup;
     public CanvasGroup _greyCanvasGroup;
+    [SerializeField] private GameObject _left;
+    [SerializeField] private GameObject _right;
     [SerializeField] private GameObject _floor;
+    [SerializeField] private GameObject _appertureTop;
+    [SerializeField] private GameObject _appertureBottom;
 
     public string eventTagL = "boundaryL";
     public string eventTagR = "boundaryR";
@@ -28,6 +32,10 @@ public class BoundaryLight : MonoBehaviour
         {
             _blindCanvasGroup.alpha = 0;
             _floor.SetActive(true);
+            _appertureTop.SetActive(true);
+            _appertureBottom.SetActive(true);
+            _left.SetActive(true);
+            _right.SetActive(true);
         }
         //local_parallax = GetComponentInParent<ExpCondition>().parallax;
     }
