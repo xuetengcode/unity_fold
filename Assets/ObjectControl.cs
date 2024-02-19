@@ -13,26 +13,26 @@ public class ObjectControl : MonoBehaviour
     private float randz;
     private Vector3 base_location;
 
-    float[,] object_areas = { // xxyyzz
-        {-1.631f, -1.12f,    -0.8f, -0.8f,    -3.442f, -2.074f}, // 0 xxyyzz
-        {-1.631f, -1.12f,    -0.8f, -0.8f,    -1.625f, -0.328f}, // 1 xxyyzz
-        {-0.608f, -0.307f,   -0.262f, -0.262f,    3.916f, 4.469f}, // 2 xxyyzz
-        {1.287f, 1.815f,    -0.76f, -0.76f,    0.9f, 1.869f}, // 3 xxyyzz
-        {1.287f, 1.564f,    -0.82f, -0.82f,    -0.328f, 0.567f}, // 4 xxyyzz
-        {1.287f, 1.815f,    -0.893f, -0.893f,    -2.208f, -1.14f}, // 5 xxyyzz
-        {-0.841f, 1f,    -1.377f, -1.377f,    -4.2f, 3.18f}, // 6 floor
-
+    float[,] object_areas = { // xxyyzz 
+        /*0*/{-1.176f, 0.712f,    -1.627f, -1.619f,    -3.73f, 3.681f}, // 0 xxyyzz floor
+        /*1*/{-1.869f, -1.297f,    -0.928f, -0.928f,    -2.926f, -1.589f}, // 1 xxyyzz
+        /*2*/{-1.537f, -1.297f,    -0.928f, -0.928f,    -1.07f, -0.561f}, // 2 xxyyzz
+        /*3*/{-1.869f, -1.297f,    -0.928f, -0.928f,    -0.134f, 0.366f}, // 3 xxyyzz
+        /*4*/{-0.752f, -0.415f,   -0.338f, -0.338f,    3.907f, 4.417f}, // 4 xxyyzz
+        /*5*/{ 0.899f, 1.537f,    -0.839f, -0.839f,    1.167f, 2.106f}, // 5 xxyyzz
+        /*6*/{ 0.902f, 1.524f,    -0.93f, -0.93f,    -0.383f, 1.026f}, // 6 xxyyzz
+        /*7*/{ 0.902f, 1.524f,    -0.93f, -0.93f, -1.845f, -0.839f}
     };
 
-    float[,] bucket_areas = { // xxyyzz
-        {-1.929f, -1.4152f,    -0.8653f, -0.8f,    -3.665f, -2.417f}, // 0 xxyyzz
-        {-1.929f, -1.4152f,    -0.9128f, -0.8f,    -1.867f, -0.6604f}, // 1 xxyyzz
-        {-0.8251f, -0.5829f,  -0.3623f, -0.3623f,    3.916f, 4.108f}, // 2 xxyyzz
-        {1.287f, 1.534f,    -0.8122f, -0.8122f,    0.9f, 1.542f}, // 3 xxyyzz
-        {1.287f, 1.2458f,    -0.911f, -0.82f,    -1.03f, 0.255f}, // 4 xxyyzz
-        {1.287f, 1.534f,    -1.003f, -0.893f,    -2.429f,-1.367f}, // 5 xxyyzz
-        {-0.841f, 0.8f,    -1.601f, -1.377f,    -4.2f, 3.18f}, // 6 floor
-
+    float[,] bucket_areas = { // xxyyzz 
+        /*0*/{-1.365f, 0.307f,    -1.627f, -1.619f,    -4.132f, 3.376f}, // 0 xxyyzz floor
+        /*1*/{-2.186f, -1.659f,    -0.91f, -0.9f,    -3.127f, -1.897f}, // 1 xxyyzz
+        /*2*/{-1.778f, -1.659f,    -0.988f, -0.988f,    -1.288f, -0.887f}, // 2 xxyyzz
+        /*3*/{-2.186f, -1.659f,    -0.988f, -0.988f,    -0.361f, 0.041f}, // 3 xxyyzz
+        /*4*/{-1.008f, -0.761f,   -0.308f, -0.307f,    3.714f, 4.129f}, // 4 xxyyzz
+        /*5*/{ 0.622f, 1.207f,    -0.821f, -0.821f,    0.929f, 1.775f}, // 5 xxyyzz
+        /*6*/{ 0.647f, 1.207f,    -0.907f, -0.907f,    -0.601f, 0.69f}, // 6 xxyyzz
+        /*7*/{ 0.622f, 1.207f,    -0.9867f, -0.985f, -2.123f, -1.185f}
     };
     private int Apressed;
     private int Bpressed;
@@ -79,7 +79,7 @@ public class ObjectControl : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) | Xpressed > LastX | _roomExp.GetComponent<RoomExperiment>()._collideNext)
         {
 
-            idxCube = Random.Range(0, 7);
+            idxCube = Random.Range(0, 8);
 
             Debug.Log("Cube at Area:" + idxCube + ", " + object_areas[idxCube, 0] + ", " + object_areas[idxCube, 1]);
 
@@ -90,7 +90,7 @@ public class ObjectControl : MonoBehaviour
 
             while (true)
             {
-                idxBucket = Random.Range(0, 7);
+                idxBucket = Random.Range(0, 8);
                 if (idxBucket != idxCube) break;
             }
             

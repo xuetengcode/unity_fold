@@ -808,7 +808,7 @@ Transform:
   m_GameObject: {fileID: 313762341}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.8, z: 0.8}
-  m_LocalScale: {x: 5, y: 2, z: 0.01}
+  m_LocalScale: {x: 5, y: 2, z: 0.00000001}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 45887814}
@@ -905,7 +905,7 @@ Transform:
   m_GameObject: {fileID: 483441646}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 4.88, z: 0.8}
-  m_LocalScale: {x: 5, y: 5, z: 0.01}
+  m_LocalScale: {x: 5, y: 5, z: 0.00000001}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 45887814}
@@ -1401,7 +1401,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 961664761}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3, y: 3.5, z: 15.88}
+  m_LocalPosition: {x: 3, y: 3.5, z: 3.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1446,7 +1446,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1344251536}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.5, z: 8.7}
+  m_LocalPosition: {x: 0, y: 3.5, z: -3.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12575,6 +12575,8 @@ MonoBehaviour:
   _appertureBottom: {fileID: 313762341}
   eventTagL: boundaryL
   eventTagR: boundaryR
+  eventTagF: boundaryF
+  eventTagB: boundaryB
 --- !u!54 &7990873190418106937
 Rigidbody:
   m_ObjectHideFlags: 0

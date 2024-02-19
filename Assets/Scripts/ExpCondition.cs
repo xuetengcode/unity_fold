@@ -229,7 +229,12 @@ public class ExpCondition : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Escape) | Xpressed > LastX)
         {
             Debug.Log("[========] X event");
-
+            _blindCanvasGroup.alpha = 0;
+            _floor.SetActive(true);
+            _appertureTop.SetActive(true);
+            _appertureBottom.SetActive(true);
+            _left.SetActive(true);
+            _right.SetActive(true);
         }
         else if (Ypressed > LastY)
         {

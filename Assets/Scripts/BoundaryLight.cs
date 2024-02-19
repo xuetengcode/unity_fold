@@ -17,8 +17,10 @@ public class BoundaryLight : MonoBehaviour
     [SerializeField] private GameObject _appertureTop;
     [SerializeField] private GameObject _appertureBottom;
 
-    public string eventTagL = "boundaryL";
-    public string eventTagR = "boundaryR";
+    [SerializeField] private string eventTagL = "boundaryL";
+    [SerializeField] private string eventTagR = "boundaryR";
+    [SerializeField] private string eventTagF = "boundaryF";
+    [SerializeField] private string eventTagB = "boundaryB";
 
     List<int> local_parallax;
     void Start()
@@ -57,7 +59,7 @@ public class BoundaryLight : MonoBehaviour
             GetComponentInParent<ExpCondition>().parallax[1] += 1;
             //_greyCanvasGroup.alpha = 0;
         }
-        else if (other.tag == "boundaryF" | other.tag == "boundaryB") 
+        else if (other.tag == eventTagF | other.tag == eventTagB) 
         {
             _greyCanvasGroup.alpha = 0.7f;
         }
@@ -73,7 +75,7 @@ public class BoundaryLight : MonoBehaviour
         {
             _bRight.SetActive(false);
         }
-        else if (other.tag == "boundaryF" | other.tag == "boundaryB")
+        else if (other.tag == eventTagF | other.tag == eventTagB)
         {
             _greyCanvasGroup.alpha = 0;
         }
