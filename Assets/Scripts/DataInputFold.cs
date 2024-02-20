@@ -41,9 +41,9 @@ public class DataInputFold : MonoBehaviour
             ctx =>
             {
                 //ClickSound();
-                Debug.Log("[log] 1");
+                //Debug.Log("[log] 1");
                 SoundFXManager.Instance.PlaySoundFXClip(_click, transform, 1f);
-                Debug.Log("[log] 2"); 
+                //Debug.Log("[log] 2"); 
                 var button = (ButtonControl)ctx.control;
                 if (button.wasPressedThisFrame)
                 {

@@ -333,8 +333,12 @@ MonoBehaviour:
   _appertureTop: {fileID: 483441646}
   _appertureBottom: {fileID: 313762341}
   parallax: 0000000000000000
-  save_file: 0
-  size: {x: 0, y: 0, z: 0}
+  save_file: 1
+  MainCamera: {fileID: 7990873190418106935}
+  firstRound: 1
+  Material1: {fileID: 2100000, guid: cf24b898667887949881dbed40067de3, type: 2}
+  Material2: {fileID: 2100000, guid: 2f6d699e6c63fd74f8c1103a2daee308, type: 2}
+  Material3: {fileID: 2100000, guid: 30b60c51de9c50642924cac13b4ce1ec, type: 2}
 --- !u!114 &45887816
 MonoBehaviour:
   m_ObjectHideFlags: 0

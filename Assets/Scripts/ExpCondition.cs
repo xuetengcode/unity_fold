@@ -15,6 +15,7 @@ public class ExpCondition : MonoBehaviour
     public FadeInOut fade;
     //[SerializeField] private string tester = "tx";
     private float tester = DropDownControl.playerName;
+    private string tester_str;
     private string viewing;
     private float adaptation_gain;
     public float exp_gain = 1f; // pass to ApplyGain.cs
@@ -37,6 +38,8 @@ public class ExpCondition : MonoBehaviour
 
     public List<int> parallax = new List<int> { 0, 0 };
     public bool save_file = false;
+    [SerializeField] private GameObject MainCamera;
+    public bool firstRound = true;
 
     private float rand_rotation;
     private float exp_distance = 1f;
@@ -49,11 +52,14 @@ public class ExpCondition : MonoBehaviour
     private List<object[]> exp_conditions = new List<object[]>();
     private List<float> all_gain = new List<float> { 0.5f, 2f/3.0f, 0.8f, 1f, 1.25f, 1.5f, 2f };
     private List<float> all_distance = new List<float> { 1.5f };
+    private List<float> all_width = new List<float> { 1f, 1.125f, 1.25f, 4f };
 
     private Vector3 base_location;
     private string resultFileName;
+    private string resultFileName_head;
+    private string update_once;
 
-    public Vector3 size;
+    //public Vector3 size;
     private new MeshRenderer renderer;
 
     List<int> LocalConditions = LaunchUI.SharedConditions;
@@ -67,9 +73,30 @@ public class ExpCondition : MonoBehaviour
     private int LastB = 0;
     private int LastX = 0;
     private int LastY = 0;
+
+    private Material oldMaterial;
+    [SerializeField] private Material Material1;
+    [SerializeField] private Material Material2;
+    [SerializeField] private Material Material3;
+    MeshRenderer meshRendererL;
+    MeshRenderer meshRendererR;
+
     // Start is called before the first frame update
     private void Start()
     {
+        meshRendererL = _left.GetComponent<MeshRenderer>();
+        meshRendererR = _right.GetComponent<MeshRenderer>();
+        if (tester < 10)
+        {
+            tester_str = $"0{tester}";
+        }
+        else
+        {
+            tester_str = $"{tester}";
+        }
+        //oldMaterial = meshRendererL.material;
+        //Material1.mainTextureScale = oldMaterial.mainTextureScale;
+
         // start in dark
         if (_blindCanvasGroup == null)
         {
@@ -119,10 +146,16 @@ public class ExpCondition : MonoBehaviour
             string dateString = currentDateTime.ToString("yyyy'-'MM'-'dd'_'HH'-'mm'-'ss");
             // name_gain_yyyy-mm-dd_tt-tt-tt(24h)_viewing
 
-            resultFileName = Application.dataPath + "/output/" + tester + "_" + adaptation_gain + "_" + dateString + "_" + viewing + "_test.csv";
+            resultFileName = Application.dataPath + "/output/" + tester_str + "_" + adaptation_gain + "_" + dateString + "_" + viewing + "_fold_" + LaunchUI.SharedCounters[1] + ".csv";
             if (!File.Exists(resultFileName))
             {
                 File.WriteAllText(resultFileName, "distance, gain, width, angle, more, less \n");
+            }
+
+            resultFileName_head = Application.dataPath + "/output/" + tester_str + "_" + adaptation_gain + "_" + dateString + "_" + viewing + "_fold_" + LaunchUI.SharedCounters[1] + "_head.csv";
+            if (!File.Exists(resultFileName_head))
+            {
+                File.WriteAllText(resultFileName_head, "time, x, y, z, rotx, roty, rotz \n");
             }
         }
         
@@ -143,19 +176,20 @@ public class ExpCondition : MonoBehaviour
         // generate all experiment conditions
         GenCondition();
 
-        SetFold((float)exp_conditions[curr_exp][1]); // initial position
-
         //LastA = DataInput.bttnApressed;
         //LastB = DataInput.bttnBpressed;
         //LastX = DataInput.bttnXpressed;
         //LastY = DataInput.bttnYpressed;
-
+        
+        SetBlind();
         LastA = GetComponent<DataInputFold>().bttnApressed;
         LastB = GetComponent<DataInputFold>().bttnBpressed;
         LastX = GetComponent<DataInputFold>().bttnXpressed;
         LastY = GetComponent<DataInputFold>().bttnYpressed;
 
-
+        //SetFold((float)exp_conditions[curr_exp][1], (float)exp_conditions[curr_exp][2]); // initial position
+        // the first set of parameters are used in Start()
+        //curr_exp += 1;
     }
 
 
@@ -168,18 +202,16 @@ public class ExpCondition : MonoBehaviour
         Xpressed = GetComponent<DataInputFold>().bttnXpressed;
         Ypressed = GetComponent<DataInputFold>().bttnYpressed;
 
-        if (Input.GetKeyDown(KeyCode.Space) | Apressed > LastA | Bpressed > LastB)
+        if (Input.GetKeyDown(KeyCode.Space) | Apressed > LastA | Bpressed > LastB | curr_exp == 0)
         {
-            LastA = Apressed; LastB = Bpressed;
-            LastX = Xpressed; LastY = Ypressed;
-
-            GenAngle();
             if (Apressed > LastA)
             {
                 exp_more = 1;
+                exp_less = 0;
             }
             else if (Bpressed > LastB)
             {
+                exp_more = 0;
                 exp_less = 1;
             }
             else
@@ -187,17 +219,21 @@ public class ExpCondition : MonoBehaviour
                 exp_more = 0;
                 exp_less = 0;
             }
+            
+            GenAngle();
+            
             //bttn_reset = true;
 
             exp_gain = (float)exp_conditions[curr_exp][0];
-            exp_width = 1f;
             exp_distance = (float)exp_conditions[curr_exp][1];
-            Debug.Log($"Gain: {exp_gain}, Width: {exp_width}, Distance: {exp_distance}");
+            exp_width = (float)exp_conditions[curr_exp][2];
+            Debug.Log($"curr_exp: {curr_exp}, Gain: {exp_gain}, Width: {exp_width}, Distance: {exp_distance}, Angle {rand_rotation}, Mateiral {(float)exp_conditions[curr_exp][3]}");
 
-            SetFold(exp_distance);
+            //SetFold((float)exp_conditions[curr_exp][1], (float)exp_conditions[curr_exp][2]);
+            SetFold(exp_distance, exp_width);
 
             // change angle by set value
-            Debug.Log("random angle is '" + rand_rotation + "'.");
+            //Debug.Log("random angle is '" + rand_rotation + "'.");
             _left.transform.eulerAngles = new Vector3 (-90, 45, rand_rotation);
             _right.transform.eulerAngles = new Vector3(-90, -45, -rand_rotation);
 
@@ -218,13 +254,10 @@ public class ExpCondition : MonoBehaviour
             }
 
             if (_blindCanvasGroup != null) _blindCanvasGroup.alpha = 1;
-            parallax = new List<int> { 0, 0 };
-            _floor.SetActive(false);
-            _appertureTop.SetActive(false);
-            _appertureBottom.SetActive(false);
-            _left.SetActive(false);
-            _right.SetActive(false);
-            _xrOrigin.transform.position = _stand.transform.position;
+
+            SetBlind();
+            LastA = Apressed; LastB = Bpressed;
+            LastX = Xpressed; LastY = Ypressed;
         }
         else if (Input.GetKeyDown(KeyCode.Escape) | Xpressed > LastX)
         {
@@ -261,11 +294,32 @@ public class ExpCondition : MonoBehaviour
             //_xrOrigin.transform.position = _stand.transform.position;
             //_xrOrigin.transform.rotation = _stand.transform.rotation;
         }
+        if (save_file)
+        {
+            DateTime currentDateTime = DateTime.Now;
+            string dateString = currentDateTime.ToString("yyyy'-'MM'-'dd'_'HH'-'mm'-'ss.fff");
+            update_once = $"{dateString}," +
+                $"{MainCamera.transform.position.x},{MainCamera.transform.position.y},{MainCamera.transform.position.z}," +
+                $"{MainCamera.transform.eulerAngles.x},{MainCamera.transform.eulerAngles.y},{MainCamera.transform.eulerAngles.z}," +
+                "\n";
+            File.AppendAllText(resultFileName_head, update_once);
+        }
+
         LastA = Apressed; LastB = Bpressed;
         LastX = Xpressed; LastY = Ypressed;
         
     }
 
+    public void SetBlind()
+    {
+        parallax = new List<int> { 0, 0 };
+        _floor.SetActive(false);
+        _appertureTop.SetActive(false);
+        _appertureBottom.SetActive(false);
+        _left.SetActive(false);
+        _right.SetActive(false);
+        _xrOrigin.transform.position = _stand.transform.position;
+    }
     public IEnumerator _ChangeScene(int nextIdx)
     {
         //fade.fadein = true;
@@ -274,8 +328,9 @@ public class ExpCondition : MonoBehaviour
         SceneManager.LoadScene(nextIdx);
     }
 
-    void SetFold(float distance)
+    void SetFold(float distance, float width = 1.414f)
     {
+        float height = 3f;
         base_location = _stand.transform.position;
         /*
          * fold: x -> left/right, y -> height, z -> far
@@ -286,6 +341,24 @@ public class ExpCondition : MonoBehaviour
         _right.transform.position = new Vector3(base_location.x, 2.1f, distance);
         //_right.transform.Rotate(new Vector3(-90, -45, 0));
 
+        // change scale
+
+        _left.transform.localScale = new Vector3(width, 1e-8f, height);
+        _right.transform.localScale = _left.transform.localScale;
+
+        if ((float)exp_conditions[curr_exp][3] == 0f)
+        {
+            meshRendererL.material = Material1;
+        }
+        else if ((float)exp_conditions[curr_exp][3] == 1f)
+        {
+            meshRendererL.material = Material2;
+        }
+        else
+        {
+            meshRendererL.material = Material3;
+        }
+        meshRendererR.material = meshRendererL.material;
         /*
          * top/bottom apperture: x -> left/right, y -> height, z -> far
          */
@@ -307,7 +380,10 @@ public class ExpCondition : MonoBehaviour
             {
                 for (int i_d = 0; i_d < all_distance.Count; i_d++)
                 {
-                    exp_conditions.Add(new object[] { all_gain[i_g], all_distance[i_d] });
+                    for (int i_w = 0; i_w < all_width.Count; i_w++)
+                    {
+                        exp_conditions.Add(new object[] { all_gain[i_g], all_distance[i_d], all_width[i_w], (float) i_w });
+                    }
                 }
             }
         }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -30,14 +31,25 @@ public class BoundaryLight : MonoBehaviour
 
     void Update()
     {
+        
         if (GetComponentInParent<ExpCondition>().parallax[0] > 2 & GetComponentInParent<ExpCondition>().parallax[1]>2) 
         {
-            _blindCanvasGroup.alpha = 0;
-            _floor.SetActive(true);
-            _appertureTop.SetActive(true);
-            _appertureBottom.SetActive(true);
-            _left.SetActive(true);
-            _right.SetActive(true);
+            if (GetComponentInParent<ExpCondition>().firstRound)
+            {
+                GetComponentInParent<ExpCondition>().parallax = new List<int> { 0, 0 };
+                GetComponentInParent<ExpCondition>().firstRound = false;
+            }
+            else
+            {
+                //Debug.Log($"clear blind {GetComponentInParent<ExpCondition>().parallax[0]}, {GetComponentInParent<ExpCondition>().parallax[1]}");
+                _blindCanvasGroup.alpha = 0;
+                _floor.SetActive(true);
+                _appertureTop.SetActive(true);
+                _appertureBottom.SetActive(true);
+                _left.SetActive(true);
+                _right.SetActive(true);
+            }
+            
         }
         //local_parallax = GetComponentInParent<ExpCondition>().parallax;
     }

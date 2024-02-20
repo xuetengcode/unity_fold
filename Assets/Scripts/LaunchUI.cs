@@ -25,7 +25,7 @@ public class LaunchUI : MonoBehaviour
 
     private string playerName = "";
     public static List<int> SharedConditions = new List<int> { 0, 1};
-    public static List<int> SharedCounters = new List<int> { 0, 0 };
+    public static List<int> SharedCounters = new List<int> { 0, 0 }; // number of visits to room and fold
 
     public FadeInOut fade;
 

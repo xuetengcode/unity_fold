@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 //using System.Drawing;
@@ -7,6 +8,7 @@ using Unity.XR.CoreUtils;
 //using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 public class RoomExperiment : MonoBehaviour
 {
@@ -16,8 +18,15 @@ public class RoomExperiment : MonoBehaviour
     [SerializeField] private XROrigin _xrOrigin;
     [SerializeField] private float _timeLimit = 30f;
     public GameObject _cameraL;
-    // different gains
-    public float adaptation_gain=1f;
+    [SerializeField] private GameObject MainCamera;
+    public bool save_file = true;
+
+    private float adaptation_gain;
+    private float tester = DropDownControl.playerName;
+    private string tester_str;
+    private string viewing;
+    private string resultFileName;
+    private string update_once;
 
     private float timer = 0f;
     //public float exp_gain = 1f; // pass to ApplyGain.cs
@@ -45,7 +54,14 @@ public class RoomExperiment : MonoBehaviour
         LastB = DataInput.bttnBpressed;
         LastX = DataInput.bttnXpressed;
         LastY = DataInput.bttnYpressed;
-
+        if (tester < 10)
+        {
+            tester_str = $"0{tester}";
+        }
+        else
+        {
+            tester_str = $"{tester}";
+        }
         fade = GetComponentInChildren<FadeInOut>();
         if (LaunchUI.SharedCounters[0] == 1)
         {
@@ -92,6 +108,21 @@ public class RoomExperiment : MonoBehaviour
 
         cameraTransform = _xrOrigin.Camera.transform;
         lastTrackedPosition = cameraTransform.localPosition;
+
+        if (save_file)
+        {
+            Directory.CreateDirectory(Application.persistentDataPath + "/output/");
+            DateTime currentDateTime = DateTime.Now;
+            //string dateString = currentDateTime.ToString("yyyyMMddHHmmss");
+            string dateString = currentDateTime.ToString("yyyy'-'MM'-'dd'_'HH'-'mm'-'ss");
+            // name_gain_yyyy-mm-dd_tt-tt-tt(24h)_viewing
+
+            resultFileName = Application.dataPath + "/output/" + tester_str + "_" + adaptation_gain + "_" + dateString + "_" + viewing + "_room_" + LaunchUI.SharedCounters[0] + "_head.csv";
+            if (!File.Exists(resultFileName))
+            {
+                File.WriteAllText(resultFileName, "time, x, y, z, rotx, roty, rotz \n");
+            }
+        }
     }
 
     // Update is called once per frame
@@ -145,7 +176,16 @@ public class RoomExperiment : MonoBehaviour
             // Update last tracked position for the next frame
             lastTrackedPosition = currentTrackedPosition;
         }
-
+        if (save_file)
+        {
+            DateTime currentDateTime = DateTime.Now;
+            string dateString = currentDateTime.ToString("yyyy'-'MM'-'dd'_'HH'-'mm'-'ss.fff");
+            update_once = $"{dateString}," + 
+                $"{MainCamera.transform.position.x},{MainCamera.transform.position.y},{MainCamera.transform.position.z}" +
+                $"{MainCamera.transform.eulerAngles.x},{MainCamera.transform.eulerAngles.y},{MainCamera.transform.eulerAngles.z}," +
+                "\n";
+            File.AppendAllText(resultFileName, update_once);
+        }
         LastA = Apressed; LastB = Bpressed;
         LastX = Xpressed; LastY = Ypressed;
     }

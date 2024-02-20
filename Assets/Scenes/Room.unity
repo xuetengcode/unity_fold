@@ -2666,7 +2666,8 @@ MonoBehaviour:
   _xrOrigin: {fileID: 9132913292419635328}
   _timeLimit: 30
   _cameraL: {fileID: 109926320}
-  adaptation_gain: 1
+  MainCamera: {fileID: 7990873189306433629}
+  save_file: 1
   _collideNext: 0
   _expReady: 0
 --- !u!114 &1650824825
