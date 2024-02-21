@@ -9,6 +9,7 @@ using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
+using UnityEngine.PlayerLoop;
 
 public class RoomExperiment : MonoBehaviour
 {
@@ -47,7 +48,8 @@ public class RoomExperiment : MonoBehaviour
     public bool _expReady = false;
     private Vector3 lastTrackedPosition;
     private Transform cameraTransform;
-
+    private int post = 0;
+    private int hold = 0;
     void Start()
     {
         LastA = DataInput.bttnApressed;
@@ -116,11 +118,11 @@ public class RoomExperiment : MonoBehaviour
             //string dateString = currentDateTime.ToString("yyyyMMddHHmmss");
             string dateString = currentDateTime.ToString("yyyy'-'MM'-'dd'_'HH'-'mm'-'ss");
             // name_gain_yyyy-mm-dd_tt-tt-tt(24h)_viewing
-
-            resultFileName = Application.dataPath + "/output/" + tester_str + "_" + adaptation_gain + "_" + dateString + "_" + viewing + "_room_" + LaunchUI.SharedCounters[0] + "_head.csv";
+            int round_id = LaunchUI.SharedCounters[0] + 1;
+            resultFileName = Application.persistentDataPath + "/output/" + tester_str + "_" + adaptation_gain + "_" + dateString + "_" + viewing + "_room_" + round_id + "_head.csv";
             if (!File.Exists(resultFileName))
             {
-                File.WriteAllText(resultFileName, "time, x, y, z, rotx, roty, rotz \n");
+                File.WriteAllText(resultFileName, "time, x, y, z, rotx, roty, rotz, hold, post \n");
             }
         }
     }
@@ -178,13 +180,15 @@ public class RoomExperiment : MonoBehaviour
         }
         if (save_file)
         {
+            if (_collideNext) post = 1;
             DateTime currentDateTime = DateTime.Now;
             string dateString = currentDateTime.ToString("yyyy'-'MM'-'dd'_'HH'-'mm'-'ss.fff");
             update_once = $"{dateString}," + 
-                $"{MainCamera.transform.position.x},{MainCamera.transform.position.y},{MainCamera.transform.position.z}" +
+                $"{MainCamera.transform.position.x},{MainCamera.transform.position.y},{MainCamera.transform.position.z}," +
                 $"{MainCamera.transform.eulerAngles.x},{MainCamera.transform.eulerAngles.y},{MainCamera.transform.eulerAngles.z}," +
-                "\n";
+                $"{hold}, {post}" + "\n";
             File.AppendAllText(resultFileName, update_once);
+            post = 0;
         }
         LastA = Apressed; LastB = Bpressed;
         LastX = Xpressed; LastY = Ypressed;
@@ -214,4 +218,12 @@ public class RoomExperiment : MonoBehaviour
         }
     }
     
+    public void EnableHold()
+    {
+        hold = 1;
+    }
+    public void DisableHold()
+    {
+        hold = 0;
+    }
 }

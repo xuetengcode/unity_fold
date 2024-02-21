@@ -145,17 +145,17 @@ public class ExpCondition : MonoBehaviour
             //string dateString = currentDateTime.ToString("yyyyMMddHHmmss");
             string dateString = currentDateTime.ToString("yyyy'-'MM'-'dd'_'HH'-'mm'-'ss");
             // name_gain_yyyy-mm-dd_tt-tt-tt(24h)_viewing
-
-            resultFileName = Application.dataPath + "/output/" + tester_str + "_" + adaptation_gain + "_" + dateString + "_" + viewing + "_fold_" + LaunchUI.SharedCounters[1] + ".csv";
+            int round_id = LaunchUI.SharedCounters[1] + 1;
+            resultFileName = Application.persistentDataPath + "/output/" + tester_str + "_" + adaptation_gain + "_" + dateString + "_" + viewing + "_fold_" + round_id + ".csv";
             if (!File.Exists(resultFileName))
             {
                 File.WriteAllText(resultFileName, "distance, gain, width, angle, more, less \n");
             }
 
-            resultFileName_head = Application.dataPath + "/output/" + tester_str + "_" + adaptation_gain + "_" + dateString + "_" + viewing + "_fold_" + LaunchUI.SharedCounters[1] + "_head.csv";
+            resultFileName_head = Application.persistentDataPath + "/output/" + tester_str + "_" + adaptation_gain + "_" + dateString + "_" + viewing + "_fold_" + round_id + "_head.csv";
             if (!File.Exists(resultFileName_head))
             {
-                File.WriteAllText(resultFileName_head, "time, x, y, z, rotx, roty, rotz \n");
+                File.WriteAllText(resultFileName_head, "time, x, y, z, rotx, roty, rotz, more, less \n");
             }
         }
         
@@ -301,9 +301,12 @@ public class ExpCondition : MonoBehaviour
             update_once = $"{dateString}," +
                 $"{MainCamera.transform.position.x},{MainCamera.transform.position.y},{MainCamera.transform.position.z}," +
                 $"{MainCamera.transform.eulerAngles.x},{MainCamera.transform.eulerAngles.y},{MainCamera.transform.eulerAngles.z}," +
-                "\n";
+                $"{exp_more}, {exp_less}" + "\n";
             File.AppendAllText(resultFileName_head, update_once);
         }
+
+        exp_more = 0;
+        exp_less = 0;
 
         LastA = Apressed; LastB = Bpressed;
         LastX = Xpressed; LastY = Ypressed;
