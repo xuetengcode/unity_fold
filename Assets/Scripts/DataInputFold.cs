@@ -143,6 +143,19 @@ public class DataInputFold : MonoBehaviour
     {
         
     }
+    
+    void OnDisable(){
+        /*
+            Disable buttons after scene is switched (fix to NullReferenceException bug) 
+        */
+        btnA.Disable();
+        btnB.Disable();
+        btnX.Disable();
+        btnY.Disable();
+        menuL.Disable();
+
+
+    }
 
     void OnEnable()
     {

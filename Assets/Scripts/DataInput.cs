@@ -132,6 +132,19 @@ public class DataInput : MonoBehaviour
         menuL.Enable();
     }
 
+    void OnDisable(){
+        /*
+            Disable buttons after scene is switched (fix to NullReferenceException bug) 
+        */
+        btnA.Disable();
+        btnB.Disable();
+        btnX.Disable();
+        btnY.Disable();
+        menuL.Disable();
+
+
+    }
+
     // Update is called once per frame
     void Update()
     {
