@@ -338,10 +338,10 @@ public class ExpCondition : MonoBehaviour
         /*
          * fold: x -> left/right, y -> height, z -> far
          */
-        _left.transform.position = new Vector3(base_location.x, 2.5f, distance);
+        _left.transform.position = new Vector3(base_location.x, 1.8f, distance);
         //_left.transform.Rotate(new Vector3(-90, 45, 0));
 
-        _right.transform.position = new Vector3(base_location.x, 2.5f, distance);
+        _right.transform.position = new Vector3(base_location.x, 1.8f, distance);
         //_right.transform.Rotate(new Vector3(-90, -45, 0));
 
         // change scale
