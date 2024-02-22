@@ -56,6 +56,18 @@ public class RoomExperiment : MonoBehaviour
         LastB = DataInput.bttnBpressed;
         LastX = DataInput.bttnXpressed;
         LastY = DataInput.bttnYpressed;
+        // bino or mono
+        if (LocalConditions[0] == 0)
+        {
+            // bino
+            viewing = "bino";
+        }
+        else
+        {
+            // mono
+            viewing = "mono";
+        }
+
         if (tester < 10)
         {
             tester_str = $"0{tester}";
@@ -118,7 +130,7 @@ public class RoomExperiment : MonoBehaviour
             //string dateString = currentDateTime.ToString("yyyyMMddHHmmss");
             string dateString = currentDateTime.ToString("yyyy'-'MM'-'dd'_'HH'-'mm'-'ss");
             // name_gain_yyyy-mm-dd_tt-tt-tt(24h)_viewing
-            int round_id = LaunchUI.SharedCounters[0] + 1;
+            int round_id = LaunchUI.SharedCounters[0];
             resultFileName = Application.persistentDataPath + "/output/" + tester_str + "_" + adaptation_gain + "_" + dateString + "_" + viewing + "_room_" + round_id + "_head.csv";
             if (!File.Exists(resultFileName))
             {

@@ -52,7 +52,7 @@ public class ExpCondition : MonoBehaviour
     private List<object[]> exp_conditions = new List<object[]>();
     private List<float> all_gain = new List<float> { 0.5f, 2f/3.0f, 0.8f, 1f, 1.25f, 1.5f, 2f };
     private List<float> all_distance = new List<float> { 1.5f };
-    private List<float> all_width = new List<float> { 1f, 1.125f, 1.25f, 4f };
+    private List<float> all_width = new List<float> { 1f, 1.125f, 1.25f};
 
     private Vector3 base_location;
     private string resultFileName;
@@ -145,7 +145,7 @@ public class ExpCondition : MonoBehaviour
             //string dateString = currentDateTime.ToString("yyyyMMddHHmmss");
             string dateString = currentDateTime.ToString("yyyy'-'MM'-'dd'_'HH'-'mm'-'ss");
             // name_gain_yyyy-mm-dd_tt-tt-tt(24h)_viewing
-            int round_id = LaunchUI.SharedCounters[1] + 1;
+            int round_id = LaunchUI.SharedCounters[1];
             resultFileName = Application.persistentDataPath + "/output/" + tester_str + "_" + adaptation_gain + "_" + dateString + "_" + viewing + "_fold_" + round_id + ".csv";
             if (!File.Exists(resultFileName))
             {
@@ -338,10 +338,10 @@ public class ExpCondition : MonoBehaviour
         /*
          * fold: x -> left/right, y -> height, z -> far
          */
-        _left.transform.position = new Vector3(base_location.x, 2.1f, distance);
+        _left.transform.position = new Vector3(base_location.x, 2.5f, distance);
         //_left.transform.Rotate(new Vector3(-90, 45, 0));
 
-        _right.transform.position = new Vector3(base_location.x, 2.1f, distance);
+        _right.transform.position = new Vector3(base_location.x, 2.5f, distance);
         //_right.transform.Rotate(new Vector3(-90, -45, 0));
 
         // change scale
