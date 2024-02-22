@@ -19,6 +19,8 @@ public class ExpCondition : MonoBehaviour
     private string viewing;
     private float adaptation_gain;
     public float exp_gain = 1f; // pass to ApplyGain.cs
+    private Vector3 lastTrackedPosition;
+    private Transform cameraTransform;
     [SerializeField] private int exp_repeat = 2;
 
     //[SerializeField] private Vector3 _rotation;
@@ -201,6 +203,26 @@ public class ExpCondition : MonoBehaviour
         Bpressed = GetComponent<DataInputFold>().bttnBpressed;
         Xpressed = GetComponent<DataInputFold>().bttnXpressed;
         Ypressed = GetComponent<DataInputFold>().bttnYpressed;
+        //GetConditions
+        exp_gain = (float)exp_conditions[curr_exp][0];
+        exp_distance = (float)exp_conditions[curr_exp][1];
+        exp_width = (float)exp_conditions[curr_exp][2];
+        // Apply gain
+        // Get the current position of the VR headset
+        cameraTransform = _xrOrigin.Camera.transform;
+        lastTrackedPosition = cameraTransform.localPosition;
+        Vector3 currentTrackedPosition = cameraTransform.localPosition;
+        // Calculate the physical movement delta
+        Vector3 deltaMovement = currentTrackedPosition - lastTrackedPosition;
+        // Apply the gain factors separately for X and Z axes
+        Vector3 gainedMovement = new Vector3(deltaMovement.x * (exp_gain - 1), 0, deltaMovement.z * (exp_gain - 1));
+        //Vector3 gainedMovement = new Vector3(deltaMovement.z * gainZ, 0, -deltaMovement.x * gainX);
+        // Update the XR Origin's position
+        _xrOrigin.transform.position += gainedMovement;
+
+        // Update last tracked position for the next frame
+        lastTrackedPosition = currentTrackedPosition;
+
 
         if (Input.GetKeyDown(KeyCode.Space) | Apressed > LastA | Bpressed > LastB | curr_exp == 0)
         {
@@ -224,9 +246,7 @@ public class ExpCondition : MonoBehaviour
             
             //bttn_reset = true;
 
-            exp_gain = (float)exp_conditions[curr_exp][0];
-            exp_distance = (float)exp_conditions[curr_exp][1];
-            exp_width = (float)exp_conditions[curr_exp][2];
+            
             Debug.Log($"curr_exp: {curr_exp}, Gain: {exp_gain}, Width: {exp_width}, Distance: {exp_distance}, Angle {rand_rotation}, Mateiral {(float)exp_conditions[curr_exp][3]}");
 
             //SetFold((float)exp_conditions[curr_exp][1], (float)exp_conditions[curr_exp][2]);
