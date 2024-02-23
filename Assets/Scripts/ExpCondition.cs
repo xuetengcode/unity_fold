@@ -18,7 +18,7 @@ public class ExpCondition : MonoBehaviour
     private string tester_str;
     private string viewing;
     private float adaptation_gain;
-    public float exp_gain = 1f; // pass to ApplyGain.cs
+    public float exp_gain; // pass to ApplyGain.cs
     private Vector3 lastTrackedPosition;
     private Transform cameraTransform;
     [SerializeField] private int exp_repeat = 2;
@@ -192,6 +192,8 @@ public class ExpCondition : MonoBehaviour
         //SetFold((float)exp_conditions[curr_exp][1], (float)exp_conditions[curr_exp][2]); // initial position
         // the first set of parameters are used in Start()
         //curr_exp += 1;
+        cameraTransform = _xrOrigin.Camera.transform;
+        lastTrackedPosition = cameraTransform.localPosition;
     }
 
 
@@ -208,20 +210,24 @@ public class ExpCondition : MonoBehaviour
         exp_distance = (float)exp_conditions[curr_exp][1];
         exp_width = (float)exp_conditions[curr_exp][2];
         // Apply gain
-        // Get the current position of the VR headset
-        cameraTransform = _xrOrigin.Camera.transform;
-        lastTrackedPosition = cameraTransform.localPosition;
-        Vector3 currentTrackedPosition = cameraTransform.localPosition;
-        // Calculate the physical movement delta
-        Vector3 deltaMovement = currentTrackedPosition - lastTrackedPosition;
-        // Apply the gain factors separately for X and Z axes
-        Vector3 gainedMovement = new Vector3(deltaMovement.x * (exp_gain - 1), 0, deltaMovement.z * (exp_gain - 1));
-        //Vector3 gainedMovement = new Vector3(deltaMovement.z * gainZ, 0, -deltaMovement.x * gainX);
-        // Update the XR Origin's position
-        _xrOrigin.transform.position += gainedMovement;
 
-        // Update last tracked position for the next frame
-        lastTrackedPosition = currentTrackedPosition;
+        if (exp_gain != 1)
+        {
+            // Get the current position of the VR headset
+            Vector3 currentTrackedPosition = cameraTransform.localPosition;
+
+            // Calculate the physical movement delta
+            Vector3 deltaMovement = currentTrackedPosition - lastTrackedPosition;
+
+            // Apply the gain factors separately for X and Z axes
+            Vector3 gainedMovement = new Vector3(deltaMovement.x * (exp_gain - 1), 0, deltaMovement.z * (exp_gain - 1));
+            //Vector3 gainedMovement = new Vector3(deltaMovement.z * gainZ, 0, -deltaMovement.x * gainX);
+            // Update the XR Origin's position
+            _xrOrigin.transform.position += gainedMovement;
+
+            // Update last tracked position for the next frame
+            lastTrackedPosition = currentTrackedPosition;
+        }
 
 
         if (Input.GetKeyDown(KeyCode.Space) | Apressed > LastA | Bpressed > LastB | curr_exp == 0)
