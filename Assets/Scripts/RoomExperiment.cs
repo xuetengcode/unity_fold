@@ -15,7 +15,7 @@ public class RoomExperiment : MonoBehaviour
 {
     FadeInOut fade;
     // scene setup
-    [SerializeField] private GameObject _stand;
+    //[SerializeField] private GameObject _stand;
     [SerializeField] private XROrigin _xrOrigin;
     [SerializeField] private float _timeLimit = 30f;
     public GameObject _cameraL;
@@ -97,8 +97,8 @@ public class RoomExperiment : MonoBehaviour
         Debug.Log("Adaptation gain is set as'" + adaptation_gain + "'.");
 
         // set initial location
-        _xrOrigin.transform.position = _stand.transform.position;
-        _xrOrigin.transform.rotation = _stand.transform.rotation;
+        //_xrOrigin.transform.position = _stand.transform.position;
+        //_xrOrigin.transform.rotation = _stand.transform.rotation;
         // bino or mono
         /* 
          * if do this way, cameraL initially has to be enabled in the scene 

@@ -194,6 +194,12 @@ public class ExpCondition : MonoBehaviour
         //curr_exp += 1;
         cameraTransform = _xrOrigin.Camera.transform;
         lastTrackedPosition = cameraTransform.localPosition;
+
+        exp_gain = (float)exp_conditions[curr_exp][0];
+        exp_distance = (float)exp_conditions[curr_exp][1];
+        exp_width = (float)exp_conditions[curr_exp][2];
+        Debug.Log($"curr_exp: {curr_exp}, Gain: {exp_gain}, Width: {exp_width}, Distance: {exp_distance}, Angle {rand_rotation}, Mateiral {(float)exp_conditions[curr_exp][3]}");
+
     }
 
 
@@ -205,10 +211,7 @@ public class ExpCondition : MonoBehaviour
         Bpressed = GetComponent<DataInputFold>().bttnBpressed;
         Xpressed = GetComponent<DataInputFold>().bttnXpressed;
         Ypressed = GetComponent<DataInputFold>().bttnYpressed;
-        //GetConditions
-        exp_gain = (float)exp_conditions[curr_exp][0];
-        exp_distance = (float)exp_conditions[curr_exp][1];
-        exp_width = (float)exp_conditions[curr_exp][2];
+        
         // Apply gain
 
         if (exp_gain != 1)
@@ -232,6 +235,14 @@ public class ExpCondition : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) | Apressed > LastA | Bpressed > LastB | curr_exp == 0)
         {
+            if (curr_exp > exp_conditions.Count - 1)
+            {
+                Debug.Log("Reached limit " + curr_exp);
+                //Application.Quit();
+                UnityEngine.SceneManagement.Scene scene = SceneManager.GetActiveScene();
+                Debug.Log("Active Scene is '" + scene.name + "'.");
+                SceneManager.LoadScene(scene.buildIndex + 1);
+            }
             if (Apressed > LastA)
             {
                 exp_more = 1;
@@ -249,10 +260,14 @@ public class ExpCondition : MonoBehaviour
             }
             
             GenAngle();
-            
+
             //bttn_reset = true;
 
-            
+            //GetConditions
+            exp_gain = (float)exp_conditions[curr_exp][0];
+            exp_distance = (float)exp_conditions[curr_exp][1];
+            exp_width = (float)exp_conditions[curr_exp][2];
+
             Debug.Log($"curr_exp: {curr_exp}, Gain: {exp_gain}, Width: {exp_width}, Distance: {exp_distance}, Angle {rand_rotation}, Mateiral {(float)exp_conditions[curr_exp][3]}");
 
             //SetFold((float)exp_conditions[curr_exp][1], (float)exp_conditions[curr_exp][2]);
@@ -268,22 +283,15 @@ public class ExpCondition : MonoBehaviour
             {
                 File.AppendAllText(resultFileName, exp_distance + ", " + exp_gain + ", " + exp_width + ", " + rand_rotation + ", " + exp_more + ", " + exp_less + "\n");
             }
-            curr_exp += 1;
             
-            if (curr_exp > exp_conditions.Count-1)
-            {
-                Debug.Log("Reached limit " + curr_exp);
-                //Application.Quit();
-                UnityEngine.SceneManagement.Scene scene = SceneManager.GetActiveScene();
-                Debug.Log("Active Scene is '" + scene.name + "'.");
-                SceneManager.LoadScene(scene.buildIndex + 1);
-            }
 
             if (_blindCanvasGroup != null) _blindCanvasGroup.alpha = 1;
 
             SetBlind();
             LastA = Apressed; LastB = Bpressed;
             LastX = Xpressed; LastY = Ypressed;
+
+            curr_exp += 1;
         }
         else if (Input.GetKeyDown(KeyCode.Escape) | Xpressed > LastX)
         {
@@ -418,7 +426,7 @@ public class ExpCondition : MonoBehaviour
         }
         //Debug.Log("[log] at gencondition()");
         ShuffleExpConditions(exp_conditions);
-        PrintExpConditions(exp_conditions);
+        //PrintExpConditions(exp_conditions);
     }
     void PrintExpConditions(List<object[]> conditions)
     {
