@@ -66,6 +66,7 @@ public class ObjectControl : MonoBehaviour
      * */
     void Start()
     {
+        Debug.Log("[!!!] This is Room floor at 000");
         Apressed = DataInput.bttnApressed;
         Bpressed = DataInput.bttnBpressed;
         Xpressed = DataInput.bttnXpressed;

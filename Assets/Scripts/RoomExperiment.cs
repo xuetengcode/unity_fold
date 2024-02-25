@@ -90,9 +90,13 @@ public class RoomExperiment : MonoBehaviour
         {
             adaptation_gain = 0.5f;
         }
-        else
+        else if (LocalConditions[1] == 1)
         {
             adaptation_gain = 2f;
+        }
+        else
+        {
+            adaptation_gain = 1f;
         }
         Debug.Log("Adaptation gain is set as'" + adaptation_gain + "'.");
 
@@ -196,7 +200,7 @@ public class RoomExperiment : MonoBehaviour
             DateTime currentDateTime = DateTime.Now;
             string dateString = currentDateTime.ToString("yyyy'-'MM'-'dd'_'HH'-'mm'-'ss.fff");
             update_once = $"{dateString}," + 
-                $"{MainCamera.transform.position.x},{MainCamera.transform.position.y},{MainCamera.transform.position.z}," +
+                $"{MainCamera.transform.position.x/adaptation_gain},{MainCamera.transform.position.y},{MainCamera.transform.position.z/adaptation_gain}," +
                 $"{MainCamera.transform.eulerAngles.x},{MainCamera.transform.eulerAngles.y},{MainCamera.transform.eulerAngles.z}," +
                 $"{hold}, {post}" + "\n";
             File.AppendAllText(resultFileName, update_once);

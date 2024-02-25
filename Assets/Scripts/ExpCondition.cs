@@ -31,7 +31,7 @@ public class ExpCondition : MonoBehaviour
     //[SerializeField] private Vector3 _PlayerLocation;
 
     //private GameObject _stand = GameObject.Find("stand");
-    [SerializeField] private GameObject _stand;
+    //[SerializeField] private GameObject _stand;
     public GameObject _cameraL;
     [SerializeField] public CanvasGroup _blindCanvasGroup;
     [SerializeField] private GameObject _floor;
@@ -83,6 +83,7 @@ public class ExpCondition : MonoBehaviour
     MeshRenderer meshRendererL;
     MeshRenderer meshRendererR;
 
+    private float fold_yy = 1.9f;
     // Start is called before the first frame update
     private void Start()
     {
@@ -133,9 +134,13 @@ public class ExpCondition : MonoBehaviour
         {
             adaptation_gain = 0.5f;
         }
-        else
+        else if (LocalConditions[1] == 1)
         {
             adaptation_gain = 2f;
+        }
+        else
+        {
+            adaptation_gain = 1f;
         }
         /*
          * Initialize output file
@@ -166,7 +171,7 @@ public class ExpCondition : MonoBehaviour
          */
         
         //_xrOrigin.transform.position = _PlayerLocation;
-        _xrOrigin.transform.position = _stand.transform.position;
+        //_xrOrigin.transform.position = _stand.transform.position;
 
         // get size of fold
         //renderer = GetComponentInChildren<MeshRenderer>();
@@ -325,6 +330,7 @@ public class ExpCondition : MonoBehaviour
                 StartCoroutine(_ChangeScene(scene.buildIndex - 1));
                 //SceneManager.LoadScene(scene.buildIndex - 1);
             }
+            _xrOrigin.transform.position = new Vector3(0, 0, 0);
             //_xrOrigin.transform.position = _stand.transform.position;
             //_xrOrigin.transform.rotation = _stand.transform.rotation;
         }
@@ -333,7 +339,7 @@ public class ExpCondition : MonoBehaviour
             DateTime currentDateTime = DateTime.Now;
             string dateString = currentDateTime.ToString("yyyy'-'MM'-'dd'_'HH'-'mm'-'ss.fff");
             update_once = $"{dateString}," +
-                $"{MainCamera.transform.position.x},{MainCamera.transform.position.y},{MainCamera.transform.position.z}," +
+                $"{MainCamera.transform.position.x/exp_gain},{MainCamera.transform.position.y},{MainCamera.transform.position.z/exp_gain}," +
                 $"{MainCamera.transform.eulerAngles.x},{MainCamera.transform.eulerAngles.y},{MainCamera.transform.eulerAngles.z}," +
                 $"{exp_more}, {exp_less}" + "\n";
             File.AppendAllText(resultFileName_head, update_once);
@@ -355,7 +361,7 @@ public class ExpCondition : MonoBehaviour
         _appertureBottom.SetActive(false);
         _left.SetActive(false);
         _right.SetActive(false);
-        _xrOrigin.transform.position = _stand.transform.position;
+        //_xrOrigin.transform.position = _stand.transform.position;
     }
     public IEnumerator _ChangeScene(int nextIdx)
     {
@@ -368,14 +374,14 @@ public class ExpCondition : MonoBehaviour
     void SetFold(float distance, float width = 1.414f)
     {
         float height = 3f;
-        base_location = _stand.transform.position;
+        //base_location = _stand.transform.position;
         /*
          * fold: x -> left/right, y -> height, z -> far
          */
-        _left.transform.position = new Vector3(base_location.x, 1.8f, distance);
+        _left.transform.position = new Vector3(0, fold_yy, distance);
         //_left.transform.Rotate(new Vector3(-90, 45, 0));
 
-        _right.transform.position = new Vector3(base_location.x, 1.8f, distance);
+        _right.transform.position = new Vector3(0, fold_yy, distance);
         //_right.transform.Rotate(new Vector3(-90, -45, 0));
 
         // change scale

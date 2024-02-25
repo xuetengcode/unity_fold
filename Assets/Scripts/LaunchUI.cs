@@ -18,6 +18,8 @@ public class LaunchUI : MonoBehaviour
     private Button Adaptation1Bttn;
     [SerializeField]
     private Button Adaptation2Bttn;
+    [SerializeField]
+    private Button Adaptation3Bttn;
 
     [SerializeField]
     private Button ConfirmBttn;
@@ -57,6 +59,12 @@ public class LaunchUI : MonoBehaviour
             SoundFXManager.Instance.PlaySoundFXClip(_click, transform, 1f);
             Debug.Log("Adaptation 2 button clicked.");
             SharedConditions[1] = 1;
+        });
+        Adaptation3Bttn.onClick.AddListener(() =>
+        {
+            SoundFXManager.Instance.PlaySoundFXClip(_click, transform, 1f);
+            Debug.Log("Adaptation 2 button clicked.");
+            SharedConditions[1] = 2;
         });
 
         // support buttons
