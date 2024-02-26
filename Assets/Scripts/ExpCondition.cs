@@ -10,6 +10,8 @@ using System.IO;
 using System;
 using System.Linq;
 //using UnityEngine.SceneManagement;
+
+// 1 - gain
 public class ExpCondition : MonoBehaviour
 {
     public FadeInOut fade;
@@ -21,7 +23,7 @@ public class ExpCondition : MonoBehaviour
     public float exp_gain; // pass to ApplyGain.cs
     private Vector3 lastTrackedPosition;
     private Transform cameraTransform;
-    [SerializeField] private int exp_repeat = 2;
+    [SerializeField] private int exp_repeat = 5;
 
     //[SerializeField] private Vector3 _rotation;
     [SerializeField] private GameObject _left;
@@ -54,7 +56,7 @@ public class ExpCondition : MonoBehaviour
     private List<object[]> exp_conditions = new List<object[]>();
     private List<float> all_gain = new List<float> { 0.5f, 2f/3.0f, 0.8f, 1f, 1.25f, 1.5f, 2f };
     private List<float> all_distance = new List<float> { 1.5f };
-    private List<float> all_width = new List<float> { 1f, 1.125f, 1.25f};
+    private List<float> all_width = new List<float> { 1f}; //{ 1f, 1.125f, 1.25f};
 
     private Vector3 base_location;
     private string resultFileName;
@@ -203,7 +205,8 @@ public class ExpCondition : MonoBehaviour
         exp_gain = (float)exp_conditions[curr_exp][0];
         exp_distance = (float)exp_conditions[curr_exp][1];
         exp_width = (float)exp_conditions[curr_exp][2];
-        Debug.Log($"curr_exp: {curr_exp}, Gain: {exp_gain}, Width: {exp_width}, Distance: {exp_distance}, Angle {rand_rotation}, Mateiral {(float)exp_conditions[curr_exp][3]}");
+
+        Debug.Log($"curr_exp: {curr_exp}/{exp_conditions.Count}, Gain: {exp_gain}, Width: {exp_width}, Distance: {exp_distance}, Angle {rand_rotation}, Mateiral {(float)exp_conditions[curr_exp][3]}");
 
     }
 
@@ -216,28 +219,10 @@ public class ExpCondition : MonoBehaviour
         Bpressed = GetComponent<DataInputFold>().bttnBpressed;
         Xpressed = GetComponent<DataInputFold>().bttnXpressed;
         Ypressed = GetComponent<DataInputFold>().bttnYpressed;
-        
+
         // Apply gain
-
-        if (exp_gain != 1)
-        {
-            // Get the current position of the VR headset
-            Vector3 currentTrackedPosition = cameraTransform.localPosition;
-
-            // Calculate the physical movement delta
-            Vector3 deltaMovement = currentTrackedPosition - lastTrackedPosition;
-
-            // Apply the gain factors separately for X and Z axes
-            Vector3 gainedMovement = new Vector3(deltaMovement.x * (exp_gain - 1), 0, deltaMovement.z * (exp_gain - 1));
-            //Vector3 gainedMovement = new Vector3(deltaMovement.z * gainZ, 0, -deltaMovement.x * gainX);
-            // Update the XR Origin's position
-            _xrOrigin.transform.position += gainedMovement;
-
-            // Update last tracked position for the next frame
-            lastTrackedPosition = currentTrackedPosition;
-        }
-
-
+        ApplyGain(exp_gain);
+        
         if (Input.GetKeyDown(KeyCode.Space) | Apressed > LastA | Bpressed > LastB | curr_exp == 0)
         {
             if (curr_exp > exp_conditions.Count - 1)
@@ -245,8 +230,20 @@ public class ExpCondition : MonoBehaviour
                 Debug.Log("Reached limit " + curr_exp);
                 //Application.Quit();
                 UnityEngine.SceneManagement.Scene scene = SceneManager.GetActiveScene();
-                Debug.Log("Active Scene is '" + scene.name + "'.");
-                SceneManager.LoadScene(scene.buildIndex + 1);
+                LaunchUI.SharedCounters[0] += 1;
+
+                if (LaunchUI.SharedCounters[1] == 4)
+                {
+                    StartCoroutine(_ChangeScene(scene.buildIndex + 1));
+                    //SceneManager.LoadScene(scene.buildIndex + 1);
+                }
+                else
+                {
+                    Debug.Log("[Debug] here1");
+                    if (fade == null) { Debug.Log("fade is Null"); }
+                    StartCoroutine(_ChangeScene(scene.buildIndex - 1));
+                    //SceneManager.LoadScene(scene.buildIndex - 1);
+                }
             }
             if (Apressed > LastA)
             {
@@ -273,7 +270,7 @@ public class ExpCondition : MonoBehaviour
             exp_distance = (float)exp_conditions[curr_exp][1];
             exp_width = (float)exp_conditions[curr_exp][2];
 
-            Debug.Log($"curr_exp: {curr_exp}, Gain: {exp_gain}, Width: {exp_width}, Distance: {exp_distance}, Angle {rand_rotation}, Mateiral {(float)exp_conditions[curr_exp][3]}");
+            Debug.Log($"curr_exp: {curr_exp}/{exp_conditions.Count}: Gain: {exp_gain}, Width: {exp_width}, Distance: {exp_distance}, Angle {rand_rotation}, Mateiral {(float)exp_conditions[curr_exp][3]}");
 
             //SetFold((float)exp_conditions[curr_exp][1], (float)exp_conditions[curr_exp][2]);
             SetFold(exp_distance, exp_width);
@@ -330,7 +327,7 @@ public class ExpCondition : MonoBehaviour
                 StartCoroutine(_ChangeScene(scene.buildIndex - 1));
                 //SceneManager.LoadScene(scene.buildIndex - 1);
             }
-            _xrOrigin.transform.position = new Vector3(0, 0, 0);
+            //_xrOrigin.transform.position = new Vector3(0, 0, 0);
             //_xrOrigin.transform.position = _stand.transform.position;
             //_xrOrigin.transform.rotation = _stand.transform.rotation;
         }
@@ -353,6 +350,30 @@ public class ExpCondition : MonoBehaviour
         
     }
 
+    public void ApplyGain(float local_gain)
+    {
+        if (local_gain != 1)
+        {
+            // Get the current position of the VR headset
+            Vector3 currentTrackedPosition = cameraTransform.localPosition;
+
+            // Calculate the physical movement delta
+            //Vector3 deltaMovement = currentTrackedPosition - lastTrackedPosition;
+
+            // Apply the gain factors separately for X and Z axes
+            //Vector3 gainedMovement = new Vector3(deltaMovement.x * (1 - local_gain), 0, 0);
+            //Vector3 gainedMovement = new Vector3(deltaMovement.z * gainZ, 0, -deltaMovement.x * gainX);
+            // Update the XR Origin's position
+            //_left.transform.position += gainedMovement;
+            //_right.transform.position += gainedMovement;
+
+            _left.transform.position = new Vector3(currentTrackedPosition.x * (1 - local_gain), _left.transform.position.y, _left.transform.position.z);
+            _right.transform.position = new Vector3(currentTrackedPosition.x * (1 - local_gain), _left.transform.position.y, _left.transform.position.z);
+
+            // Update last tracked position for the next frame
+            //lastTrackedPosition = currentTrackedPosition;
+        }
+    }
     public void SetBlind()
     {
         parallax = new List<int> { 0, 0 };
@@ -373,6 +394,7 @@ public class ExpCondition : MonoBehaviour
 
     void SetFold(float distance, float width = 1.414f)
     {
+        float origial_width = 1.414f;
         float height = 3f;
         //base_location = _stand.transform.position;
         /*
@@ -386,7 +408,7 @@ public class ExpCondition : MonoBehaviour
 
         // change scale
 
-        _left.transform.localScale = new Vector3(width, 1e-8f, height);
+        _left.transform.localScale = new Vector3(width * origial_width, 1e-8f, height);
         _right.transform.localScale = _left.transform.localScale;
 
         if ((float)exp_conditions[curr_exp][3] == 0f)

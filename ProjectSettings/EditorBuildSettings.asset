@@ -6,13 +6,13 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
-    path: Assets/Scenes/UI.unity
+    path: Assets/Scenes/UI_old.unity
     guid: 69092d4071853e0419b157abc9370e58
   - enabled: 1
-    path: Assets/Scenes/UI_dropdown.unity
+    path: Assets/Scenes/UI.unity
     guid: f501c8bfe149fe94494305f402e011d8
   - enabled: 0
-    path: Assets/Scenes/Room.unity
+    path: Assets/Scenes/Room_centre_only.unity
     guid: de6daef434f45da4fa698dca1a2907fd
   - enabled: 0
     path: Assets/Scenes/Room_0.5_register.unity

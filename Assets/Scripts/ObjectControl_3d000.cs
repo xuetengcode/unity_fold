@@ -15,7 +15,7 @@ public class ObjectControl_3d000 : MonoBehaviour
 
     int total_area = 7;
     
-    float[,] object_areas = { // xxyyzz: y + 1.6
+    float[,] object_areas = { // zyx: y + 1.6
         {-1.176f, 0.712f,    0.073f, 0.073f,    -3.73f, 3.681f}, // 0 xxyyzz floor
         {-1.869f, -1.297f,    0.772f, 0.772f,    -2.926f, -1.589f}, // 1 xxyyzz
         {-1.537f, -1.297f,    0.772f, 0.772f,    -1.07f, -0.561f}, // 2 xxyyzz
@@ -26,7 +26,7 @@ public class ObjectControl_3d000 : MonoBehaviour
         { 0.902f, 1.524f,     0.77f, 0.77f, -1.845f, -0.839f}
     };
 
-    float[,] bucket_areas = { // xxyyzz: y + 1.6 
+    float[,] bucket_areas = { // zyx: y + 1.6 
         {-1.365f, 0.307f,    0.073f, 0.073f,    -4.132f, 3.376f}, // 0 xxyyzz floor
         {-2.186f, -1.659f,   0.79f, 0.79f,    -3.127f, -1.897f}, // 1 xxyyzz
         {-1.778f, -1.659f,   0.712f, 0.712f,    -1.288f, -0.887f}, // 2 xxyyzz

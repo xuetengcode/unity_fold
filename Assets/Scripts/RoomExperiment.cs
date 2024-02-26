@@ -141,6 +141,7 @@ public class RoomExperiment : MonoBehaviour
                 File.WriteAllText(resultFileName, "time, x, y, z, rotx, roty, rotz, hold, post \n");
             }
         }
+        
     }
 
     // Update is called once per frame
@@ -151,11 +152,17 @@ public class RoomExperiment : MonoBehaviour
         Xpressed = DataInput.bttnXpressed;
         Ypressed = DataInput.bttnYpressed;
 
-        timer += Time.deltaTime;
-        float seconds = timer % 10;
+        //timer += Time.deltaTime;
+        //float seconds = timer % 10;
+        _timeLimit -= Time.deltaTime;
 
         UnityEngine.SceneManagement.Scene scene = SceneManager.GetActiveScene();
 
+        //Debug.Log($"time left: {_timeLimit % 20}");
+        if (_timeLimit % 20 < 0.1)
+        {
+            Debug.Log($"20 seconds passed, time left: {_timeLimit}");
+        }
 
         if (Input.GetKeyDown(KeyCode.Escape) | Ypressed > LastY)
         {
@@ -167,7 +174,7 @@ public class RoomExperiment : MonoBehaviour
             // Use a coroutine to load the Scene in the background
             StartCoroutine(LoadYourAsyncScene(scene));
         }
-        if (seconds > _timeLimit)
+        if (_timeLimit < 0)
         {
             Debug.Log("Updating shared counter '" + LaunchUI.SharedCounters[0] + ", " + +LaunchUI.SharedCounters[1] + "'.");
 
