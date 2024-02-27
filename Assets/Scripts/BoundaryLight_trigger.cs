@@ -34,6 +34,8 @@ public class BoundaryLight_trigger : MonoBehaviour
         
         if (GetComponentInParent<ExpCondition>().parallax[0] > 2 & GetComponentInParent<ExpCondition>().parallax[1]>2) 
         {
+            //blind_on
+            GetComponentInParent<ExpCondition>().blind_on = false;
             if (GetComponentInParent<ExpCondition>().firstRound)
             {
                 GetComponentInParent<ExpCondition>().parallax = new List<int> { 0, 0 };
@@ -50,6 +52,10 @@ public class BoundaryLight_trigger : MonoBehaviour
                 _right.SetActive(true);
             }
             
+        }
+        else
+        {
+            GetComponentInParent<ExpCondition>().blind_on = false;
         }
         //local_parallax = GetComponentInParent<ExpCondition>().parallax;
     }

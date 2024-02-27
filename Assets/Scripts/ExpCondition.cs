@@ -86,6 +86,8 @@ public class ExpCondition : MonoBehaviour
     MeshRenderer meshRendererR;
 
     private float fold_yy = 1.9f;
+    public bool blind_on = true;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -138,11 +140,11 @@ public class ExpCondition : MonoBehaviour
         }
         else if (LocalConditions[1] == 1)
         {
-            adaptation_gain = 2f;
+            adaptation_gain = 1f;
         }
         else
         {
-            adaptation_gain = 1f;
+            adaptation_gain = 2f;
         }
         /*
          * Initialize output file
@@ -156,16 +158,16 @@ public class ExpCondition : MonoBehaviour
             // name_gain_yyyy-mm-dd_tt-tt-tt(24h)_viewing
             int round_id = LaunchUI.SharedCounters[1];
             resultFileName = Application.persistentDataPath + "/output/" + tester_str + "_" + adaptation_gain + "_" + dateString + "_" + viewing + "_fold_" + round_id + ".csv";
-            if (!File.Exists(resultFileName))
-            {
-                File.WriteAllText(resultFileName, "distance, gain, width, angle, more, less \n");
-            }
+            //if (!File.Exists(resultFileName))
+            //{
+            //    File.WriteAllText(resultFileName, "distance, gain, width, angle, more, less \n");
+            //}
 
             resultFileName_head = Application.persistentDataPath + "/output/" + tester_str + "_" + adaptation_gain + "_" + dateString + "_" + viewing + "_fold_" + round_id + "_head.csv";
-            if (!File.Exists(resultFileName_head))
-            {
-                File.WriteAllText(resultFileName_head, "time, x, y, z, rotx, roty, rotz, more, less \n");
-            }
+            //if (!File.Exists(resultFileName_head))
+            //{
+            //    File.WriteAllText(resultFileName_head, "time, x, y, z, rotx, roty, rotz, more, less \n");
+            //}
         }
         
         /*
@@ -223,79 +225,84 @@ public class ExpCondition : MonoBehaviour
         // Apply gain
         ApplyGain(exp_gain);
         
-        if (Input.GetKeyDown(KeyCode.Space) | Apressed > LastA | Bpressed > LastB | curr_exp == 0)
+        if (_blindCanvasGroup.alpha < 0.1)
         {
-            if (curr_exp > exp_conditions.Count - 1)
+            //Debug.Log($"{blind_on}");
+            if (Input.GetKeyDown(KeyCode.Space) | Apressed > LastA | Bpressed > LastB | curr_exp == 0)
             {
-                Debug.Log("Reached limit " + curr_exp);
-                //Application.Quit();
-                UnityEngine.SceneManagement.Scene scene = SceneManager.GetActiveScene();
-                LaunchUI.SharedCounters[0] += 1;
-
-                if (LaunchUI.SharedCounters[1] == 4)
+                if (curr_exp > exp_conditions.Count - 1)
                 {
-                    StartCoroutine(_ChangeScene(scene.buildIndex + 1));
-                    //SceneManager.LoadScene(scene.buildIndex + 1);
+                    Debug.Log("Reached limit " + curr_exp);
+                    //Application.Quit();
+                    UnityEngine.SceneManagement.Scene scene = SceneManager.GetActiveScene();
+                    LaunchUI.SharedCounters[0] += 1;
+
+                    if (LaunchUI.SharedCounters[1] == 4)
+                    {
+                        StartCoroutine(_ChangeScene(scene.buildIndex + 1));
+                        //SceneManager.LoadScene(scene.buildIndex + 1);
+                    }
+                    else
+                    {
+                        Debug.Log("[Debug] here1");
+                        if (fade == null) { Debug.Log("fade is Null"); }
+                        StartCoroutine(_ChangeScene(scene.buildIndex - 1));
+                        //SceneManager.LoadScene(scene.buildIndex - 1);
+                    }
+                }
+                if (Apressed > LastA)
+                {
+                    exp_more = 1;
+                    exp_less = 0;
+                }
+                else if (Bpressed > LastB)
+                {
+                    exp_more = 0;
+                    exp_less = 1;
                 }
                 else
                 {
-                    Debug.Log("[Debug] here1");
-                    if (fade == null) { Debug.Log("fade is Null"); }
-                    StartCoroutine(_ChangeScene(scene.buildIndex - 1));
-                    //SceneManager.LoadScene(scene.buildIndex - 1);
+                    exp_more = 0;
+                    exp_less = 0;
                 }
+
+                GenAngle();
+
+                //bttn_reset = true;
+
+                //GetConditions
+                exp_gain = (float)exp_conditions[curr_exp][0];
+                exp_distance = (float)exp_conditions[curr_exp][1];
+                exp_width = (float)exp_conditions[curr_exp][2];
+
+                Debug.Log($"curr_exp: {curr_exp}/{exp_conditions.Count}: Gain: {exp_gain}, Width: {exp_width}, Distance: {exp_distance}, Angle {rand_rotation}, Mateiral {(float)exp_conditions[curr_exp][3]}");
+
+                //SetFold((float)exp_conditions[curr_exp][1], (float)exp_conditions[curr_exp][2]);
+                SetFold(exp_distance, exp_width);
+
+                // change angle by set value
+                //Debug.Log("random angle is '" + rand_rotation + "'.");
+                _left.transform.eulerAngles = new Vector3(-90, 45, rand_rotation);
+                _right.transform.eulerAngles = new Vector3(-90, -45, -rand_rotation);
+
+                // distance, gain, width, angle, more, less
+                if (save_file)
+                {
+                    File.AppendAllText(resultFileName, exp_distance + ", " + exp_gain + ", " + exp_width + ", " + rand_rotation + ", " + exp_more + ", " + exp_less + "\n");
+                }
+
+
+                if (_blindCanvasGroup != null) _blindCanvasGroup.alpha = 1;
+
+                SetBlind();
+                LastA = Apressed; LastB = Bpressed;
+                LastX = Xpressed; LastY = Ypressed;
+
+                curr_exp += 1;
             }
-            if (Apressed > LastA)
-            {
-                exp_more = 1;
-                exp_less = 0;
-            }
-            else if (Bpressed > LastB)
-            {
-                exp_more = 0;
-                exp_less = 1;
-            }
-            else
-            {
-                exp_more = 0;
-                exp_less = 0;
-            }
-            
-            GenAngle();
-
-            //bttn_reset = true;
-
-            //GetConditions
-            exp_gain = (float)exp_conditions[curr_exp][0];
-            exp_distance = (float)exp_conditions[curr_exp][1];
-            exp_width = (float)exp_conditions[curr_exp][2];
-
-            Debug.Log($"curr_exp: {curr_exp}/{exp_conditions.Count}: Gain: {exp_gain}, Width: {exp_width}, Distance: {exp_distance}, Angle {rand_rotation}, Mateiral {(float)exp_conditions[curr_exp][3]}");
-
-            //SetFold((float)exp_conditions[curr_exp][1], (float)exp_conditions[curr_exp][2]);
-            SetFold(exp_distance, exp_width);
-
-            // change angle by set value
-            //Debug.Log("random angle is '" + rand_rotation + "'.");
-            _left.transform.eulerAngles = new Vector3 (-90, 45, rand_rotation);
-            _right.transform.eulerAngles = new Vector3(-90, -45, -rand_rotation);
-
-            // distance, gain, width, angle, more, less
-            if (save_file)
-            {
-                File.AppendAllText(resultFileName, exp_distance + ", " + exp_gain + ", " + exp_width + ", " + rand_rotation + ", " + exp_more + ", " + exp_less + "\n");
-            }
-            
-
-            if (_blindCanvasGroup != null) _blindCanvasGroup.alpha = 1;
-
-            SetBlind();
-            LastA = Apressed; LastB = Bpressed;
-            LastX = Xpressed; LastY = Ypressed;
-
-            curr_exp += 1;
         }
-        else if (Input.GetKeyDown(KeyCode.Escape) | Xpressed > LastX)
+        
+        if (Input.GetKeyDown(KeyCode.Escape) | Xpressed > LastX)
         {
             Debug.Log("[========] X event");
             _blindCanvasGroup.alpha = 0;
