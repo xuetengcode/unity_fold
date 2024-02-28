@@ -21,7 +21,7 @@ public class SaveHeadPos : MonoBehaviour
     {
         if (LocalConditions[1] == 0)
         {
-            adaptation_gain = 0.5f;
+            adaptation_gain = 0.667f;
         }
         else
         {
@@ -41,7 +41,7 @@ public class SaveHeadPos : MonoBehaviour
 
         if (LocalConditions[1] == 0)
         {
-            adaptation_gain = 0.5f;
+            adaptation_gain = 0.667f;
         }
         else
         {

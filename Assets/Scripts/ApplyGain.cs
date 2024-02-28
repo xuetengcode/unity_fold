@@ -29,7 +29,7 @@ public class ApplyGain : MonoBehaviour
         {
             if (LocalConditions[1] == 0)
             {
-                curr_gain = 0.5f;
+                curr_gain = 0.667f;
             }
             else
             {

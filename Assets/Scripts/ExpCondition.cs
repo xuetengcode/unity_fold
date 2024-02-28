@@ -54,7 +54,7 @@ public class ExpCondition : MonoBehaviour
     private int curr_exp = 0;
 
     private List<object[]> exp_conditions = new List<object[]>();
-    private List<float> all_gain = new List<float> { 0.5f, 2f/3.0f, 0.8f, 1f, 1.25f, 1.5f, 2f };
+    private List<float> all_gain = new List<float> { 2f/3.0f, 0.8f, 1f, 1.25f, 1.5f, 2f };
     private List<float> all_distance = new List<float> { 1.5f };
     private List<float> all_width = new List<float> { 1f}; //{ 1f, 1.125f, 1.25f};
 
