@@ -87,7 +87,9 @@ public class ExpCondition : MonoBehaviour
 
     private float fold_yy = 1.9f;
     public bool blind_on = true;
-
+    
+    private bool nextTriggered = false;
+    
     // Start is called before the first frame update
     private void Start()
     {
@@ -169,11 +171,11 @@ public class ExpCondition : MonoBehaviour
             //    File.WriteAllText(resultFileName_head, "time, x, y, z, rotx, roty, rotz, more, less \n");
             //}
         }
-        
+
         /*
          * change the location of player
          */
-        
+
         //_xrOrigin.transform.position = _PlayerLocation;
         //_xrOrigin.transform.position = _stand.transform.position;
 
@@ -191,7 +193,7 @@ public class ExpCondition : MonoBehaviour
         //LastB = DataInput.bttnBpressed;
         //LastX = DataInput.bttnXpressed;
         //LastY = DataInput.bttnYpressed;
-        
+
         SetBlind();
         LastA = GetComponent<DataInputFold>().bttnApressed;
         LastB = GetComponent<DataInputFold>().bttnBpressed;
@@ -208,6 +210,7 @@ public class ExpCondition : MonoBehaviour
         exp_distance = (float)exp_conditions[curr_exp][1];
         exp_width = (float)exp_conditions[curr_exp][2];
 
+        Debug.Log("Starting a new scene!!");
         Debug.Log($"curr_exp: {curr_exp}/{exp_conditions.Count}, Gain: {exp_gain}, Width: {exp_width}, Distance: {exp_distance}, Angle {rand_rotation}, Mateiral {(float)exp_conditions[curr_exp][3]}");
 
     }
@@ -224,7 +227,7 @@ public class ExpCondition : MonoBehaviour
 
         // Apply gain
         ApplyGain(exp_gain);
-        
+
         if (_blindCanvasGroup.alpha < 0.1)
         {
             //Debug.Log($"{blind_on}");
@@ -232,76 +235,88 @@ public class ExpCondition : MonoBehaviour
             {
                 if (curr_exp > exp_conditions.Count - 1)
                 {
-                    Debug.Log("Reached limit " + curr_exp);
-                    //Application.Quit();
-                    UnityEngine.SceneManagement.Scene scene = SceneManager.GetActiveScene();
-                    LaunchUI.SharedCounters[0] += 1;
+                    if (!nextTriggered)
+                    {
+                        nextTriggered = true;
+                        Debug.Log("Reached limit " + curr_exp);
+                        //Application.Quit();
+                        UnityEngine.SceneManagement.Scene scene = SceneManager.GetActiveScene();
+                        LaunchUI.SharedCounters[0] += 1;
 
-                    if (LaunchUI.SharedCounters[1] == 4)
-                    {
-                        StartCoroutine(_ChangeScene(scene.buildIndex + 1));
-                        //SceneManager.LoadScene(scene.buildIndex + 1);
+                        if (LaunchUI.SharedCounters[1] >= 4)
+                        {
+                            StartCoroutine(_ChangeScene(scene.buildIndex + 1));
+                            //SceneManager.LoadScene(scene.buildIndex + 1);
+                        }
+                        else
+                        {
+                            Debug.Log("[Debug] here1");
+                            if (fade == null) { Debug.Log("fade is Null"); }
+                            StartCoroutine(_ChangeScene(scene.buildIndex - 1));
+                            //SceneManager.LoadScene(scene.buildIndex - 1);
+                        }
                     }
-                    else
-                    {
-                        Debug.Log("[Debug] here1");
-                        if (fade == null) { Debug.Log("fade is Null"); }
-                        StartCoroutine(_ChangeScene(scene.buildIndex - 1));
-                        //SceneManager.LoadScene(scene.buildIndex - 1);
-                    }
-                }
-                if (Apressed > LastA)
-                {
-                    exp_more = 1;
-                    exp_less = 0;
-                }
-                else if (Bpressed > LastB)
-                {
-                    exp_more = 0;
-                    exp_less = 1;
                 }
                 else
                 {
-                    exp_more = 0;
-                    exp_less = 0;
+                    if (Apressed > LastA)
+                    {
+                        exp_more = 1;
+                        exp_less = 0;
+                    }
+                    else if (Bpressed > LastB)
+                    {
+                        exp_more = 0;
+                        exp_less = 1;
+                    }
+                    else
+                    {
+                        exp_more = 0;
+                        exp_less = 0;
+                    }
+
+                    GenAngle();
+
+                    //bttn_reset = true;
+
+                    //GetConditions
+                    Debug.Log($"====> {curr_exp}");
+                    exp_gain = (float)exp_conditions[curr_exp][0];
+                    exp_distance = (float)exp_conditions[curr_exp][1];
+                    exp_width = (float)exp_conditions[curr_exp][2];
+
+                    Debug.Log($"curr_exp: {curr_exp}/{exp_conditions.Count}: Gain: {exp_gain}, Width: {exp_width}, Distance: {exp_distance}, Angle {rand_rotation}, Mateiral {(float)exp_conditions[curr_exp][3]}");
+
+                    //SetFold((float)exp_conditions[curr_exp][1], (float)exp_conditions[curr_exp][2]);
+                    SetFold(exp_distance, exp_width);
+
+                    // change angle by set value
+                    //Debug.Log("random angle is '" + rand_rotation + "'.");
+                    _left.transform.eulerAngles = new Vector3(-90, 45, rand_rotation);
+                    _right.transform.eulerAngles = new Vector3(-90, -45, -rand_rotation);
+
+                    // distance, gain, width, angle, more, less
+                    if (save_file)
+                    {
+                        File.AppendAllText(resultFileName, exp_distance + ", " + exp_gain + ", " + exp_width + ", " + rand_rotation + ", " + exp_more + ", " + exp_less + "\n");
+                    }
+
+                    //Debug.Log(firstRound);
+                    if (!firstRound)
+                    {
+                        if (_blindCanvasGroup != null) _blindCanvasGroup.alpha = 1;
+                        SetBlind();
+                    }
+                    firstRound = false;
+                    LastA = Apressed; LastB = Bpressed;
+                    LastX = Xpressed; LastY = Ypressed;
+
+                    curr_exp += 1;
                 }
 
-                GenAngle();
-
-                //bttn_reset = true;
-
-                //GetConditions
-                exp_gain = (float)exp_conditions[curr_exp][0];
-                exp_distance = (float)exp_conditions[curr_exp][1];
-                exp_width = (float)exp_conditions[curr_exp][2];
-
-                Debug.Log($"curr_exp: {curr_exp}/{exp_conditions.Count}: Gain: {exp_gain}, Width: {exp_width}, Distance: {exp_distance}, Angle {rand_rotation}, Mateiral {(float)exp_conditions[curr_exp][3]}");
-
-                //SetFold((float)exp_conditions[curr_exp][1], (float)exp_conditions[curr_exp][2]);
-                SetFold(exp_distance, exp_width);
-
-                // change angle by set value
-                //Debug.Log("random angle is '" + rand_rotation + "'.");
-                _left.transform.eulerAngles = new Vector3(-90, 45, rand_rotation);
-                _right.transform.eulerAngles = new Vector3(-90, -45, -rand_rotation);
-
-                // distance, gain, width, angle, more, less
-                if (save_file)
-                {
-                    File.AppendAllText(resultFileName, exp_distance + ", " + exp_gain + ", " + exp_width + ", " + rand_rotation + ", " + exp_more + ", " + exp_less + "\n");
-                }
-
-
-                if (_blindCanvasGroup != null) _blindCanvasGroup.alpha = 1;
-
-                SetBlind();
-                LastA = Apressed; LastB = Bpressed;
-                LastX = Xpressed; LastY = Ypressed;
-
-                curr_exp += 1;
             }
         }
-        
+
         if (Input.GetKeyDown(KeyCode.Escape) | Xpressed > LastX)
         {
             Debug.Log("[========] X event");
@@ -318,7 +333,7 @@ public class ExpCondition : MonoBehaviour
             UnityEngine.SceneManagement.Scene scene = SceneManager.GetActiveScene();
             Debug.Log("Active Scene is '" + scene.name + "'.");
             //Debug.Log("Updating shared counter '" + LaunchUI.SharedCounters[0] + ", " + +LaunchUI.SharedCounters[1] + "'.");
-            
+
 
             LaunchUI.SharedCounters[0] += 1;
 
@@ -343,7 +358,7 @@ public class ExpCondition : MonoBehaviour
             DateTime currentDateTime = DateTime.Now;
             string dateString = currentDateTime.ToString("yyyy'-'MM'-'dd'_'HH'-'mm'-'ss.fff");
             update_once = $"{dateString}," +
-                $"{MainCamera.transform.position.x/exp_gain},{MainCamera.transform.position.y},{MainCamera.transform.position.z/exp_gain}," +
+                $"{MainCamera.transform.position.x / exp_gain},{MainCamera.transform.position.y},{MainCamera.transform.position.z / exp_gain}," +
                 $"{MainCamera.transform.eulerAngles.x},{MainCamera.transform.eulerAngles.y},{MainCamera.transform.eulerAngles.z}," +
                 $"{exp_more}, {exp_less}" + "\n";
             File.AppendAllText(resultFileName_head, update_once);

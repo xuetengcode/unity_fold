@@ -36,21 +36,15 @@ public class BoundaryLight_trigger : MonoBehaviour
         {
             //blind_on
             GetComponentInParent<ExpCondition>().blind_on = false;
-            if (GetComponentInParent<ExpCondition>().firstRound)
-            {
-                GetComponentInParent<ExpCondition>().parallax = new List<int> { 0, 0 };
-                GetComponentInParent<ExpCondition>().firstRound = false;
-            }
-            else
-            {
+            
                 //Debug.Log($"clear blind {GetComponentInParent<ExpCondition>().parallax[0]}, {GetComponentInParent<ExpCondition>().parallax[1]}");
-                _blindCanvasGroup.alpha = 0;
-                _floor.SetActive(true);
-                _appertureTop.SetActive(true);
-                _appertureBottom.SetActive(true);
-                _left.SetActive(true);
-                _right.SetActive(true);
-            }
+            _blindCanvasGroup.alpha = 0;
+            _floor.SetActive(true);
+            _appertureTop.SetActive(true);
+            _appertureBottom.SetActive(true);
+            _left.SetActive(true);
+            _right.SetActive(true);
+            
             
         }
         else

@@ -50,6 +50,7 @@ public class RoomExperiment : MonoBehaviour
     private Transform cameraTransform;
     private int post = 0;
     private int hold = 0;
+    private bool nextTriggered = false;
     void Start()
     {
         LastA = DataInput.bttnApressed;
@@ -92,11 +93,11 @@ public class RoomExperiment : MonoBehaviour
         }
         else if (LocalConditions[1] == 1)
         {
-            adaptation_gain = 2f;
+            adaptation_gain = 1f;
         }
         else
         {
-            adaptation_gain = 1f;
+            adaptation_gain = 2f;
         }
         Debug.Log("Adaptation gain is set as'" + adaptation_gain + "'.");
 
@@ -159,62 +160,75 @@ public class RoomExperiment : MonoBehaviour
         UnityEngine.SceneManagement.Scene scene = SceneManager.GetActiveScene();
 
         //Debug.Log($"time left: {_timeLimit % 20}");
-        if (_timeLimit % 20 < 0.1)
-        {
-            Debug.Log($"20 seconds passed, time left: {_timeLimit}");
-        }
+        
 
         if (Input.GetKeyDown(KeyCode.Escape) | Ypressed > LastY)
         {
-            Debug.Log("Updating shared counter '" + LaunchUI.SharedCounters[0] + ", " + +LaunchUI.SharedCounters[1] + "'.");
+            if (!nextTriggered)
+            {
+                nextTriggered = true;
+                Debug.Log("Updating shared counter '" + LaunchUI.SharedCounters[0] + ", " + +LaunchUI.SharedCounters[1] + "'.");
 
-            LaunchUI.SharedCounters[1] += 1;
-            Debug.Log("Active Scene is '" + scene.name + "'.");
-            //StartCoroutine(_ChangeScene(scene));
-            // Use a coroutine to load the Scene in the background
-            StartCoroutine(LoadYourAsyncScene(scene));
+                LaunchUI.SharedCounters[1] += 1;
+                Debug.Log("Active Scene is '" + scene.name + "'.");
+                //StartCoroutine(_ChangeScene(scene));
+                // Use a coroutine to load the Scene in the background
+                StartCoroutine(LoadYourAsyncScene(scene));
+            }
+            
         }
-        if (_timeLimit < 0)
+        else if (_timeLimit < 0)
         {
-            Debug.Log("Updating shared counter '" + LaunchUI.SharedCounters[0] + ", " + +LaunchUI.SharedCounters[1] + "'.");
+            if (!nextTriggered)
+            {
+                nextTriggered = true;
+                Debug.Log("Updating shared counter '" + LaunchUI.SharedCounters[0] + ", " + +LaunchUI.SharedCounters[1] + "'.");
 
-            LaunchUI.SharedCounters[1] += 1;
-            Debug.Log("Time out and jump to next scene");
-            //SceneManager.LoadScene(scene.buildIndex + 1);
-            StartCoroutine(LoadYourAsyncScene(scene));
+                LaunchUI.SharedCounters[1] += 1;
+                Debug.Log("Time out and jump to next scene");
+                //SceneManager.LoadScene(scene.buildIndex + 1);
+                StartCoroutine(LoadYourAsyncScene(scene));
+            }
+            
         }
-        // apply gain
-        if (adaptation_gain != 1)
+        else// apply gain
         {
-            // Get the current position of the VR headset
-            Vector3 currentTrackedPosition = cameraTransform.localPosition;
+            if (_timeLimit % 20 < 0.1)
+            {
+                Debug.Log($"20 seconds passed, time left: {_timeLimit}");
+            }
+            if (adaptation_gain != 1)
+            {
+                // Get the current position of the VR headset
+                Vector3 currentTrackedPosition = cameraTransform.localPosition;
 
-            // Calculate the physical movement delta
-            Vector3 deltaMovement = currentTrackedPosition - lastTrackedPosition;
+                // Calculate the physical movement delta
+                Vector3 deltaMovement = currentTrackedPosition - lastTrackedPosition;
 
-            // Apply the gain factors separately for X and Z axes
-            Vector3 gainedMovement = new Vector3(deltaMovement.x * (adaptation_gain - 1), 0, deltaMovement.z * (adaptation_gain - 1));
-            //Vector3 gainedMovement = new Vector3(deltaMovement.z * gainZ, 0, -deltaMovement.x * gainX);
-            // Update the XR Origin's position
-            _xrOrigin.transform.position += gainedMovement;
+                // Apply the gain factors separately for X and Z axes
+                Vector3 gainedMovement = new Vector3(deltaMovement.x * (adaptation_gain - 1), 0, deltaMovement.z * (adaptation_gain - 1));
+                //Vector3 gainedMovement = new Vector3(deltaMovement.z * gainZ, 0, -deltaMovement.x * gainX);
+                // Update the XR Origin's position
+                _xrOrigin.transform.position += gainedMovement;
 
-            // Update last tracked position for the next frame
-            lastTrackedPosition = currentTrackedPosition;
+                // Update last tracked position for the next frame
+                lastTrackedPosition = currentTrackedPosition;
+            }
+            if (save_file)
+            {
+                if (_collideNext) post = 1;
+                DateTime currentDateTime = DateTime.Now;
+                string dateString = currentDateTime.ToString("yyyy'-'MM'-'dd'_'HH'-'mm'-'ss.fff");
+                update_once = $"{dateString}," +
+                    $"{MainCamera.transform.position.x / adaptation_gain},{MainCamera.transform.position.y},{MainCamera.transform.position.z / adaptation_gain}," +
+                    $"{MainCamera.transform.eulerAngles.x},{MainCamera.transform.eulerAngles.y},{MainCamera.transform.eulerAngles.z}," +
+                    $"{hold}, {post}" + "\n";
+                File.AppendAllText(resultFileName, update_once);
+                post = 0;
+            }
+            LastA = Apressed; LastB = Bpressed;
+            LastX = Xpressed; LastY = Ypressed;
         }
-        if (save_file)
-        {
-            if (_collideNext) post = 1;
-            DateTime currentDateTime = DateTime.Now;
-            string dateString = currentDateTime.ToString("yyyy'-'MM'-'dd'_'HH'-'mm'-'ss.fff");
-            update_once = $"{dateString}," + 
-                $"{MainCamera.transform.position.x/adaptation_gain},{MainCamera.transform.position.y},{MainCamera.transform.position.z/adaptation_gain}," +
-                $"{MainCamera.transform.eulerAngles.x},{MainCamera.transform.eulerAngles.y},{MainCamera.transform.eulerAngles.z}," +
-                $"{hold}, {post}" + "\n";
-            File.AppendAllText(resultFileName, update_once);
-            post = 0;
-        }
-        LastA = Apressed; LastB = Bpressed;
-        LastX = Xpressed; LastY = Ypressed;
     }
 
     IEnumerator _ChangeScene(UnityEngine.SceneManagement.Scene scene)
