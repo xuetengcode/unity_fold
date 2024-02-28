@@ -338,7 +338,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fade: {fileID: 0}
   exp_gain: 1
-  exp_repeat: 2
+  exp_repeat: 5
   _left: {fileID: 2104766893}
   _right: {fileID: 1494833371}
   _xrOrigin: {fileID: 9132913291138454250}
