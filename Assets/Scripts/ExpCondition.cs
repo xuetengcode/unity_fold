@@ -138,7 +138,7 @@ public class ExpCondition : MonoBehaviour
 
         if (LocalConditions[1] == 0)
         {
-            adaptation_gain = 0.5f;
+            adaptation_gain = 0.667f;
         }
         else if (LocalConditions[1] == 1)
         {
