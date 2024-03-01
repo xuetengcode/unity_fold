@@ -32,7 +32,7 @@ public class BoundaryLight_trigger : MonoBehaviour
     void Update()
     {
         
-        if (GetComponentInParent<ExpCondition>().parallax[0] > 2 & GetComponentInParent<ExpCondition>().parallax[1]>2) 
+        if (GetComponentInParent<ExpCondition>().parallax[0] > 1 & GetComponentInParent<ExpCondition>().parallax[1]>1) 
         {
             //blind_on
             GetComponentInParent<ExpCondition>().blind_on = false;

@@ -231,7 +231,8 @@ public class ExpCondition : MonoBehaviour
         if (_blindCanvasGroup.alpha < 0.1)
         {
             //Debug.Log($"{blind_on}");
-            if (Input.GetKeyDown(KeyCode.Space) | Apressed > LastA | Bpressed > LastB | curr_exp == 0)
+            //if (Input.GetKeyDown(KeyCode.Space) | Apressed > LastA | Bpressed > LastB | curr_exp == 0)
+            if (Input.GetKeyDown(KeyCode.Space) | Apressed > LastA | Bpressed > LastB | firstRound)
             {
                 if (curr_exp > exp_conditions.Count - 1)
                 {
@@ -259,61 +260,66 @@ public class ExpCondition : MonoBehaviour
                 }
                 else
                 {
+                    Debug.Log($"Ap/A, Bp/B: {Apressed}/{LastA}, {Bpressed}/{LastB}.");
+
                     if (Apressed > LastA)
                     {
-                        exp_more = 1;
-                        exp_less = 0;
+                        Debug.Log("Apressed");
+                        exp_more = 0;
+                        exp_less = 1;
                     }
                     else if (Bpressed > LastB)
                     {
-                        exp_more = 0;
-                        exp_less = 1;
+                        Debug.Log("Bpressed");
+                        exp_more = 1;
+                        exp_less = 0;
                     }
                     else
                     {
                         exp_more = 0;
                         exp_less = 0;
                     }
+                    Debug.Log($"more/less: {exp_more}/{exp_less}.");
+                    
 
+                    if (!firstRound) // first frame, we do nothing
+                    {
+                        if (_blindCanvasGroup != null) _blindCanvasGroup.alpha = 1;
+                        SetBlind();
+                        if (save_file)
+                        {
+                            float curr_exp_log = curr_exp - 1;
+                            // distance, gain, width, angle, more, less
+                            File.AppendAllText(resultFileName, exp_distance + ", " + exp_gain + ", " + exp_width + ", " + rand_rotation + ", " + exp_more + ", " + exp_less + ", " + curr_exp_log + ", " + Apressed + ", " + LastA + ", " + Bpressed + ", " + LastB + "\n");
+                        }
+                    }
+
+                    // start to setup the new scene
                     GenAngle();
 
                     //bttn_reset = true;
 
                     //GetConditions
-                    Debug.Log($"====> {curr_exp}");
                     exp_gain = (float)exp_conditions[curr_exp][0];
                     exp_distance = (float)exp_conditions[curr_exp][1];
                     exp_width = (float)exp_conditions[curr_exp][2];
-
-                    Debug.Log($"curr_exp: {curr_exp}/{exp_conditions.Count}: Gain: {exp_gain}, Width: {exp_width}, Distance: {exp_distance}, Angle {rand_rotation}, Mateiral {(float)exp_conditions[curr_exp][3]}");
-
-                    //SetFold((float)exp_conditions[curr_exp][1], (float)exp_conditions[curr_exp][2]);
                     SetFold(exp_distance, exp_width);
-
                     // change angle by set value
                     //Debug.Log("random angle is '" + rand_rotation + "'.");
                     _left.transform.eulerAngles = new Vector3(-90, 45, rand_rotation);
                     _right.transform.eulerAngles = new Vector3(-90, -45, -rand_rotation);
-
-                    // distance, gain, width, angle, more, less
-                    if (save_file)
-                    {
-                        File.AppendAllText(resultFileName, exp_distance + ", " + exp_gain + ", " + exp_width + ", " + rand_rotation + ", " + exp_more + ", " + exp_less + "\n");
-                    }
-
                     //Debug.Log(firstRound);
-                    if (!firstRound)
-                    {
-                        if (_blindCanvasGroup != null) _blindCanvasGroup.alpha = 1;
-                        SetBlind();
-                    }
+
+                    Debug.Log($"==> curr_exp: {curr_exp}/{exp_conditions.Count}: Gain: {exp_gain}, Width: {exp_width}, Distance: {exp_distance}, Angle {rand_rotation}, Mateiral {(float)exp_conditions[curr_exp][3]}");
+
+
                     firstRound = false;
                     LastA = Apressed; LastB = Bpressed;
                     LastX = Xpressed; LastY = Ypressed;
 
                     curr_exp += 1;
                 }
-
+                
             }
         }
 
