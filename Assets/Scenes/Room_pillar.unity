@@ -5308,27 +5308,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 633b28f7650f87f4b98ab9c4f6f404db, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.42
+      value: 3.42
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 633b28f7650f87f4b98ab9c4f6f404db, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.7071068
+      value: -0.68138963
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 633b28f7650f87f4b98ab9c4f6f404db, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.18896611
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 633b28f7650f87f4b98ab9c4f6f404db, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0.18896611
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 633b28f7650f87f4b98ab9c4f6f404db, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.7071068
+      value: 0.68138963
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 633b28f7650f87f4b98ab9c4f6f404db, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: -31
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 633b28f7650f87f4b98ab9c4f6f404db, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -10118,8 +10118,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb4284da3cebcb147a2ebebec0c40710, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _square: {fileID: 1290443746}
-  _sphere: {fileID: 2058151244}
+  _cube: {fileID: 0}
+  _cylinder: {fileID: 0}
   _targetCube: {fileID: 367201845}
   _targetCylnder: {fileID: 1552708696}
   _roomExp: {fileID: 1650824821}
