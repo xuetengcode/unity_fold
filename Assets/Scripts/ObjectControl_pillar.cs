@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class ObjectControl_pillar : MonoBehaviour
 {
-    [SerializeField] private GameObject _square;
-    [SerializeField] private GameObject _sphere;
+    [SerializeField] private GameObject _cube;
+    [SerializeField] private GameObject _cyinder;
 
     [SerializeField] private GameObject _targetCube;
     [SerializeField] private GameObject _targetCylnder;
@@ -33,9 +33,20 @@ public class ObjectControl_pillar : MonoBehaviour
         { 0.902f, 1.524f,     0.77f, 0.77f,    -0.383f, 1.026f}, // 6 xxyyzz
         { 0.902f, 1.524f,     0.77f, 0.77f, -1.845f, -0.839f}
     };
+    /*
+     * markers:
+        * 
+        * 
+        * 
+        * 
+     * objects:
+        * 
+        * 
+        * 
+        * 
+    */
 
-    
-    
+
 
     private int Apressed;
     private int Bpressed;
@@ -78,16 +89,16 @@ public class ObjectControl_pillar : MonoBehaviour
 
             // first find out which object this is
             currObj = _roomExp.GetComponent<RoomExperiment>()._activeObject;
-            if (currObj == "Cube Color")
+            if (currObj == "Object_Cube")
             {
                 idxActive = 3; // Random.Range(0, total_area);
-                _activeObject = _square;
+                _activeObject = _cube;
                 Debug.Log("Cube at Area:" + idxActive + ", " + object_areas[idxActive, 0] + ", " + object_areas[idxActive, 1]);
             }
-            else if (currObj == "Sphere Color")
+            else if (currObj == "Object_Cylinder")
             {
                 idxActive = 1; // Random.Range(0, total_area);
-                _activeObject = _sphere;
+                _activeObject = _cylinder;
                 Debug.Log("Cube at Area:" + idxActive + ", " + object_areas[idxActive, 0] + ", " + object_areas[idxActive, 1]);
             }
             else

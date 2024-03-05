@@ -18,10 +18,10 @@ public class LevelLoader : MonoBehaviour
             Debug.Log($"Trigger {other.tag}, {transform.name}");
             _roomExp.GetComponent<RoomExperiment>()._collideNext = true;
         }
-        else if (other.tag =="sphere")
+        else if (other.tag =="cylinder")
         {
             
-            if (transform.name == "Sphere Color")
+            if (transform.name == "Object_Cylinder")
             {
                 SoundFXManager.Instance.PlaySoundFXClip(_correct, transform, 1f);
                 Debug.Log($"Correct!! Trigger {other.tag}, {transform.name}");
@@ -41,7 +41,7 @@ public class LevelLoader : MonoBehaviour
         }
         else if (other.tag == "cube")
         {
-            if (transform.name == "Cube Color")
+            if (transform.name == "Object_Cube")
             {
                 SoundFXManager.Instance.PlaySoundFXClip(_correct, transform, 1f);
                 Debug.Log($"Correct!! Trigger {other.tag}, {transform.name}");
