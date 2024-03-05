@@ -6,7 +6,7 @@ using UnityEngine;
 public class ObjectControl_pillar : MonoBehaviour
 {
     [SerializeField] private GameObject _cube;
-    [SerializeField] private GameObject _cyinder;
+    [SerializeField] private GameObject _cylinder;
 
     [SerializeField] private GameObject _targetCube;
     [SerializeField] private GameObject _targetCylnder;
