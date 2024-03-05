@@ -23,16 +23,22 @@ public class DataInput : MonoBehaviour
 
     [SerializeField] private GameObject _stand;
     [SerializeField] private GameObject _xrOrigin;
+
+    [SerializeField] private Camera cam; // ekaterina added 
+
     [SerializeField] private AudioClip _click;
 
     public static int bttnApressed = 0;
     public static int bttnBpressed = 0;
     public static int bttnXpressed = 0;
     public static int bttnYpressed = 0;
-    public static int menuRpressed = 0;
+    public static int menuRpressed = 0; // why is this menuR? - katya
+
     // Start is called before the first frame update
     void Start()
     {
+        // mainCamera = Camera.main; // ekaterina added 
+
         btnA.performed +=
             ctx =>
             {
@@ -111,8 +117,16 @@ public class DataInput : MonoBehaviour
                 var button = (ButtonControl)ctx.control;
                 if (button.wasPressedThisFrame)
                 {
-                    menuRpressed += 1;
-                    _xrOrigin.transform.position = new Vector3(_stand.transform.position.x, _xrOrigin.transform.position.y, _stand.transform.position.z);
+                    menuRpressed += 1; // why is this called menuR? 
+                    // _xrOrigin.transform.position = new Vector3(_stand.transform.position.x, _xrOrigin.transform.position.y, _stand.transform.position.z); // reset view
+                    
+                    _xrOrigin.transform.position += 
+                    new Vector3(
+                        _stand.transform.position.x - cam.transform.position.x,
+                        0,
+                        _stand.transform.position.z - cam.transform.position.z
+                    ); // for some reason transforming only works more than once if you are adding a vector onto the old position. not sure why it doesn't work if you just assign a new vector.
+                    
                     Debug.Log($"Menu L {ctx.control} was pressed");
                 }
                 else if (button.wasReleasedThisFrame)

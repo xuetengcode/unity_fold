@@ -8736,6 +8736,7 @@ MonoBehaviour:
     m_Flags: 0
   _stand: {fileID: 2112772912}
   _xrOrigin: {fileID: 865075385156410245}
+  cam: {fileID: 7990873189306433627}
   _click: {fileID: 8300000, guid: 16fba6d30ed741d4a9fdd6e79ee2f3ac, type: 3}
 --- !u!114 &3257650465687098047
 MonoBehaviour:
