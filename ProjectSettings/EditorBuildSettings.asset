@@ -17,9 +17,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Room_0.5_register.unity
     guid: dea431fcc230b40448441dd209431d2a
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Room_rand_entire.unity
     guid: 9ac3de8a00e87a745a2dd349240dc93b
+  - enabled: 1
+    path: Assets/Scenes/Room_pillar.unity
+    guid: 1b125e8a83240054e9e4c8fcf3e09b0b
   - enabled: 1
     path: Assets/Scenes/Fold.unity
     guid: b352ac5fa4c7c4e44a3a94601ca0867d
