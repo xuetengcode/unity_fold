@@ -44,6 +44,7 @@ public class RoomExperiment : MonoBehaviour
     private int LastY = 0;
 
     public bool _collideNext = false;
+    public string _activeObject;
 
     public bool _expReady = false;
     private Vector3 lastTrackedPosition;
@@ -193,10 +194,10 @@ public class RoomExperiment : MonoBehaviour
         }
         else// apply gain
         {
-            if (_timeLimit % 20 < 0.1)
-            {
-                Debug.Log($"20 seconds passed, time left: {_timeLimit}");
-            }
+            //if (_timeLimit % 20 < 0.1)
+            //{
+            //    Debug.Log($"20 seconds passed, time left: {_timeLimit}");
+            //}
             if (adaptation_gain != 1)
             {
                 // Get the current position of the VR headset
