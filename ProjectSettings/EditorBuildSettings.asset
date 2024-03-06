@@ -5,18 +5,33 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
-    path: Assets/Scenes/UI.unity
+  - enabled: 0
+    path: Assets/Scenes/UI_old.unity
     guid: 69092d4071853e0419b157abc9370e58
   - enabled: 1
-    path: Assets/Scenes/Room.unity
+    path: Assets/Scenes/UI.unity
+    guid: f501c8bfe149fe94494305f402e011d8
+  - enabled: 0
+    path: Assets/Scenes/Room_centre_only.unity
     guid: de6daef434f45da4fa698dca1a2907fd
+  - enabled: 0
+    path: Assets/Scenes/Room_0.5_register.unity
+    guid: dea431fcc230b40448441dd209431d2a
+  - enabled: 0
+    path: Assets/Scenes/Room_rand_entire.unity
+    guid: 9ac3de8a00e87a745a2dd349240dc93b
   - enabled: 1
-    path: Assets/Scenes/Fold.unity
-    guid: 7ee67f60ca8d34647905c71762e09a9b
+    path: Assets/Scenes/Room_pillar.unity
+    guid: 1b125e8a83240054e9e4c8fcf3e09b0b
+  - enabled: 1
+    path: Assets/Scenes/Fold_front_back.unity
+    guid: b352ac5fa4c7c4e44a3a94601ca0867d
   - enabled: 1
     path: Assets/Scenes/End.unity
-    guid: 84173374b18f3574e8b9c1bc98734a7c
+    guid: b486f446e0298f245864bf8117cc6f37
+  - enabled: 0
+    path: Assets/Scenes/Fold1.unity
+    guid: 7ee67f60ca8d34647905c71762e09a9b
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 9289577ac33d0d743aa2d46588689341, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 35d0efbde1159144bbc3983ab4162a95, type: 2}

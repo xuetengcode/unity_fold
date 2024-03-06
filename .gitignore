@@ -2,7 +2,6 @@
 #
 
 # XT added
-*.cs.meta
 *.csv
 /Assets/output
 #/Assets/Materials/images

@@ -8,7 +8,7 @@ public class FadeOutController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        fade = GetComponentInChildren<FadeInOut>();
+        fade = GetComponent<FadeInOut>();
         fade.FadeOut();
     }
 

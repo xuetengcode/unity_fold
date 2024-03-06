@@ -7,6 +7,10 @@ TagManager:
   - toFold
   - boundaryL
   - boundaryR
+  - boundaryF
+  - boundaryB
+  - cube
+  - sphere
   layers:
   - Default
   - TransparentFX

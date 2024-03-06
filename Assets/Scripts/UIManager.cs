@@ -1,8 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
+//using System.Collections;
+//using System.Collections.Generic;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+//using Unity.XR.Oculus;
+//using UnityEditor.SearchService;
 
 public class UIManager : MonoBehaviour
 {
@@ -12,7 +14,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] private XROrigin _xrOrigin;
     void Start()
     {
-        _xrOrigin.transform.position = _stand.transform.position;
+        //Unity.XR.Oculus.Performance.TrySetDisplayRefreshRate(30);
+        Application.targetFrameRate = 90;
+        //Debug.Log("FPS '" + Application. + "'.");
+        //_xrOrigin.transform.position = _stand.transform.position;
+        //_xrOrigin.transform.position = new Vector3(_stand.transform.position.x, _xrOrigin.transform.position.y, _stand.transform.position.z);
     }
 
     // Update is called once per frame
