@@ -174,7 +174,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 5, y: 5, z: 8}
+  m_Size: {x: 5, y: 5, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &24991985
 GameObject:
@@ -290,8 +290,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 45887814}
-  - component: {fileID: 45887818}
   - component: {fileID: 45887815}
+  - component: {fileID: 45887818}
   - component: {fileID: 45887816}
   - component: {fileID: 45887817}
   m_Layer: 0
@@ -480,14 +480,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 45887813}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0df80b6aa0fd3cf4db24d3ed38fee744, type: 3}
+  m_Script: {fileID: 11500000, guid: bef3bfdad28f76148935dcbd0373f962, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   fade: {fileID: 0}
-  exp_gain: 0
+  exp_gain: 1
   exp_repeat: 5
-  _left: {fileID: 2104766893}
-  _right: {fileID: 1494833371}
+  fold_left: {fileID: 2104766893}
+  fold_right: {fileID: 1494833371}
   _xrOrigin: {fileID: 9132913291138454250}
   _cameraL: {fileID: 916396023}
   _blindCanvasGroup: {fileID: 2078864816}
@@ -495,12 +495,12 @@ MonoBehaviour:
   _appertureTop: {fileID: 483441646}
   _appertureBottom: {fileID: 313762341}
   parallax: 0000000000000000
-  save_file: 0
+  save_file: 1
   MainCamera: {fileID: 7990873190418106935}
   firstRound: 1
-  Material1: {fileID: 2100000, guid: 7ee38a2bcf2f90d4f838111688509d74, type: 2}
-  Material2: {fileID: 2100000, guid: 9182f0e532dbb50428fa4dfbdacc2749, type: 2}
-  Material3: {fileID: 2100000, guid: 227d7370bd4b5834590e24be5d3f5bea, type: 2}
+  Material1: {fileID: 2100000, guid: 355a12cb141de394cb70c83ea5f5b00b, type: 2}
+  Material2: {fileID: 2100000, guid: 55c65f2616a51df4bbc5ccdd57be46cd, type: 2}
+  Material3: {fileID: 2100000, guid: aa8d041e7c6ae70449581153c52b6143, type: 2}
   blind_on: 0
 --- !u!1001 &55698298
 PrefabInstance:
@@ -1578,7 +1578,7 @@ GameObject:
   - component: {fileID: 918690138}
   m_Layer: 0
   m_Name: SphereC
-  m_TagString: Untagged
+  m_TagString: front_back
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1591,13 +1591,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 918690136}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: 0.5}
   m_LocalPosition: {x: 0, y: 0.34, z: 0.577}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7990873190418106932}
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 90, z: 0}
 --- !u!135 &918690138
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1773,7 +1773,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 20, z: 5}
+  m_Size: {x: 5, y: 20, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1345623296
 GameObject:
@@ -1891,7 +1891,7 @@ GameObject:
   - component: {fileID: 1494833373}
   - component: {fileID: 1494833376}
   m_Layer: 0
-  m_Name: right
+  m_Name: fold_right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2464,7 +2464,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 5, y: 5, z: 8}
+  m_Size: {x: 5, y: 5, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1927957231
 GameObject:
@@ -2749,7 +2749,7 @@ GameObject:
   - component: {fileID: 2104766895}
   - component: {fileID: 2104766898}
   m_Layer: 0
-  m_Name: left
+  m_Name: fold_left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13343,9 +13343,9 @@ GameObject:
   - component: {fileID: 4078678169767727573}
   - component: {fileID: 7990873190418106938}
   - component: {fileID: 7990873190418106937}
-  - component: {fileID: 7990873190418106939}
   - component: {fileID: 7990873190418106936}
-  - component: {fileID: 7990873190418106940}
+  - component: {fileID: 7990873190418106939}
+  - component: {fileID: 7990873190418106942}
   - component: {fileID: 7990873190418106941}
   m_Layer: 0
   m_Name: Main Camera
@@ -13436,7 +13436,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7990873190418106935}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1a423d2d7ced2e6468375c33d055b76e, type: 3}
   m_Name: 
@@ -13454,19 +13454,6 @@ MonoBehaviour:
   eventTagR: boundaryR
   eventTagF: boundaryF
   eventTagB: boundaryB
---- !u!114 &7990873190418106940
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7990873190418106935}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5be62ed95b0a6348a697f8830e538f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _SphereCenter: {fileID: 918690136}
 --- !u!114 &7990873190418106941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13479,19 +13466,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2e60fbbafd80a646b08cefe34a84276, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bLeft: {fileID: 0}
-  _bRight: {fileID: 0}
-  _blindCanvasGroup: {fileID: 0}
-  _greyCanvasGroup: {fileID: 0}
-  _left: {fileID: 0}
-  _right: {fileID: 0}
-  _floor: {fileID: 0}
-  _appertureTop: {fileID: 0}
-  _appertureBottom: {fileID: 0}
+  _bLeft: {fileID: 757688094}
+  _bRight: {fileID: 1932454190}
+  _blindCanvasGroup: {fileID: 2078864816}
+  _greyCanvasGroup: {fileID: 657657071}
+  fold_left: {fileID: 0}
+  fold_right: {fileID: 0}
+  _floor: {fileID: 24991985}
+  _appertureTop: {fileID: 483441646}
+  _appertureBottom: {fileID: 313762341}
   eventTagL: boundaryL
   eventTagR: boundaryR
   eventTagF: boundaryF
   eventTagB: boundaryB
+--- !u!114 &7990873190418106942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7990873190418106935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a174ee515187a914fae03d343e0f3e20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _SphereCenter: {fileID: 918690136}
 --- !u!114 &7990873191086868032
 MonoBehaviour:
   m_ObjectHideFlags: 0

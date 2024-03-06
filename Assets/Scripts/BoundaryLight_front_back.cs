@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoundaryFB : MonoBehaviour
+public class BoundaryLight_front_back : MonoBehaviour
 {
     [SerializeField] private GameObject _SphereCenter;
     // Start is called before the first frame update
@@ -14,7 +14,7 @@ public class BoundaryFB : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (transform.position.x > 0.1 | transform.position.x < -0.1)
+        if (transform.position.z > 0.1 | transform.position.z < -0.1)
         {
             _SphereCenter.SetActive(true);
         }

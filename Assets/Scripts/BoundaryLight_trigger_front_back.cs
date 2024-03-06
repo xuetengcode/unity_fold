@@ -12,8 +12,8 @@ public class BoundaryLight_trigger_front_back : MonoBehaviour
     [SerializeField]
     public CanvasGroup _blindCanvasGroup;
     public CanvasGroup _greyCanvasGroup;
-    [SerializeField] private GameObject _left;
-    [SerializeField] private GameObject _right;
+    [SerializeField] private GameObject fold_left;
+    [SerializeField] private GameObject fold_right;
     [SerializeField] private GameObject _floor;
     [SerializeField] private GameObject _appertureTop;
     [SerializeField] private GameObject _appertureBottom;
@@ -32,24 +32,24 @@ public class BoundaryLight_trigger_front_back : MonoBehaviour
     void Update()
     {
         
-        if (GetComponentInParent<ExpCondition>().parallax[0] > 1 & GetComponentInParent<ExpCondition>().parallax[1]>1) 
+        if (GetComponentInParent<ExpCondition_front_back>().parallax[0] > 1 & GetComponentInParent<ExpCondition_front_back>().parallax[1]>1) 
         {
             //blind_on
-            GetComponentInParent<ExpCondition>().blind_on = false;
+            GetComponentInParent<ExpCondition_front_back>().blind_on = false;
             
                 //Debug.Log($"clear blind {GetComponentInParent<ExpCondition>().parallax[0]}, {GetComponentInParent<ExpCondition>().parallax[1]}");
             _blindCanvasGroup.alpha = 0;
             _floor.SetActive(true);
             _appertureTop.SetActive(true);
             _appertureBottom.SetActive(true);
-            _left.SetActive(true);
-            _right.SetActive(true);
+            fold_left.SetActive(true);
+            fold_right.SetActive(true);
             
             
         }
         else
         {
-            GetComponentInParent<ExpCondition>().blind_on = false;
+            GetComponentInParent<ExpCondition_front_back>().blind_on = false;
         }
         //local_parallax = GetComponentInParent<ExpCondition>().parallax;
     }
@@ -61,14 +61,14 @@ public class BoundaryLight_trigger_front_back : MonoBehaviour
         {
             _bLeft.SetActive(true);
             _bRight.SetActive(false);
-            GetComponentInParent<ExpCondition>().parallax[0] += 1;
+            GetComponentInParent<ExpCondition_front_back>().parallax[0] += 1;
             //_greyCanvasGroup.alpha = 0;
         }
         else if (other.tag == eventTagR)
         {
             _bLeft.SetActive(false);
             _bRight.SetActive(true);
-            GetComponentInParent<ExpCondition>().parallax[1] += 1;
+            GetComponentInParent<ExpCondition_front_back>().parallax[1] += 1;
             //_greyCanvasGroup.alpha = 0;
         }
         else if (other.tag == eventTagF | other.tag == eventTagB) 

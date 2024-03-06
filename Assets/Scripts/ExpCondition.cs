@@ -364,7 +364,7 @@ public class ExpCondition : MonoBehaviour
             DateTime currentDateTime = DateTime.Now;
             string dateString = currentDateTime.ToString("yyyy'-'MM'-'dd'_'HH'-'mm'-'ss.fff");
             update_once = $"{dateString}," +
-                $"{MainCamera.transform.position.x / exp_gain},{MainCamera.transform.position.y},{MainCamera.transform.position.z / exp_gain}," +
+                $"{MainCamera.transform.position.x},{MainCamera.transform.position.y},{MainCamera.transform.position.z}," +
                 $"{MainCamera.transform.eulerAngles.x},{MainCamera.transform.eulerAngles.y},{MainCamera.transform.eulerAngles.z}," +
                 $"{exp_more}, {exp_less}" + "\n";
             File.AppendAllText(resultFileName_head, update_once);

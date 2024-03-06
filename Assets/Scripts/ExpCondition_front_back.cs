@@ -12,7 +12,7 @@ using System.Linq;
 //using UnityEngine.SceneManagement;
 
 // 1 - gain
-public class ExpConditionFB : MonoBehaviour
+public class ExpCondition_front_back : MonoBehaviour
 {
     public FadeInOut fade;
     //[SerializeField] private string tester = "tx";
@@ -26,8 +26,8 @@ public class ExpConditionFB : MonoBehaviour
     [SerializeField] private int exp_repeat = 5;
 
     //[SerializeField] private Vector3 _rotation;
-    [SerializeField] private GameObject _left;
-    [SerializeField] private GameObject _right;
+    [SerializeField] private GameObject fold_left;
+    [SerializeField] private GameObject fold_right;
 
     [SerializeField] private XROrigin _xrOrigin;
     //[SerializeField] private Vector3 _PlayerLocation;
@@ -93,8 +93,8 @@ public class ExpConditionFB : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        meshRendererL = _left.GetComponent<MeshRenderer>();
-        meshRendererR = _right.GetComponent<MeshRenderer>();
+        meshRendererL = fold_left.GetComponent<MeshRenderer>();
+        meshRendererR = fold_right.GetComponent<MeshRenderer>();
         if (tester < 10)
         {
             tester_str = $"0{tester}";
@@ -119,8 +119,8 @@ public class ExpConditionFB : MonoBehaviour
         }
         _appertureTop.SetActive(false);
         _appertureBottom.SetActive(false);
-        _left.SetActive(false);
-        _right.SetActive(false);
+        fold_left.SetActive(false);
+        fold_right.SetActive(false);
         fade = GetComponentInChildren<FadeInOut>();
         // bino or mono
         if (LocalConditions[0] == 0)
@@ -306,8 +306,8 @@ public class ExpConditionFB : MonoBehaviour
                     SetFold(exp_distance, exp_width);
                     // change angle by set value
                     //Debug.Log("random angle is '" + rand_rotation + "'.");
-                    _left.transform.eulerAngles = new Vector3(-90, 45, rand_rotation);
-                    _right.transform.eulerAngles = new Vector3(-90, -45, -rand_rotation);
+                    fold_left.transform.eulerAngles = new Vector3(-90, 45, rand_rotation);
+                    fold_right.transform.eulerAngles = new Vector3(-90, -45, -rand_rotation);
                     //Debug.Log(firstRound);
 
                     Debug.Log($"==> curr_exp: {curr_exp}/{exp_conditions.Count}: Gain: {exp_gain}, Width: {exp_width}, Distance: {exp_distance}, Angle {rand_rotation}, Mateiral {(float)exp_conditions[curr_exp][3]}");
@@ -330,8 +330,8 @@ public class ExpConditionFB : MonoBehaviour
             _floor.SetActive(true);
             _appertureTop.SetActive(true);
             _appertureBottom.SetActive(true);
-            _left.SetActive(true);
-            _right.SetActive(true);
+            fold_left.SetActive(true);
+            fold_right.SetActive(true);
         }
         else if (Ypressed > LastY)
         {
@@ -364,7 +364,7 @@ public class ExpConditionFB : MonoBehaviour
             DateTime currentDateTime = DateTime.Now;
             string dateString = currentDateTime.ToString("yyyy'-'MM'-'dd'_'HH'-'mm'-'ss.fff");
             update_once = $"{dateString}," +
-                $"{MainCamera.transform.position.x / exp_gain},{MainCamera.transform.position.y},{MainCamera.transform.position.z / exp_gain}," +
+                $"{MainCamera.transform.position.x},{MainCamera.transform.position.y},{MainCamera.transform.position.z}," +
                 $"{MainCamera.transform.eulerAngles.x},{MainCamera.transform.eulerAngles.y},{MainCamera.transform.eulerAngles.z}," +
                 $"{exp_more}, {exp_less}" + "\n";
             File.AppendAllText(resultFileName_head, update_once);
@@ -395,8 +395,8 @@ public class ExpConditionFB : MonoBehaviour
             //_left.transform.position += gainedMovement;
             //_right.transform.position += gainedMovement;
 
-            _left.transform.position = new Vector3(currentTrackedPosition.x * (1 - local_gain), _left.transform.position.y, _left.transform.position.z);
-            _right.transform.position = new Vector3(currentTrackedPosition.x * (1 - local_gain), _left.transform.position.y, _left.transform.position.z);
+            fold_left.transform.position = new Vector3(currentTrackedPosition.x, fold_left.transform.position.y, fold_left.transform.position.z * (1 - local_gain));
+            fold_right.transform.position = new Vector3(currentTrackedPosition.x, fold_left.transform.position.y, fold_left.transform.position.z * (1 - local_gain));
 
             // Update last tracked position for the next frame
             //lastTrackedPosition = currentTrackedPosition;
@@ -408,8 +408,8 @@ public class ExpConditionFB : MonoBehaviour
         _floor.SetActive(false);
         _appertureTop.SetActive(false);
         _appertureBottom.SetActive(false);
-        _left.SetActive(false);
-        _right.SetActive(false);
+        fold_left.SetActive(false);
+        fold_right.SetActive(false);
         //_xrOrigin.transform.position = _stand.transform.position;
     }
     public IEnumerator _ChangeScene(int nextIdx)
@@ -428,16 +428,16 @@ public class ExpConditionFB : MonoBehaviour
         /*
          * fold: x -> left/right, y -> height, z -> far
          */
-        _left.transform.position = new Vector3(0, fold_yy, distance);
+        fold_left.transform.position = new Vector3(0, fold_yy, distance);
         //_left.transform.Rotate(new Vector3(-90, 45, 0));
 
-        _right.transform.position = new Vector3(0, fold_yy, distance);
+        fold_right.transform.position = new Vector3(0, fold_yy, distance);
         //_right.transform.Rotate(new Vector3(-90, -45, 0));
 
         // change scale
 
-        _left.transform.localScale = new Vector3(width * origial_width, 1e-8f, height);
-        _right.transform.localScale = _left.transform.localScale;
+        fold_left.transform.localScale = new Vector3(width * origial_width, 1e-8f, height);
+        fold_right.transform.localScale = fold_left.transform.localScale;
 
         if ((float)exp_conditions[curr_exp][3] == 0f)
         {

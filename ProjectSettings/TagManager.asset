@@ -11,6 +11,7 @@ TagManager:
   - boundaryB
   - cube
   - sphere
+  - front_back
   layers:
   - Default
   - TransparentFX
