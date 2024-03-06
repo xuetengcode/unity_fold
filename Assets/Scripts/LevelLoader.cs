@@ -16,46 +16,46 @@ public class LevelLoader : MonoBehaviour
         if (other.tag == "toFold")
         {
             Debug.Log($"Trigger {other.tag}, {transform.name}");
-            _roomExp.GetComponent<RoomExperiment>()._collideNext = true;
+            _roomExp.GetComponent<RoomExperiment_pillar>()._collideNext = true;
         }
         else if (other.tag =="cylinder")
         {
             
-            if (transform.name == "Object_Cylinder")
+            if (transform.name == "object_cylinder")
             {
                 SoundFXManager.Instance.PlaySoundFXClip(_correct, transform, 1f);
                 Debug.Log($"Correct!! Trigger {other.tag}, {transform.name}");
-                _roomExp.GetComponent<RoomExperiment>()._collideNext = true;
-                _roomExp.GetComponent<RoomExperiment>()._activeObject = transform.name;
+                _roomExp.GetComponent<RoomExperiment_pillar>()._collideNext = true;
+                _roomExp.GetComponent<RoomExperiment_pillar>().object_active = transform.name;
             }
             else
             {
                 SoundFXManager.Instance.PlaySoundFXClip(_wrong, transform, 1f);
                 Debug.Log($"Wrong!! Trigger {other.tag}, {transform.name}");
-                _roomExp.GetComponent<RoomExperiment>()._collideNext = true;
+                _roomExp.GetComponent<RoomExperiment_pillar>()._collideNext = true;
                 //_roomExp.GetComponent<RoomExperiment>()._collideNext = false;
 
-                _roomExp.GetComponent<RoomExperiment>()._activeObject = transform.name;
+                _roomExp.GetComponent<RoomExperiment_pillar>().object_active = transform.name;
             }
             
         }
         else if (other.tag == "cube")
         {
-            if (transform.name == "Object_Cube")
+            if (transform.name == "object_cube")
             {
                 SoundFXManager.Instance.PlaySoundFXClip(_correct, transform, 1f);
                 Debug.Log($"Correct!! Trigger {other.tag}, {transform.name}");
-                _roomExp.GetComponent<RoomExperiment>()._collideNext = true;
-                _roomExp.GetComponent<RoomExperiment>()._activeObject = transform.name;
+                _roomExp.GetComponent<RoomExperiment_pillar>()._collideNext = true;
+                _roomExp.GetComponent<RoomExperiment_pillar>().object_active = transform.name;
             }
             else
             {
                 SoundFXManager.Instance.PlaySoundFXClip(_wrong, transform, 1f);
                 Debug.Log($"Wrong!! Trigger {other.tag}, {transform.name}");
-                _roomExp.GetComponent<RoomExperiment>()._collideNext = true;
+                _roomExp.GetComponent<RoomExperiment_pillar>()._collideNext = true;
                 //_roomExp.GetComponent<RoomExperiment>()._collideNext = false;
 
-                _roomExp.GetComponent<RoomExperiment>()._activeObject = transform.name;
+                _roomExp.GetComponent<RoomExperiment_pillar>().object_active = transform.name;
             }
         }
     }

@@ -1439,7 +1439,7 @@ GameObject:
   - component: {fileID: 367201848}
   - component: {fileID: 367201847}
   m_Layer: 0
-  m_Name: Marker_Cube
+  m_Name: marker_cube
   m_TagString: cube
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1615,7 +1615,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: f62302ef90d14f841b5b072e65e176c6, type: 2}
     - target: {fileID: 919132149155446097, guid: ad3f5558914e60246839c0d9a58cac63, type: 3}
       propertyPath: m_Name
-      value: Object_Pentagon
+      value: object_pentagon
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2615,7 +2615,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: a79e9930bd27b804b804bde2178a5b2a, type: 2}
     - target: {fileID: 919132149155446097, guid: ad3f5558914e60246839c0d9a58cac63, type: 3}
       propertyPath: m_Name
-      value: Marker_Pentagon
+      value: marker_pentagon
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3634,7 +3634,7 @@ GameObject:
   - component: {fileID: 1290443753}
   - component: {fileID: 1280873698}
   m_Layer: 0
-  m_Name: Object_Cube
+  m_Name: object_cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3792,7 +3792,7 @@ MonoBehaviour:
   m_HoverEntered:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1650824823}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: RoomExperiment, Assembly-CSharp
         m_MethodName: EnableHold
         m_Mode: 1
@@ -3840,7 +3840,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1650824823}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: RoomExperiment, Assembly-CSharp
         m_MethodName: EnableHold
         m_Mode: 1
@@ -3867,7 +3867,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1650824823}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: RoomExperiment, Assembly-CSharp
         m_MethodName: DisableHold
         m_Mode: 1
@@ -4634,7 +4634,7 @@ GameObject:
   - component: {fileID: 1552708698}
   - component: {fileID: 1552708697}
   m_Layer: 0
-  m_Name: Marker_Cylinder
+  m_Name: marker_cylinder
   m_TagString: sphere
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4841,7 +4841,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1650824822}
-  - component: {fileID: 1650824823}
+  - component: {fileID: 3257650465687098048}
   - component: {fileID: 1650824825}
   - component: {fileID: 1650824826}
   - component: {fileID: 3257650465687098046}
@@ -4890,26 +4890,6 @@ Transform:
   - {fileID: 631079249}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1650824823
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1650824821}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aaef9d212ee93f7428cb3bc21630f437, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _xrOrigin: {fileID: 9132913292419635328}
-  _timeLimit: 1
-  _cameraL: {fileID: 109926320}
-  MainCamera: {fileID: 7990873189306433629}
-  save_file: 1
-  _collideNext: 0
-  _activeObject: 
-  _expReady: 1
 --- !u!114 &1650824825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5015,7 +4995,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 0ca310911cae98843a15f0602ee8d17b, type: 2}
     - target: {fileID: 919132149155446097, guid: 633b28f7650f87f4b98ab9c4f6f404db, type: 3}
       propertyPath: m_Name
-      value: Object_Triangle
+      value: object_triangle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5344,7 +5324,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: a79e9930bd27b804b804bde2178a5b2a, type: 2}
     - target: {fileID: 919132149155446097, guid: 633b28f7650f87f4b98ab9c4f6f404db, type: 3}
       propertyPath: m_Name
-      value: Marker_Triangle
+      value: marker_triangle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5495,7 +5475,7 @@ GameObject:
   - component: {fileID: 2058151250}
   - component: {fileID: 2058151249}
   m_Layer: 0
-  m_Name: Object_Cylinder
+  m_Name: object_cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10118,11 +10098,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb4284da3cebcb147a2ebebec0c40710, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cube: {fileID: 0}
-  _cylinder: {fileID: 0}
-  _targetCube: {fileID: 367201845}
-  _targetCylnder: {fileID: 1552708696}
+  object_cube: {fileID: 1290443746}
+  object_cylinder: {fileID: 2058151244}
+  marker_cube: {fileID: 367201845}
+  marker_cylinder: {fileID: 1552708696}
+  marker_pentagon: {fileID: 774176966}
+  marker_triangle: {fileID: 1947882021}
   _roomExp: {fileID: 1650824821}
+--- !u!114 &3257650465687098048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650824821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51e454924bf15984fb7b4b11cac2a726, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _xrOrigin: {fileID: 9132913292419635328}
+  _timeLimit: 1
+  _cameraL: {fileID: 109926320}
+  MainCamera: {fileID: 7990873189306433629}
+  save_file: 1
+  _collideNext: 0
+  object_active: 
+  _expReady: 1
 --- !u!23 &3274325739370812793
 MeshRenderer:
   m_ObjectHideFlags: 0
