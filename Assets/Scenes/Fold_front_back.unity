@@ -290,6 +290,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 45887814}
+  - component: {fileID: 45887818}
   - component: {fileID: 45887815}
   - component: {fileID: 45887816}
   - component: {fileID: 45887817}
@@ -331,7 +332,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 45887813}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 25ad14e655b5967428557ddda3687d39, type: 3}
   m_Name: 
@@ -470,6 +471,37 @@ MonoBehaviour:
   StepsFadeOut: 1
   fadein: 0
   fadeout: 0
+--- !u!114 &45887818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 45887813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0df80b6aa0fd3cf4db24d3ed38fee744, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fade: {fileID: 0}
+  exp_gain: 0
+  exp_repeat: 5
+  _left: {fileID: 2104766893}
+  _right: {fileID: 1494833371}
+  _xrOrigin: {fileID: 9132913291138454250}
+  _cameraL: {fileID: 916396023}
+  _blindCanvasGroup: {fileID: 2078864816}
+  _floor: {fileID: 24991985}
+  _appertureTop: {fileID: 483441646}
+  _appertureBottom: {fileID: 313762341}
+  parallax: 0000000000000000
+  save_file: 0
+  MainCamera: {fileID: 7990873190418106935}
+  firstRound: 1
+  Material1: {fileID: 2100000, guid: 7ee38a2bcf2f90d4f838111688509d74, type: 2}
+  Material2: {fileID: 2100000, guid: 9182f0e532dbb50428fa4dfbdacc2749, type: 2}
+  Material3: {fileID: 2100000, guid: 227d7370bd4b5834590e24be5d3f5bea, type: 2}
+  blind_on: 0
 --- !u!1001 &55698298
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13314,6 +13346,7 @@ GameObject:
   - component: {fileID: 7990873190418106939}
   - component: {fileID: 7990873190418106936}
   - component: {fileID: 7990873190418106940}
+  - component: {fileID: 7990873190418106941}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -13434,6 +13467,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _SphereCenter: {fileID: 918690136}
+--- !u!114 &7990873190418106941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7990873190418106935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e60fbbafd80a646b08cefe34a84276, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bLeft: {fileID: 0}
+  _bRight: {fileID: 0}
+  _blindCanvasGroup: {fileID: 0}
+  _greyCanvasGroup: {fileID: 0}
+  _left: {fileID: 0}
+  _right: {fileID: 0}
+  _floor: {fileID: 0}
+  _appertureTop: {fileID: 0}
+  _appertureBottom: {fileID: 0}
+  eventTagL: boundaryL
+  eventTagR: boundaryR
+  eventTagF: boundaryF
+  eventTagB: boundaryB
 --- !u!114 &7990873191086868032
 MonoBehaviour:
   m_ObjectHideFlags: 0
