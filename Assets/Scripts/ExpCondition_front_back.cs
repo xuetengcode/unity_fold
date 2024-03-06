@@ -226,7 +226,7 @@ public class ExpCondition_front_back : MonoBehaviour
         Ypressed = GetComponent<DataInputFold>().bttnYpressed;
 
         // Apply gain
-        ApplyGain(exp_gain);
+        ApplyGain(exp_distance, exp_gain);
 
         if (_blindCanvasGroup.alpha < 0.1)
         {
@@ -378,7 +378,7 @@ public class ExpCondition_front_back : MonoBehaviour
         
     }
 
-    public void ApplyGain(float local_gain)
+    public void ApplyGain(float local_distance, float local_gain)
     {
         if (local_gain != 1)
         {
@@ -395,8 +395,8 @@ public class ExpCondition_front_back : MonoBehaviour
             //_left.transform.position += gainedMovement;
             //_right.transform.position += gainedMovement;
 
-            fold_left.transform.position = new Vector3(currentTrackedPosition.x, fold_left.transform.position.y, fold_left.transform.position.z * (1 - local_gain));
-            fold_right.transform.position = new Vector3(currentTrackedPosition.x, fold_left.transform.position.y, fold_left.transform.position.z * (1 - local_gain));
+            fold_left.transform.position = new Vector3(fold_left.transform.position.x, fold_left.transform.position.y, local_distance + (currentTrackedPosition.z * (1 - local_gain)));//fold_left.transform.position.z +
+            fold_right.transform.position = new Vector3(fold_right.transform.position.x, fold_right.transform.position.y, local_distance + (currentTrackedPosition.z * (1 - local_gain)));//fold_right.transform.position.z +
 
             // Update last tracked position for the next frame
             //lastTrackedPosition = currentTrackedPosition;

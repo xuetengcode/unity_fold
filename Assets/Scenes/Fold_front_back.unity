@@ -13470,8 +13470,8 @@ MonoBehaviour:
   _bRight: {fileID: 1932454190}
   _blindCanvasGroup: {fileID: 2078864816}
   _greyCanvasGroup: {fileID: 657657071}
-  fold_left: {fileID: 0}
-  fold_right: {fileID: 0}
+  fold_left: {fileID: 2104766893}
+  fold_right: {fileID: 1494833371}
   _floor: {fileID: 24991985}
   _appertureTop: {fileID: 483441646}
   _appertureBottom: {fileID: 313762341}
