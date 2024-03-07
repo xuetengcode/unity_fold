@@ -325,7 +325,7 @@ public class ExpCondition_front_back : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape) | Xpressed > LastX)
         {
-            Debug.Log("[========] X event");
+            Debug.Log("Show scene");
             dark.alpha = 0;
             _floor.SetActive(true);
             _appertureTop.SetActive(true);
@@ -335,7 +335,7 @@ public class ExpCondition_front_back : MonoBehaviour
         }
         else if (Ypressed > LastY)
         {
-            Debug.Log("[========] Y event");
+            Debug.Log("Switch scene");
             UnityEngine.SceneManagement.Scene scene = SceneManager.GetActiveScene();
             Debug.Log("Active Scene is '" + scene.name + "'.");
             //Debug.Log("Updating shared counter '" + LaunchUI.SharedCounters[0] + ", " + +LaunchUI.SharedCounters[1] + "'.");
@@ -382,19 +382,8 @@ public class ExpCondition_front_back : MonoBehaviour
     {
         if (local_gain != 1)
         {
-            // Get the current position of the VR headset
+            // Get the current position of the VR headset then apply gain
             Vector3 currentTrackedPosition = cameraTransform.localPosition;
-
-            // Calculate the physical movement delta
-            //Vector3 deltaMovement = currentTrackedPosition - lastTrackedPosition;
-
-            // Apply the gain factors separately for X and Z axes
-            //Vector3 gainedMovement = new Vector3(deltaMovement.x * (1 - local_gain), 0, 0);
-            //Vector3 gainedMovement = new Vector3(deltaMovement.z * gainZ, 0, -deltaMovement.x * gainX);
-            // Update the XR Origin's position
-            //_left.transform.position += gainedMovement;
-            //_right.transform.position += gainedMovement;
-
             fold_left.transform.position = new Vector3(fold_left.transform.position.x, fold_left.transform.position.y, local_distance + (currentTrackedPosition.z * (1 - local_gain)));//fold_left.transform.position.z +
             fold_right.transform.position = new Vector3(fold_right.transform.position.x, fold_right.transform.position.y, local_distance + (currentTrackedPosition.z * (1 - local_gain)));//fold_right.transform.position.z +
 

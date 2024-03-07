@@ -237,7 +237,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 45887814}
-  - component: {fileID: 45887815}
   - component: {fileID: 45887818}
   - component: {fileID: 45887816}
   - component: {fileID: 45887817}
@@ -271,37 +270,6 @@ Transform:
   - {fileID: 313762342}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &45887815
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 45887813}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25ad14e655b5967428557ddda3687d39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fade: {fileID: 0}
-  exp_gain: 1
-  exp_repeat: 5
-  _left: {fileID: 2104766893}
-  _right: {fileID: 1494833371}
-  _xrOrigin: {fileID: 9132913291138454250}
-  _cameraL: {fileID: 916396023}
-  _blindCanvasGroup: {fileID: 2078864816}
-  _floor: {fileID: 24991985}
-  _appertureTop: {fileID: 483441646}
-  _appertureBottom: {fileID: 313762341}
-  parallax: 0000000000000000
-  save_file: 1
-  MainCamera: {fileID: 7990873190418106935}
-  firstRound: 1
-  Material1: {fileID: 2100000, guid: 7ee38a2bcf2f90d4f838111688509d74, type: 2}
-  Material2: {fileID: 2100000, guid: 9182f0e532dbb50428fa4dfbdacc2749, type: 2}
-  Material3: {fileID: 2100000, guid: 227d7370bd4b5834590e24be5d3f5bea, type: 2}
-  blind_on: 0
 --- !u!114 &45887816
 MonoBehaviour:
   m_ObjectHideFlags: 0
