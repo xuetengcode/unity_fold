@@ -40,7 +40,7 @@ public class ExpCondition_front_back : MonoBehaviour
     [SerializeField] private GameObject _appertureTop;
     [SerializeField] private GameObject _appertureBottom;
 
-    public List<int> parallax = new List<int> { 0, 0 };
+    public List<int> bumper_counter = new List<int> { 0, 0 };
     public bool save_file = false;
     [SerializeField] private GameObject MainCamera;
     public bool firstRound = true;
@@ -109,7 +109,7 @@ public class ExpCondition_front_back : MonoBehaviour
         // start in dark
         if (dark == null)
         {
-            Debug.Log("_blindCanvasGroup not set");
+            Debug.Log("Dark canvas not set");
             _floor.SetActive(true);
         }
         else
@@ -404,7 +404,7 @@ public class ExpCondition_front_back : MonoBehaviour
     }
     public void SetBlind()
     {
-        parallax = new List<int> { 0, 0 };
+        bumper_counter = new List<int> { 0, 0 };
         _floor.SetActive(false);
         _appertureTop.SetActive(false);
         _appertureBottom.SetActive(false);

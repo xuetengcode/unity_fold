@@ -42,7 +42,7 @@ public class Bumpers_front_back : MonoBehaviour
         {
             bumper_m.SetActive(false);
         }
-        if (GetComponentInParent<ExpCondition_front_back>().parallax[0] > 1 & GetComponentInParent<ExpCondition_front_back>().parallax[1]>1) 
+        if (GetComponentInParent<ExpCondition_front_back>().bumper_counter[0] > 1 & GetComponentInParent<ExpCondition_front_back>().bumper_counter[1]>1) 
         {
             //blind_on
             GetComponentInParent<ExpCondition_front_back>().blind_on = false;
@@ -71,14 +71,14 @@ public class Bumpers_front_back : MonoBehaviour
         {
             bumper_l.SetActive(true);
             bumper_r.SetActive(false);
-            GetComponentInParent<ExpCondition_front_back>().parallax[0] += 1;
+            GetComponentInParent<ExpCondition_front_back>().bumper_counter[0] += 1;
             //_greyCanvasGroup.alpha = 0;
         }
         else if (other.tag == eventTagR)
         {
             bumper_l.SetActive(false);
             bumper_r.SetActive(true);
-            GetComponentInParent<ExpCondition_front_back>().parallax[1] += 1;
+            GetComponentInParent<ExpCondition_front_back>().bumper_counter[1] += 1;
             //_greyCanvasGroup.alpha = 0;
         }
         else if (other.tag == eventTagF | other.tag == eventTagB) 
