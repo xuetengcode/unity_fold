@@ -30,6 +30,8 @@ public class Bumpers_front_back : MonoBehaviour
     void Start()
     {
         //local_parallax = GetComponentInParent<ExpCondition>().parallax;
+        bumper_l.SetActive(false);
+        bumper_r.SetActive(false);
     }
 
     void Update()
