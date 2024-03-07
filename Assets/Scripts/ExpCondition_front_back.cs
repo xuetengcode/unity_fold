@@ -35,7 +35,7 @@ public class ExpCondition_front_back : MonoBehaviour
     //private GameObject _stand = GameObject.Find("stand");
     //[SerializeField] private GameObject _stand;
     public GameObject _cameraL;
-    [SerializeField] public CanvasGroup _blindCanvasGroup;
+    [SerializeField] public CanvasGroup dark;
     [SerializeField] private GameObject _floor;
     [SerializeField] private GameObject _appertureTop;
     [SerializeField] private GameObject _appertureBottom;
@@ -107,14 +107,14 @@ public class ExpCondition_front_back : MonoBehaviour
         //Material1.mainTextureScale = oldMaterial.mainTextureScale;
 
         // start in dark
-        if (_blindCanvasGroup == null)
+        if (dark == null)
         {
             Debug.Log("_blindCanvasGroup not set");
             _floor.SetActive(true);
         }
         else
         {
-            _blindCanvasGroup.alpha = 1;
+            dark.alpha = 1;
             _floor.SetActive(false);
         }
         _appertureTop.SetActive(false);
@@ -228,7 +228,7 @@ public class ExpCondition_front_back : MonoBehaviour
         // Apply gain
         ApplyGain(exp_distance, exp_gain);
 
-        if (_blindCanvasGroup.alpha < 0.1)
+        if (dark.alpha < 0.1)
         {
             //Debug.Log($"{blind_on}");
             //if (Input.GetKeyDown(KeyCode.Space) | Apressed > LastA | Bpressed > LastB | curr_exp == 0)
@@ -284,7 +284,7 @@ public class ExpCondition_front_back : MonoBehaviour
 
                     if (!firstRound) // first frame, we do nothing
                     {
-                        if (_blindCanvasGroup != null) _blindCanvasGroup.alpha = 1;
+                        if (dark != null) dark.alpha = 1;
                         SetBlind();
                         if (save_file)
                         {
@@ -326,7 +326,7 @@ public class ExpCondition_front_back : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape) | Xpressed > LastX)
         {
             Debug.Log("[========] X event");
-            _blindCanvasGroup.alpha = 0;
+            dark.alpha = 0;
             _floor.SetActive(true);
             _appertureTop.SetActive(true);
             _appertureBottom.SetActive(true);
@@ -436,7 +436,7 @@ public class ExpCondition_front_back : MonoBehaviour
 
         // change scale
 
-        fold_left.transform.localScale = new Vector3(width * origial_width, 1e-8f, height);
+        fold_left.transform.localScale = new Vector3(width * origial_width * distance, 1e-8f, height * distance);
         fold_right.transform.localScale = fold_left.transform.localScale;
 
         if ((float)exp_conditions[curr_exp][3] == 0f)

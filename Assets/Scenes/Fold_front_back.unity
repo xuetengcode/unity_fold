@@ -490,7 +490,7 @@ MonoBehaviour:
   fold_right: {fileID: 1494833371}
   _xrOrigin: {fileID: 9132913291138454250}
   _cameraL: {fileID: 916396023}
-  _blindCanvasGroup: {fileID: 2078864816}
+  dark: {fileID: 2078864816}
   _floor: {fileID: 24991985}
   _appertureTop: {fileID: 483441646}
   _appertureBottom: {fileID: 313762341}
@@ -1577,7 +1577,7 @@ GameObject:
   - component: {fileID: 918690139}
   - component: {fileID: 918690138}
   m_Layer: 0
-  m_Name: SphereC
+  m_Name: Bumper_m
   m_TagString: front_back
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1592,7 +1592,7 @@ Transform:
   m_GameObject: {fileID: 918690136}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.175, z: 0.577}
+  m_LocalPosition: {x: 0, y: 0.22, z: 0.577}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2009,7 +2009,7 @@ GameObject:
   - component: {fileID: 1571987329}
   - component: {fileID: 1571987328}
   m_Layer: 0
-  m_Name: SphereR
+  m_Name: Bumper_r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2114,7 +2114,7 @@ GameObject:
   - component: {fileID: 1612932602}
   - component: {fileID: 1612932601}
   m_Layer: 0
-  m_Name: SphereL
+  m_Name: Bumper_l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13325,8 +13325,8 @@ Transform:
   - {fileID: 1932454191}
   - {fileID: 757688095}
   - {fileID: 1571987327}
-  - {fileID: 918690137}
   - {fileID: 1612932600}
+  - {fileID: 918690137}
   m_Father: {fileID: 7990873190373987861}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7990873190418106935
@@ -13347,6 +13347,7 @@ GameObject:
   - component: {fileID: 7990873190418106939}
   - component: {fileID: 7990873190418106942}
   - component: {fileID: 7990873190418106941}
+  - component: {fileID: 7990873190418106943}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -13461,11 +13462,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7990873190418106935}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e2e60fbbafd80a646b08cefe34a84276, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _SphereCenter: {fileID: 918690136}
   _bLeft: {fileID: 757688094}
   _bRight: {fileID: 1932454190}
   _blindCanvasGroup: {fileID: 2078864816}
@@ -13486,12 +13488,38 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7990873190418106935}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a174ee515187a914fae03d343e0f3e20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _SphereCenter: {fileID: 918690136}
+--- !u!114 &7990873190418106943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7990873190418106935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b3ff053098eed2478b06fdf914beb34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bumper_m: {fileID: 918690136}
+  bumper_l: {fileID: 1612932599}
+  bumper_r: {fileID: 1571987326}
+  dark: {fileID: 2078864816}
+  dim: {fileID: 657657071}
+  fold_left: {fileID: 2104766893}
+  fold_right: {fileID: 1494833371}
+  _floor: {fileID: 24991985}
+  _appertureTop: {fileID: 483441646}
+  _appertureBottom: {fileID: 313762341}
+  eventTagL: boundaryL
+  eventTagR: boundaryR
+  eventTagF: boundaryF
+  eventTagB: boundaryB
 --- !u!114 &7990873191086868032
 MonoBehaviour:
   m_ObjectHideFlags: 0
