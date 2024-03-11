@@ -237,9 +237,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 45887814}
-  - component: {fileID: 45887818}
   - component: {fileID: 45887816}
   - component: {fileID: 45887817}
+  - component: {fileID: 45887819}
   m_Layer: 0
   m_Name: ExperimentManager
   m_TagString: Untagged
@@ -385,7 +385,7 @@ MonoBehaviour:
   StepsFadeOut: 1
   fadein: 0
   fadeout: 0
---- !u!114 &45887818
+--- !u!114 &45887819
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -394,11 +394,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 45887813}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bef3bfdad28f76148935dcbd0373f962, type: 3}
+  m_Script: {fileID: 11500000, guid: 3c20050881f764e498fdb8b1940aeccb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   fade: {fileID: 0}
-  exp_gain: 1
+  exp_gain: 0
   exp_repeat: 5
   fold_left: {fileID: 2104766893}
   fold_right: {fileID: 1494833371}
@@ -409,13 +409,13 @@ MonoBehaviour:
   _appertureTop: {fileID: 483441646}
   _appertureBottom: {fileID: 313762341}
   bumper_counter: 0000000000000000
-  save_file: 1
+  save_file: 0
   MainCamera: {fileID: 7990873190418106935}
   firstRound: 1
   Material1: {fileID: 2100000, guid: 355a12cb141de394cb70c83ea5f5b00b, type: 2}
   Material2: {fileID: 2100000, guid: 55c65f2616a51df4bbc5ccdd57be46cd, type: 2}
   Material3: {fileID: 2100000, guid: aa8d041e7c6ae70449581153c52b6143, type: 2}
-  blind_on: 0
+  blind_on: 1
 --- !u!1001 &55698298
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10545,7 +10545,7 @@ GameObject:
   - component: {fileID: 4078678169767727573}
   - component: {fileID: 7990873190418106938}
   - component: {fileID: 7990873190418106937}
-  - component: {fileID: 7990873190418106943}
+  - component: {fileID: 7990873190418106939}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -10601,7 +10601,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7990873190418106943
+--- !u!114 &7990873190418106939
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10610,7 +10610,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7990873190418106935}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b3ff053098eed2478b06fdf914beb34, type: 3}
+  m_Script: {fileID: 11500000, guid: 50d2f565b71d9e0478130663e74e7e5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   bumper_m: {fileID: 918690136}

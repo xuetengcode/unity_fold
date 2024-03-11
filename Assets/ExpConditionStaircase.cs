@@ -1,18 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-//using static UnityEditor.FilePathAttribute;
-//using UnityEngine.XR.Interaction.Toolkit;
-using UnityEngine.SceneManagement;
-//using UnityEditor.SearchService;
 using Unity.XR.CoreUtils;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.IO;
-using System;
-using System.Linq;
-//using UnityEngine.SceneManagement;
 
-// 1 - gain
-public class ExpCondition_front_back : MonoBehaviour
+public class ExpConditionStaircase : MonoBehaviour
 {
     public FadeInOut fade;
     //[SerializeField] private string tester = "tx";
@@ -54,9 +48,9 @@ public class ExpCondition_front_back : MonoBehaviour
     private int curr_exp = 0;
 
     private List<object[]> exp_conditions = new List<object[]>();
-    private List<float> all_gain = new List<float> { 2f/3.0f, 0.8f, 1f, 1.25f, 1.5f, 2f };
+    private List<float> all_gain = new List<float> { 2f / 3.0f, 0.8f, 1f, 1.25f, 1.5f, 2f };
     private List<float> all_distance = new List<float> { 1.5f };
-    private List<float> all_width = new List<float> { 1f}; //{ 1f, 1.125f, 1.25f};
+    private List<float> all_width = new List<float> { 1f }; //{ 1f, 1.125f, 1.25f};
 
     private Vector3 base_location;
     private string resultFileName;
@@ -87,7 +81,7 @@ public class ExpCondition_front_back : MonoBehaviour
 
     private float fold_yy = 1.9f;
     public bool blind_on = true;
-    
+
     private bool nextTriggered = false;
 
     private List<float> stair_gains;
@@ -95,17 +89,21 @@ public class ExpCondition_front_back : MonoBehaviour
     private int ma_correct = 0;
     private int ma_wrong = 0;
     private int thr_correct = 2;
+    private int thr_reversal = 8;
+    private int thr_trials = 30;
+    private int num_reversal = 0;
 
     private float gain_next;
     private float gain_max = 2f;
     private float gain_min = 0.667f;
     private float step_initial = 0.3f;
+    private float step_unchanged;
     private float gain_initial = 2f;
-
-
+    
     // Start is called before the first frame update
     private void Start()
     {
+        step_unchanged = step_initial;
         meshRendererL = fold_left.GetComponent<MeshRenderer>();
         meshRendererR = fold_right.GetComponent<MeshRenderer>();
         if (tester < 10)
@@ -204,13 +202,7 @@ public class ExpCondition_front_back : MonoBehaviour
         cameraTransform = _xrOrigin.Camera.transform;
         lastTrackedPosition = cameraTransform.localPosition;
 
-        exp_gain = (float)exp_conditions[curr_exp][0];
-        exp_distance = (float)exp_conditions[curr_exp][1];
-        exp_width = (float)exp_conditions[curr_exp][2];
-
         Debug.Log("Starting a new scene!!");
-        Debug.Log($"curr_exp: {curr_exp}/{exp_conditions.Count}, Gain: {exp_gain}, Width: {exp_width}, Distance: {exp_distance}, Angle {rand_rotation}, Mateiral {(float)exp_conditions[curr_exp][3]}");
-
     }
 
 
@@ -232,7 +224,7 @@ public class ExpCondition_front_back : MonoBehaviour
             //if (Input.GetKeyDown(KeyCode.Space) | Apressed > LastA | Bpressed > LastB | curr_exp == 0)
             if (Input.GetKeyDown(KeyCode.Space) | Apressed > LastA | Bpressed > LastB | firstRound)
             {
-                if (curr_exp > exp_conditions.Count - 1)
+                if (num_reversal > thr_reversal | curr_exp > thr_trials)
                 {
                     if (!nextTriggered)
                     {
@@ -278,7 +270,7 @@ public class ExpCondition_front_back : MonoBehaviour
                         exp_less = 0;
                     }
                     Debug.Log($"more/less: {exp_more}/{exp_less}.");
-                    
+
 
                     if (!firstRound) // first frame, we do nothing
                     {
@@ -298,9 +290,12 @@ public class ExpCondition_front_back : MonoBehaviour
                     //bttn_reset = true;
 
                     //GetConditions
-                    exp_gain = (float)exp_conditions[curr_exp][0];
-                    exp_distance = (float)exp_conditions[curr_exp][1];
-                    exp_width = (float)exp_conditions[curr_exp][2];
+                    SingleStairCase(gain_initial, Apressed > LastA, Bpressed > LastB);
+                    limit_gain();
+
+                    exp_gain = gain_next; //(float)exp_conditions[curr_exp][0];
+                    exp_distance = all_distance[UnityEngine.Random.Range(0, all_distance.Count)]; //(float)exp_conditions[curr_exp][1];
+                    exp_width = all_width[UnityEngine.Random.Range(0, all_width.Count)]; //(float)exp_conditions[curr_exp][2];
                     SetFold(exp_distance, exp_width);
                     // change angle by set value
                     //Debug.Log("random angle is '" + rand_rotation + "'.");
@@ -314,10 +309,11 @@ public class ExpCondition_front_back : MonoBehaviour
                     firstRound = false;
                     LastA = Apressed; LastB = Bpressed;
                     LastX = Xpressed; LastY = Ypressed;
+                    gain_initial = gain_next;
 
                     curr_exp += 1;
                 }
-                
+
             }
         }
 
@@ -370,7 +366,7 @@ public class ExpCondition_front_back : MonoBehaviour
 
         LastA = Apressed; LastB = Bpressed;
         LastX = Xpressed; LastY = Ypressed;
-        
+
     }
 
     public void ApplyGain(float local_distance, float local_gain)
@@ -406,6 +402,7 @@ public class ExpCondition_front_back : MonoBehaviour
 
     void SetFold(float distance, float width = 1.414f)
     {
+        Debug.Log($"distance {distance}, width {width}.");
         float origial_width = 1.414f;
         float height = 3f;
         //base_location = _stand.transform.position;
@@ -446,7 +443,7 @@ public class ExpCondition_front_back : MonoBehaviour
         // rand_angle = math.pi * (random()*5)/180 * positive_or_negative()
         // 90 degre +- 5
         rand_rotation = UnityEngine.Random.Range(-2.5f, 2.5f);
-        
+
     }
 
     public void GenCondition()
@@ -459,7 +456,7 @@ public class ExpCondition_front_back : MonoBehaviour
                 {
                     for (int i_w = 0; i_w < all_width.Count; i_w++)
                     {
-                        exp_conditions.Add(new object[] { all_gain[i_g], all_distance[i_d], all_width[i_w], (float) i_w });
+                        exp_conditions.Add(new object[] { all_gain[i_g], all_distance[i_d], all_width[i_w], (float)i_w });
                     }
                 }
             }
@@ -489,17 +486,18 @@ public class ExpCondition_front_back : MonoBehaviour
             conditions[n] = value;
         }
     }
-    
+
     void SingleStairCase(float stair_gain, bool inputA, bool inputB)
     {
         // current_direction
         // next_gain
 
-        stair_gains.Add(stair_gain);
+        Debug.Log($"[Staircase status] direction {current_direction}, gain {stair_gain}, step {step_initial}.");
+        //stair_gains.Add(stair_gain);
         if (stair_gain > 1)
         {
             current_direction = -1;
-            if (inputA)
+            if (inputB)
             {
                 // got correct answer
                 ma_correct++;
@@ -509,13 +507,13 @@ public class ExpCondition_front_back : MonoBehaviour
             {
                 // got wrong answer
                 ma_correct = 0;
-                ma_wrong++;
+                ma_wrong++; 
             }
         }
         else if (stair_gain < 1)
         {
             current_direction = 1;
-            if (inputB)
+            if (inputA)
             {
                 // got correct answer
                 ma_correct++;
@@ -533,11 +531,17 @@ public class ExpCondition_front_back : MonoBehaviour
         if (ma_correct >= thr_correct)
         {
             gain_next = stair_gain + current_direction * step_initial;
+            ma_correct = 0;
+            ma_wrong = 0;
             Debug.Log($"[Staircase] correct and updating gain to {stair_gain}");
         }
         else if (ma_wrong > 0)
         {
-            gain_next = stair_gain - current_direction * step_initial;
+            gain_next = stair_gain + current_direction * step_initial;
+            ma_correct = 0;
+            ma_wrong = 0;
+            num_reversal++;
+            step_initial = step_unchanged/num_reversal;
             Debug.Log($"[Staircase] wrong and updating gain to {stair_gain}");
         }
         
