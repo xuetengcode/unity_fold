@@ -9,7 +9,9 @@ public class ObjectControl_pillar : MonoBehaviour
 {
     [SerializeField] private GameObject object_cube;
     [SerializeField] private GameObject object_cylinder;
-
+    [SerializeField] private GameObject object_pentagon; 
+    [SerializeField] private GameObject object_triangle;
+    
     //[SerializeField] private GameObject _targetCube;
     //[SerializeField] private GameObject _targetCylnder;
     [SerializeField] private GameObject marker_cube;
@@ -28,18 +30,18 @@ public class ObjectControl_pillar : MonoBehaviour
 
     int total_area = 7;
 
-    float[,] object_areas = { // zyx: y + 1.6
-        {-1.176f, 0.712f,    0.073f, 0.073f,    -3.73f, 3.681f}, // 0 xxyyzz floor
-        {-1.869f, -1.297f,    0.772f, 0.772f,    -2.926f, -1.589f}, // 1 xxyyzz
+    float[,] marker_areas = {
+        {0.468f, 0.468f,   1.4f, 1.4f,    2f, 2f}, // 0 xxyyzz floor
+        {0.468f, 0.468f,   1.4f, 1.4f,    0.7f, 0.7f}, // 0 xxyyzz floor
+        {0.468f, 0.468f,   1.4f, 1.4f,    -0.7f, -0.7f}, // 0 xxyyzz floor
+        {0.468f, 0.468f,   1.4f, 1.4f,    -2f, -2f}, // 0 xxyyzz floor
     };
 
-    float[,] marker_areas = { // zyx: y + 1.6
-        {-1.537f, -1.297f,    0.772f, 0.772f,    -1.07f, -0.561f}, // 2 xxyyzz
-        {-1.869f, -1.297f,    0.772f, 0.772f,    -0.134f, 0.366f}, // 3 xxyyzz
-        {-1.537f, -1.297f,    0.772f, 0.772f,    -1.07f, -0.561f}, // 2 xxyyzz
-        {-1.869f, -1.297f,    0.772f, 0.772f,    -0.134f, 0.366f}, // 3 xxyyzz
-        {-1.537f, -1.297f,    0.772f, 0.772f,    -1.07f, -0.561f}, // 2 xxyyzz
-        {-1.869f, -1.297f,    0.772f, 0.772f,    -0.134f, 0.366f}, // 3 xxyyzz
+    float[,] object_areas = {
+        {-0.9f, -0.9f,    1.0205f, 1.0005f,    2f, 2f}, // 2 xxyyzz
+        {-0.9f, -0.9f,    1.0252f, 1.0152f,    0.7f, 0.7f}, // 2 xxyyzz
+        {-0.9f, -0.9f,    1.025f, 1.015f,    -0.7f, -0.7f}, // 2 xxyyzz
+        {-0.9f, -0.9f,    1.0278f, 1.0078f,    -2f, -2f}, // 2 xxyyzz
     };
 
     List<int> all_marker_idexs;
@@ -77,7 +79,8 @@ public class ObjectControl_pillar : MonoBehaviour
     private int idx_pentagon;
     private int idx_triangle;
 
-
+    private int total_objects = 4;
+    private bool firstRound = true;
     // Start is called before the first frame update
 
     /*
@@ -91,13 +94,13 @@ public class ObjectControl_pillar : MonoBehaviour
         Xpressed = DataInput.bttnXpressed;
         Ypressed = DataInput.bttnYpressed;
 
-        all_objects = new List<GameObject> {object_cube, object_cylinder};
+        all_objects = new List<GameObject> {object_cube, object_cylinder, object_pentagon, object_triangle };
 
         // Range (int start, int count);
         //all_marker_idexs.AddRange(Enumerable.Range(0, 4));
         all_marker_idexs = Enumerable.Range(0,4).ToList();
         //all_obj_idexs.AddRange(Enumerable.Range(0, 2));
-        all_obj_idexs = Enumerable.Range(0, 2).ToList();
+        all_obj_idexs = Enumerable.Range(0, total_objects).ToList();
     }
 
     // Update is called once per frame
@@ -107,12 +110,13 @@ public class ObjectControl_pillar : MonoBehaviour
         Bpressed = DataInput.bttnBpressed;
         Xpressed = DataInput.bttnXpressed;
         Ypressed = DataInput.bttnYpressed;
-        if (Input.GetKeyDown(KeyCode.Space) | Xpressed > LastX | _roomExp.GetComponent<RoomExperiment_pillar>()._collideNext)
+        if (Input.GetKeyDown(KeyCode.Space) | Xpressed > LastX | _roomExp.GetComponent<RoomExperiment_pillar>()._collideNext | firstRound)
         {
+            firstRound = false;
             // those are the grabbable objects
 
             ShuffleIndexes(all_obj_idexs);
-            idxObject = Random.Range(0, 1);
+            idxObject = Random.Range(0, total_objects);
             object_active = all_objects[all_obj_idexs[0]];
             all_objects[all_obj_idexs[0]].SetActive(true);
             for (int i_obj = 1; i_obj < all_obj_idexs.Count; i_obj++)
@@ -188,7 +192,7 @@ public class ObjectControl_pillar : MonoBehaviour
             idx_triangle = all_marker_idexs[3];
 
             RandLocMarker(marker_cube, idx_cube);
-            RandLocMarker(marker_cylinder, idx_cylinder);
+            RandLocMarkerCylinder(marker_cylinder, idx_cylinder);
             RandLocMarker(marker_pentagon, idx_pentagon);
             RandLocMarker(marker_triangle, idx_triangle);
 
@@ -199,16 +203,22 @@ public class ObjectControl_pillar : MonoBehaviour
 
     public void RandLocObject(GameObject sourceObj, int idx2go)
     {
-        randx = UnityEngine.Random.Range(object_areas[idx2go, 0], object_areas[idx2go, 1]);
-        randz = UnityEngine.Random.Range(object_areas[idx2go, 4], object_areas[idx2go, 5]);
-        sourceObj.transform.position = new Vector3(randx, object_areas[idx2go, 2], randz);
+        //randx = UnityEngine.Random.Range(object_areas[idx2go, 0], object_areas[idx2go, 1]);
+        //randz = UnityEngine.Random.Range(object_areas[idx2go, 4], object_areas[idx2go, 5]);
+        sourceObj.transform.position = new Vector3(object_areas[idx2go, 0], object_areas[idx2go, 2], object_areas[idx2go, 4]);
     }
 
     public void RandLocMarker(GameObject sourceObj, int idx2go)
     {
-        randx = UnityEngine.Random.Range(marker_areas[idx2go, 0], marker_areas[idx2go, 1]);
-        randz = UnityEngine.Random.Range(marker_areas[idx2go, 4], marker_areas[idx2go, 5]);
-        sourceObj.transform.position = new Vector3(randx, marker_areas[idx2go, 2], randz);
+        //randx = UnityEngine.Random.Range(marker_areas[idx2go, 0], marker_areas[idx2go, 1]);
+        //randz = UnityEngine.Random.Range(marker_areas[idx2go, 4], marker_areas[idx2go, 5]);
+        sourceObj.transform.position = new Vector3(marker_areas[idx2go, 0], marker_areas[idx2go, 2], marker_areas[idx2go, 4]);
+    }
+    public void RandLocMarkerCylinder(GameObject sourceObj, int idx2go)
+    {
+        //randx = UnityEngine.Random.Range(marker_areas[idx2go, 0], marker_areas[idx2go, 1]);
+        //randz = UnityEngine.Random.Range(marker_areas[idx2go, 4], marker_areas[idx2go, 5]);
+        sourceObj.transform.position = new Vector3(0.478f, marker_areas[idx2go, 2], marker_areas[idx2go, 4]);
     }
 
     void ShuffleIndexes(List<int> conditions)

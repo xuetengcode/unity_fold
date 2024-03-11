@@ -89,7 +89,20 @@ public class ExpCondition_front_back : MonoBehaviour
     public bool blind_on = true;
     
     private bool nextTriggered = false;
-    
+
+    private List<float> stair_gains;
+    private float current_direction = -1f;
+    private int ma_correct = 0;
+    private int ma_wrong = 0;
+    private int thr_correct = 2;
+
+    private float gain_next;
+    private float gain_max = 2f;
+    private float gain_min = 0.667f;
+    private float step_initial = 0.3f;
+    private float gain_initial = 2f;
+
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -495,4 +508,67 @@ public class ExpCondition_front_back : MonoBehaviour
         }
     }
     
+    void SingleStairCase(float stair_gain, bool inputA, bool inputB)
+    {
+        // current_direction
+        // next_gain
+
+        stair_gains.Add(stair_gain);
+        if (stair_gain > 1)
+        {
+            current_direction = -1;
+            if (inputA)
+            {
+                // got correct answer
+                ma_correct++;
+                ma_wrong = 0;
+            }
+            else
+            {
+                // got wrong answer
+                ma_correct = 0;
+                ma_wrong++;
+            }
+        }
+        else if (stair_gain < 1)
+        {
+            current_direction = 1;
+            if (inputB)
+            {
+                // got correct answer
+                ma_correct++;
+                ma_wrong = 0;
+                current_direction = 1;
+            }
+            else
+            {
+                // got wrong answer
+                ma_correct = 0;
+                ma_wrong++;
+            }
+        }
+
+        if (ma_correct >= thr_correct)
+        {
+            gain_next = stair_gain + current_direction * step_initial;
+            Debug.Log($"[Staircase] correct and updating gain to {stair_gain}");
+        }
+        else if (ma_wrong > 0)
+        {
+            gain_next = stair_gain - current_direction * step_initial;
+            Debug.Log($"[Staircase] wrong and updating gain to {stair_gain}");
+        }
+        
+    }
+    private void limit_gain()
+    {
+        if (gain_next > gain_max)
+        {
+            gain_next = gain_max;
+        }
+        else if (gain_next < gain_min)
+        {
+            gain_next = gain_min;
+        }
+    }
 }
