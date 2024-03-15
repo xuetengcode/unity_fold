@@ -58,6 +58,12 @@ public class LevelLoader : MonoBehaviour
                 _roomExp.GetComponent<RoomExperiment_pillar>().object_active = transform.name;
             }
         }
+        else
+        {
+            SoundFXManager.Instance.PlaySoundFXClip(_correct, transform, 1f);
+            _roomExp.GetComponent<RoomExperiment_pillar>()._collideNext = true;
+            _roomExp.GetComponent<RoomExperiment_pillar>().object_active = transform.name;
+        }
     }
     
 }

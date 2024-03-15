@@ -12,6 +12,8 @@ TagManager:
   - cube
   - sphere
   - front_back
+  - triangle
+  - pentagon
   layers:
   - Default
   - TransparentFX

@@ -35,6 +35,7 @@ public class LaunchUI : MonoBehaviour
     public static List<float> gains_both = new List<float>();
     public static List<float> gains_expansive = new List<float> { 2f };
     public static List<float> gains_compressive = new List<float> { 0.667f };
+    public static int all_reverse = 0;
 
     public FadeInOut fade;
 
