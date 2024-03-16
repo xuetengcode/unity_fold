@@ -36,9 +36,11 @@ public class ExpConditionStaircase : MonoBehaviour
     [SerializeField] private GameObject _appertureBottom;
 
     public List<int> bumper_counter = new List<int> { 0, 0 };
-    public bool save_file = false;
+    public bool save_file = true;
     [SerializeField] private GameObject MainCamera;
     public bool firstRound = true;
+    private bool firstExpansive = true;
+    private bool firstCompressive = true;
 
     private float rand_rotation;
     private float exp_distance = 1f;
@@ -98,16 +100,16 @@ public class ExpConditionStaircase : MonoBehaviour
     private int reversal_compressive = 0;
 
     private float gain_next;
-    private float gain_max = 2f;
-    private float gain_min = 0.667f;
+    private float initial_expansive = 2.1f;
+    private float initial_compressive = 0.567f;
     private float step_initial = 0.3f;
     private float step_unchanged;
     
     private float gain_current_expansive;
     private float gain_current_compressive;
 
-    private List<float> step_sizes_expansive = new List<float> { 0.3f, 0.15f, 0.075f};
-    private List<float> step_sizes_compressive = new List<float> { 0.3f, 0.15f, 0.075f };
+    private List<float> step_sizes_expansive = new List<float> { 0.3f, 0.15f, 0.075f, 0.0375f, 0.025f, 0.0125f, 0.00625f};
+    private List<float> step_sizes_compressive = new List<float> { 0.2f, 0.1f, 0.05f, 0.025f, 0.0125f, 0.00625f};
     private float current_step_expansive;
     private float current_step_compressive;
     private int expansive_compressive;
@@ -115,9 +117,16 @@ public class ExpConditionStaircase : MonoBehaviour
     private int curr_expansive = 0;
     private int curr_compressive = 0;
     bool reversal_satisfied = false;
+
+    private int pre_expansive_compressive;
+    private string debug_expansive_compressive;
+    private string debug_expansive_compressive_last;
     // Start is called before the first frame update
     private void Start()
     {
+        current_step_compressive = step_sizes_compressive[0];
+        current_step_expansive = step_sizes_expansive[0];
+
         curr_exp = LaunchUI.curr_exp;
         if (LaunchUI.gains_expansive.Count > 0)
         {
@@ -125,17 +134,27 @@ public class ExpConditionStaircase : MonoBehaviour
         }
         else
         {
-            gain_current_expansive = 2f;
+            gain_current_expansive = 2f + UnityEngine.Random.Range(-0.1f, 0.1f);
             LaunchUI.gains_compressive.Add(gain_current_expansive);
         }
+        
         if (LaunchUI.gains_compressive.Count > 0)
         {
             gain_current_compressive = LaunchUI.gains_compressive.Last();
         }
         else
         {
-            gain_current_compressive = 2f;
+            gain_current_compressive = 0.667f + UnityEngine.Random.Range(-0.1f, 0.1f);   
             LaunchUI.gains_compressive.Add(gain_current_compressive);
+        }
+
+        if (LaunchUI.initial_expansive < 2)
+        {
+            LaunchUI.initial_expansive = gain_current_expansive;
+        }
+        if (LaunchUI.initial_compressive < 0.667)
+        {
+            LaunchUI.initial_compressive = gain_current_compressive;
         }
 
         step_unchanged = step_initial;
@@ -205,7 +224,10 @@ public class ExpConditionStaircase : MonoBehaviour
             string dateString = currentDateTime.ToString("yyyy'-'MM'-'dd'_'HH'-'mm'-'ss");
             // name_gain_yyyy-mm-dd_tt-tt-tt(24h)_viewing
             int round_id = LaunchUI.SharedCounters[1];
+            // expansive_compressive, curr_expansive, curr_compressive, distance, gain, width, angle, more, less, curr_exp_log, Apressed, LastA, Bpressed, LastB,
+            // correct_expansive_B, wrong_expansive_A, correct_compressive_A, wrong_compressive_B, reversal_expansive, reversal_compressive
             resultFileName = Application.persistentDataPath + "/output/" + tester_str + "_" + adaptation_gain + "_" + dateString + "_" + viewing + "_fold_" + round_id + ".csv";
+            
             //if (!File.Exists(resultFileName))
             //{
             //    File.WriteAllText(resultFileName, "distance, gain, width, angle, more, less \n");
@@ -250,8 +272,6 @@ public class ExpConditionStaircase : MonoBehaviour
         Xpressed = GetComponent<DataInputFold>().bttnXpressed;
         Ypressed = GetComponent<DataInputFold>().bttnYpressed;
 
-        // Apply gain
-        ApplyGain(exp_distance, exp_gain);
         reversal_satisfied = (LaunchUI.reversal_expansive >= thr_reversal & LaunchUI.reversal_compressive >= thr_reversal);
         if (dark.alpha < 0.1)
         {
@@ -287,17 +307,17 @@ public class ExpConditionStaircase : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log($"Ap/A, Bp/B: {Apressed}/{LastA}, {Bpressed}/{LastB}.");
+                    Debug.Log($"Ap/A: {Apressed}/{LastA}, Bp/B: {Bpressed}/{LastB}.");
 
                     if (Apressed > LastA)
                     {
-                        Debug.Log("Apressed");
+                        //Debug.Log("Apressed");
                         exp_more = 0;
                         exp_less = 1;
                     }
                     else if (Bpressed > LastB)
                     {
-                        Debug.Log("Bpressed");
+                        //Debug.Log("Bpressed");
                         exp_more = 1;
                         exp_less = 0;
                     }
@@ -306,7 +326,7 @@ public class ExpConditionStaircase : MonoBehaviour
                         exp_more = 0;
                         exp_less = 0;
                     }
-                    Debug.Log($"more/less: {exp_more}/{exp_less}.");
+                    //Debug.Log($"more/less: {exp_more}/{exp_less}.");
 
 
                     if (!firstRound) // first frame, we do nothing
@@ -316,12 +336,13 @@ public class ExpConditionStaircase : MonoBehaviour
                         if (save_file)
                         {
                             float curr_exp_log = curr_exp - 1;
-                            // distance, gain, width, angle, more, less
+                            // expansive_compressive, curr_expansive, curr_compressive, distance, gain, width, angle, more, less, curr_exp_log, Apressed, LastA, Bpressed, LastB,
+                            // correct_expansive_B, wrong_expansive_A, correct_compressive_A, wrong_compressive_B, reversal_expansive, reversal_compressive
                             File.AppendAllText(resultFileName, expansive_compressive + ", " + curr_expansive + ", " + curr_compressive + ", " 
                                 + exp_distance + ", " + exp_gain + ", " + exp_width + ", " + rand_rotation + ", " + exp_more + ", " + exp_less + ", " 
                                 + curr_exp_log + ", " + Apressed + ", " + LastA + ", " + Bpressed + ", " + LastB + "," 
                                 + correct_expansive_B + ", " + wrong_expansive_A + ", " 
-                                + correct_compressive_A + ", " + wrong_compressive_B
+                                + correct_compressive_A + ", " + wrong_compressive_B + ", " + reversal_expansive + ", " + reversal_compressive + "," + current_step_compressive
                                 + "\n");
                         }
                     }
@@ -332,11 +353,43 @@ public class ExpConditionStaircase : MonoBehaviour
                     //bttn_reset = true;
 
                     //GetConditions
-                    if (curr_expansive == thr_trials/2)
+                    
+                    // handling previous data
+                    if (expansive_compressive == 0)
+                    {
+                        debug_expansive_compressive_last = "expansive";
+                        if (firstExpansive)
+                        {
+                            gain_next = gain_current_expansive;
+                            firstExpansive = false;
+                        }
+                        else
+                        {
+                            StairCase_expansive(gain_current_expansive, Apressed > LastA, Bpressed > LastB);
+                            gain_current_expansive = gain_next;
+                        }
+                    }
+                    else
+                    {
+                        debug_expansive_compressive_last = "compressive";
+                        if (firstCompressive)
+                        {
+                            gain_next = gain_current_compressive;
+                            firstCompressive = false;
+                        }
+                        else
+                        {
+                            StairCase_compressive(gain_current_compressive, Apressed > LastA, Bpressed > LastB);
+                            gain_current_compressive = gain_next;
+                        }
+                    }
+
+                    // randomly choose this round's experiment type and gain
+                    if (curr_expansive == thr_trials / 2)
                     {
                         expansive_compressive = 1;
                     }
-                    else if (curr_compressive == thr_trials/2)
+                    else if (curr_compressive == thr_trials / 2)
                     {
                         expansive_compressive = 0;
                     }
@@ -344,19 +397,22 @@ public class ExpConditionStaircase : MonoBehaviour
                     {
                         expansive_compressive = UnityEngine.Random.Range(0, 2);
                     }
-
+                    // get this round's gain
                     if (expansive_compressive == 0)
                     {
+                        debug_expansive_compressive = "expansive";
                         curr_expansive++;
-                        StairCase_expansive(gain_current_expansive, Apressed > LastA, Bpressed > LastB);
-                        gain_current_expansive = gain_next;
+                        gain_next = gain_current_expansive;
                     }
                     else
                     {
+                        debug_expansive_compressive = "compressive";
                         curr_compressive++;
-                        StairCase_compressive(gain_current_compressive, Apressed > LastA, Bpressed > LastB);
-                        gain_current_compressive = gain_next;
+                        gain_next = gain_current_compressive;
                     }
+
+
+                    Debug.Log($"{debug_expansive_compressive}, compressive step {current_step_compressive}");
                     //SingleStairCase(gain_initial, Apressed > LastA, Bpressed > LastB);
                     //limit_gain();
                     LaunchUI.gains_both.Add(gain_next);
@@ -371,7 +427,7 @@ public class ExpConditionStaircase : MonoBehaviour
                     fold_right.transform.eulerAngles = new Vector3(-90, -45, -rand_rotation);
                     //Debug.Log(firstRound);
 
-                    Debug.Log($"==> curr_exp: {curr_exp}/{exp_conditions.Count}: Gain: {exp_gain}, Width: {exp_width}, Distance: {exp_distance}, Angle {rand_rotation}, Mateiral ");
+                    Debug.Log($"==> curr_exp: {curr_exp}: prev_type: {debug_expansive_compressive_last}, type: {debug_expansive_compressive}, Gain: {exp_gain}, Width: {exp_width}, Distance: {exp_distance}, Angle {rand_rotation}, Mateiral ");
 
 
                     firstRound = false;
@@ -435,6 +491,9 @@ public class ExpConditionStaircase : MonoBehaviour
 
         LastA = Apressed; LastB = Bpressed;
         LastX = Xpressed; LastY = Ypressed;
+
+        // Apply gain
+        ApplyGain(exp_distance, exp_gain);
 
     }
 
@@ -567,9 +626,9 @@ public class ExpConditionStaircase : MonoBehaviour
             gain_next = gain_curr_expansive + current_direction * current_step_expansive;
             correct_expansive_B = 0;
             wrong_expansive_A = 0;
-            Debug.Log($"[Staircase] correct and updating gain to {gain_curr_expansive}");
+            Debug.Log($"[Staircase] expansive 2B and updating gain to {gain_curr_expansive}");
         }
-        else if (wrong_expansive_A > 0)
+        else if (inputA)
         {
             gain_next = gain_curr_expansive - current_direction * current_step_expansive;
             correct_expansive_B = 0;
@@ -577,7 +636,7 @@ public class ExpConditionStaircase : MonoBehaviour
             reversal_expansive++;
             LaunchUI.reversal_expansive++;
             //step_initial = step_unchanged / num_reversal;
-            Debug.Log($"[Staircase] wrong and updating gain to {gain_curr_expansive}");
+            Debug.Log($"[Staircase] expansive A and updating gain to {gain_curr_expansive}");
         }
         LaunchUI.gains_expansive.Add(gain_next);
     }
@@ -611,19 +670,24 @@ public class ExpConditionStaircase : MonoBehaviour
         if (correct_compressive_A >= thr_correct)
         {
             gain_next = gain_curr_compressive + current_direction * current_step_compressive;
+            
             correct_compressive_A = 0;
             wrong_compressive_B = 0;
-            Debug.Log($"[Staircase] correct and updating gain to {gain_curr_compressive}");
+            Debug.Log($"[Staircase] compressive 2A and updating gain to {gain_curr_compressive}");
         }
-        else if (wrong_compressive_B > 0)
+        else if (inputB)
         {
-            gain_next = current_step_compressive - current_direction * current_step_compressive;
+            gain_next = gain_curr_compressive - current_direction * current_step_compressive;
+            if (gain_next < 0.667)
+            {
+                Debug.Log("compressive too small, prev "+ gain_curr_compressive + ", step: " + current_step_compressive + ", now: " + gain_next);
+            }
             correct_compressive_A = 0;
             wrong_compressive_B = 0;
             reversal_compressive++;
             LaunchUI.reversal_compressive++;
             //step_initial = step_unchanged / num_reversal;
-            Debug.Log($"[Staircase] wrong and updating gain to {gain_curr_compressive}");
+            Debug.Log($"[Staircase] compressive B and updating gain to {gain_curr_compressive}");
         }
         LaunchUI.gains_compressive.Add(gain_next);
     }
@@ -631,13 +695,15 @@ public class ExpConditionStaircase : MonoBehaviour
     
     private void limit_gain()
     {
-        if (gain_next > gain_max)
+        if (gain_next > LaunchUI.initial_expansive)
         {
-            gain_next = gain_max;
+            Debug.Log($"[limiting] {gain_next} {LaunchUI.initial_expansive}");
+            gain_next = LaunchUI.initial_expansive;
         }
-        else if (gain_next < gain_min)
+        else if (gain_next < LaunchUI.initial_compressive)
         {
-            gain_next = gain_min;
+            Debug.Log($"[limiting] {gain_next} {LaunchUI.initial_compressive}");
+            gain_next = LaunchUI.initial_compressive;
         }
     }
 

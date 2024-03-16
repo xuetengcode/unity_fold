@@ -409,7 +409,7 @@ MonoBehaviour:
   _appertureTop: {fileID: 483441646}
   _appertureBottom: {fileID: 313762341}
   bumper_counter: 0000000000000000
-  save_file: 0
+  save_file: 1
   MainCamera: {fileID: 7990873190418106935}
   firstRound: 1
   Material1: {fileID: 2100000, guid: 355a12cb141de394cb70c83ea5f5b00b, type: 2}

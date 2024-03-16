@@ -115,9 +115,10 @@ public class ObjectControl_pillar : MonoBehaviour
             firstRound = false;
             // those are the grabbable objects
 
-            ShuffleIndexes(all_obj_idexs);
-            idxObject = Random.Range(0, total_objects);
+            ShuffleIndexes(all_obj_idexs); // this is to get which object to show
+            idxObject = Random.Range(0, total_objects); // this is where the object goes
             object_active = all_objects[all_obj_idexs[0]];
+
             all_objects[all_obj_idexs[0]].SetActive(true);
             for (int i_obj = 1; i_obj < all_obj_idexs.Count; i_obj++)
             {
@@ -195,6 +196,11 @@ public class ObjectControl_pillar : MonoBehaviour
             RandLocMarkerCylinder(marker_cylinder, idx_cylinder);
             RandLocMarker(marker_pentagon, idx_pentagon);
             RandLocMarker(marker_triangle, idx_triangle);
+
+            // pass the info back for output
+            GetComponent<RoomExperiment_pillar>().object_active_id = idxObject;
+            GetComponent<RoomExperiment_pillar>().object_active_location = all_obj_idexs[0];
+            GetComponent<RoomExperiment_pillar>().all_marker_idexs = all_marker_idexs;
 
         }
         LastA = Apressed; LastB = Bpressed;

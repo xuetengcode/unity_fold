@@ -41,14 +41,14 @@ public class BumpersStaircase : MonoBehaviour
         {
             GetComponentInParent<ExpConditionStaircase>().bumper_counter[0] += 1;
             bumper_m.SetActive(true);
-            Debug.Log($"Bumper_counter_0: {GetComponentInParent<ExpConditionStaircase>().bumper_counter[0]}");
+            //Debug.Log($"Bumper_counter_0: {GetComponentInParent<ExpConditionStaircase>().bumper_counter[0]}");
             still_counting = false;
         }
         else if (transform.position.z < -0.1 & still_counting)//(transform.position.z > 0.1 | transform.position.z < -0.1)
         {
             GetComponentInParent<ExpConditionStaircase>().bumper_counter[1] += 1;
             bumper_m.SetActive(true);
-            Debug.Log($"Bumper_counter_1: {GetComponentInParent<ExpConditionStaircase>().bumper_counter[1]}");
+            //Debug.Log($"Bumper_counter_1: {GetComponentInParent<ExpConditionStaircase>().bumper_counter[1]}");
             still_counting = false;
         }
         else if (transform.position.z >= -0.1 & transform.position.z <= 0.1)

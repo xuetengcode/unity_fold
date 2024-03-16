@@ -10,10 +10,10 @@ TagManager:
   - boundaryF
   - boundaryB
   - cube
-  - sphere
   - front_back
   - triangle
   - pentagon
+  - cylinder
   layers:
   - Default
   - TransparentFX
