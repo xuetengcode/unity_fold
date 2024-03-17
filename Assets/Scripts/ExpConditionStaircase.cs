@@ -96,8 +96,14 @@ public class ExpConditionStaircase : MonoBehaviour
     private int thr_correct = 2;
     private int thr_reversal = 8;
     private int thr_trials = 30;
+
+    // reversal variables. Check carefully!!
     private int reversal_expansive = 0;
     private int reversal_compressive = 0;
+    private int reversal_expansive_num;
+    private int pre_reversal_expansive = -1;
+    private int reversal_compressive_num;
+    private int pre_reversal_compressive = -1;
 
     private float gain_next;
     private float initial_expansive = 2.1f;
@@ -342,7 +348,7 @@ public class ExpConditionStaircase : MonoBehaviour
                                 + exp_distance + ", " + exp_gain + ", " + exp_width + ", " + rand_rotation + ", " + exp_more + ", " + exp_less + ", " 
                                 + curr_exp_log + ", " + Apressed + ", " + LastA + ", " + Bpressed + ", " + LastB + "," 
                                 + correct_expansive_B + ", " + wrong_expansive_A + ", " 
-                                + correct_compressive_A + ", " + wrong_compressive_B + ", " + reversal_expansive + ", " + reversal_compressive + "," + current_step_compressive
+                                + correct_compressive_A + ", " + wrong_compressive_B + ", " + reversal_expansive_num + ", " + reversal_compressive_num + "," + current_step_expansive + ", " + current_step_compressive
                                 + "\n");
                         }
                     }
@@ -599,9 +605,9 @@ public class ExpConditionStaircase : MonoBehaviour
     void StairCase_expansive(float gain_curr_expansive, bool inputA, bool inputB) // high: 2 down 1 up
     {
         // 2
-        if (reversal_expansive < step_sizes_expansive.Count)
+        if (reversal_expansive_num < step_sizes_expansive.Count)
         {
-            current_step_expansive = step_sizes_expansive[reversal_expansive];
+            current_step_expansive = step_sizes_expansive[reversal_expansive_num];
         }
         else
         {
@@ -627,26 +633,38 @@ public class ExpConditionStaircase : MonoBehaviour
             correct_expansive_B = 0;
             wrong_expansive_A = 0;
             Debug.Log($"[Staircase] expansive 2B and updating gain to {gain_curr_expansive}");
+            reversal_expansive = 0;
         }
         else if (inputA)
         {
             gain_next = gain_curr_expansive - current_direction * current_step_expansive;
             correct_expansive_B = 0;
             wrong_expansive_A = 0;
-            reversal_expansive++;
-            LaunchUI.reversal_expansive++;
             //step_initial = step_unchanged / num_reversal;
             Debug.Log($"[Staircase] expansive A and updating gain to {gain_curr_expansive}");
+            reversal_expansive = 1;
         }
         LaunchUI.gains_expansive.Add(gain_next);
+
+        if (pre_reversal_expansive < 0)
+        {
+            pre_reversal_expansive = reversal_expansive;
+        }
+        if (pre_reversal_expansive != reversal_expansive)
+        {
+            reversal_expansive_num++;
+            LaunchUI.reversal_expansive++;
+            pre_reversal_expansive = reversal_expansive;
+        }
+        
     }
 
     void StairCase_compressive(float gain_curr_compressive, bool inputA, bool inputB) // low: 2 up 1 down
     {
         // 0.667
-        if (reversal_compressive < step_sizes_compressive.Count)
+        if (reversal_compressive_num < step_sizes_compressive.Count)
         {
-            current_step_compressive = step_sizes_compressive[reversal_compressive];
+            current_step_compressive = step_sizes_compressive[reversal_compressive_num];
         }
         else
         {
@@ -670,26 +688,33 @@ public class ExpConditionStaircase : MonoBehaviour
         if (correct_compressive_A >= thr_correct)
         {
             gain_next = gain_curr_compressive + current_direction * current_step_compressive;
-            
             correct_compressive_A = 0;
             wrong_compressive_B = 0;
             Debug.Log($"[Staircase] compressive 2A and updating gain to {gain_curr_compressive}");
+            reversal_compressive = 0;
         }
         else if (inputB)
         {
             gain_next = gain_curr_compressive - current_direction * current_step_compressive;
-            if (gain_next < 0.667)
-            {
-                Debug.Log("compressive too small, prev "+ gain_curr_compressive + ", step: " + current_step_compressive + ", now: " + gain_next);
-            }
             correct_compressive_A = 0;
             wrong_compressive_B = 0;
-            reversal_compressive++;
-            LaunchUI.reversal_compressive++;
             //step_initial = step_unchanged / num_reversal;
             Debug.Log($"[Staircase] compressive B and updating gain to {gain_curr_compressive}");
+            reversal_compressive = 1;
         }
         LaunchUI.gains_compressive.Add(gain_next);
+
+
+        if (pre_reversal_compressive < 0)
+        {
+            pre_reversal_compressive = reversal_compressive;
+        }
+        if (pre_reversal_compressive != reversal_compressive)
+        {
+            reversal_compressive_num++;
+            LaunchUI.reversal_compressive++;
+            pre_reversal_compressive = reversal_compressive;
+        }
     }
 
     
