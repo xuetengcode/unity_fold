@@ -95,14 +95,14 @@ public class ExpConditionStaircase : MonoBehaviour
     private int wrong_compressive_B = 0;
     private int thr_correct = 2;
     private int thr_reversal = 8;
-    private int thr_trials = 30;
+    private int thr_trials = 40;
 
     // reversal variables. Check carefully!!
     private int reversal_expansive = 0;
     private int reversal_compressive = 0;
-    private int reversal_expansive_num;
+    //private int reversal_expansive_num;
+    //private int reversal_compressive_num;
     private int pre_reversal_expansive = -1;
-    private int reversal_compressive_num;
     private int pre_reversal_compressive = -1;
 
     private float gain_next;
@@ -130,8 +130,8 @@ public class ExpConditionStaircase : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        current_step_compressive = step_sizes_compressive[0];
-        current_step_expansive = step_sizes_expansive[0];
+        current_step_expansive = step_sizes_expansive[LaunchUI.reversal_expansive_num];
+        current_step_compressive = step_sizes_compressive[LaunchUI.reversal_compressive_num];
 
         curr_exp = LaunchUI.curr_exp;
         if (LaunchUI.gains_expansive.Count > 0)
@@ -278,7 +278,7 @@ public class ExpConditionStaircase : MonoBehaviour
         Xpressed = GetComponent<DataInputFold>().bttnXpressed;
         Ypressed = GetComponent<DataInputFold>().bttnYpressed;
 
-        reversal_satisfied = (LaunchUI.reversal_expansive >= thr_reversal & LaunchUI.reversal_compressive >= thr_reversal);
+        reversal_satisfied = (LaunchUI.reversal_expansive_num >= thr_reversal & LaunchUI.reversal_compressive_num >= thr_reversal);
         if (dark.alpha < 0.1)
         {
             //Debug.Log($"{blind_on}");
@@ -348,7 +348,7 @@ public class ExpConditionStaircase : MonoBehaviour
                                 + exp_distance + ", " + exp_gain + ", " + exp_width + ", " + rand_rotation + ", " + exp_more + ", " + exp_less + ", " 
                                 + curr_exp_log + ", " + Apressed + ", " + LastA + ", " + Bpressed + ", " + LastB + "," 
                                 + correct_expansive_B + ", " + wrong_expansive_A + ", " 
-                                + correct_compressive_A + ", " + wrong_compressive_B + ", " + reversal_expansive_num + ", " + reversal_compressive_num + "," + current_step_expansive + ", " + current_step_compressive
+                                + correct_compressive_A + ", " + wrong_compressive_B + ", " + LaunchUI.reversal_expansive_num + ", " + LaunchUI.reversal_compressive_num + "," + current_step_expansive + ", " + current_step_compressive
                                 + "\n");
                         }
                     }
@@ -605,9 +605,9 @@ public class ExpConditionStaircase : MonoBehaviour
     void StairCase_expansive(float gain_curr_expansive, bool inputA, bool inputB) // high: 2 down 1 up
     {
         // 2
-        if (reversal_expansive_num < step_sizes_expansive.Count)
+        if (LaunchUI.reversal_expansive_num < step_sizes_expansive.Count)
         {
-            current_step_expansive = step_sizes_expansive[reversal_expansive_num];
+            current_step_expansive = step_sizes_expansive[LaunchUI.reversal_expansive_num];
         }
         else
         {
@@ -652,8 +652,8 @@ public class ExpConditionStaircase : MonoBehaviour
         }
         if (pre_reversal_expansive != reversal_expansive)
         {
-            reversal_expansive_num++;
-            LaunchUI.reversal_expansive++;
+            //reversal_expansive_num++;
+            LaunchUI.reversal_expansive_num++;
             pre_reversal_expansive = reversal_expansive;
         }
         
@@ -662,9 +662,9 @@ public class ExpConditionStaircase : MonoBehaviour
     void StairCase_compressive(float gain_curr_compressive, bool inputA, bool inputB) // low: 2 up 1 down
     {
         // 0.667
-        if (reversal_compressive_num < step_sizes_compressive.Count)
+        if (LaunchUI.reversal_compressive_num < step_sizes_compressive.Count)
         {
-            current_step_compressive = step_sizes_compressive[reversal_compressive_num];
+            current_step_compressive = step_sizes_compressive[LaunchUI.reversal_compressive_num];
         }
         else
         {
@@ -711,8 +711,8 @@ public class ExpConditionStaircase : MonoBehaviour
         }
         if (pre_reversal_compressive != reversal_compressive)
         {
-            reversal_compressive_num++;
-            LaunchUI.reversal_compressive++;
+            //reversal_compressive_num++;
+            LaunchUI.reversal_compressive_num++;
             pre_reversal_compressive = reversal_compressive;
         }
     }
