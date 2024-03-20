@@ -94,8 +94,8 @@ public class ExpConditionStaircase : MonoBehaviour
     private int correct_compressive_A = 0;
     private int wrong_compressive_B = 0;
     private int thr_correct = 2;
-    private int thr_reversal = 8;
-    private int thr_trials = 40;
+    private int thr_reversal = 11;//each
+    private int thr_trials = 40;//half for each sequence
 
     // reversal variables. Check carefully!!
     private int reversal_expansive = 0;

@@ -38,10 +38,10 @@ public class ObjectControl_pillar : MonoBehaviour
     };
 
     float[,] object_areas = {
-        {-0.9f, -0.9f,    1.0205f, 1.0005f,    2f, 2f}, // 2 xxyyzz
-        {-0.9f, -0.9f,    1.0252f, 1.0152f,    0.7f, 0.7f}, // 2 xxyyzz
-        {-0.9f, -0.9f,    1.025f, 1.015f,    -0.7f, -0.7f}, // 2 xxyyzz
-        {-0.9f, -0.9f,    1.0278f, 1.0078f,    -2f, -2f}, // 2 xxyyzz
+        {-0.5f, -0.5f,    1.0205f, 1.0005f,    2f, 2f}, // 2 xxyyzz
+        {-0.5f, -0.5f,    1.0252f, 1.0152f,    0.7f, 0.7f}, // 2 xxyyzz
+        {-0.5f, -0.5f,    1.025f, 1.015f,    -0.7f, -0.7f}, // 2 xxyyzz
+        {-0.5f, -0.5f,    1.0278f, 1.0078f,    -2f, -2f}, // 2 xxyyzz
     };
 
     List<int> all_marker_idexs;
@@ -224,7 +224,7 @@ public class ObjectControl_pillar : MonoBehaviour
     {
         //randx = UnityEngine.Random.Range(marker_areas[idx2go, 0], marker_areas[idx2go, 1]);
         //randz = UnityEngine.Random.Range(marker_areas[idx2go, 4], marker_areas[idx2go, 5]);
-        sourceObj.transform.position = new Vector3(0.478f, marker_areas[idx2go, 2], marker_areas[idx2go, 4]);
+        sourceObj.transform.position = new Vector3(0.464f, marker_areas[idx2go, 2], marker_areas[idx2go, 4]);
     }
 
     void ShuffleIndexes(List<int> conditions)
