@@ -114,8 +114,8 @@ public class ExpConditionStaircase : MonoBehaviour
     private float gain_current_expansive;
     private float gain_current_compressive;
 
-    private List<float> step_sizes_expansive = new List<float> { 0.3f, 0.15f, 0.075f, 0.0375f, 0.025f, 0.0125f, 0.00625f};
-    private List<float> step_sizes_compressive = new List<float> { 0.2f, 0.15f ,0.1f, 0.08f, 0.07f, 0.06f, 0.05f, 0.04f, 0.025f, 0.0125f};
+    private List<float> step_sizes_expansive = new List<float> { 0.5f, 0.4f, 0.3f, 0.2f, 0.1f, 0.08f, 0.06f, 0.05f, 0.04f, 0.03f};
+    private List<float> step_sizes_compressive = new List<float> { 0.5f, 0.4f, 0.3f, 0.2f, 0.1f, 0.08f, 0.06f, 0.05f, 0.04f, 0.03f};
     private float current_step_expansive;
     private float current_step_compressive;
     private int expansive_compressive;
