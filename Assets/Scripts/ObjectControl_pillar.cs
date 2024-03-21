@@ -38,10 +38,10 @@ public class ObjectControl_pillar : MonoBehaviour
     };
 
     float[,] object_areas = {
-        {-0.5f, -0.5f,    1.0205f, 1.0005f,    2f, 2f}, // 2 xxyyzz
-        {-0.5f, -0.5f,    1.0252f, 1.0152f,    0.7f, 0.7f}, // 2 xxyyzz
-        {-0.5f, -0.5f,    1.025f, 1.015f,    -0.7f, -0.7f}, // 2 xxyyzz
-        {-0.5f, -0.5f,    1.0278f, 1.0078f,    -2f, -2f}, // 2 xxyyzz
+        {-0.6f, -0.6f,    1.027f, 1.027f,    2f, 2f}, // 2 xxyyzz
+        {-0.6f, -0.6f,    1.027f, 1.027f,    0.7f, 0.7f}, // 2 xxyyzz
+        {-0.6f, -0.6f,    1.027f, 1.027f,    -0.7f, -0.7f}, // 2 xxyyzz
+        {-0.6f, -0.6f,    1.0278f, 1.0278f,    -2f, -2f}, // 2 xxyyzz
     };
 
     List<int> all_marker_idexs;
