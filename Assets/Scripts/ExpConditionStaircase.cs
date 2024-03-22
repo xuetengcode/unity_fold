@@ -94,8 +94,8 @@ public class ExpConditionStaircase : MonoBehaviour
     private int correct_compressive_A = 0;
     private int wrong_compressive_B = 0;
     private int thr_correct = 2;
-    private int thr_reversal = 10;//each
-    private int thr_trials = 40;//half for each sequence
+    private int thr_reversal = 11;//each sequence, accumulating across top-ups
+    private int thr_trials = 30; //half for each sequence and each session, not accumulating across top-ups
 
     // reversal variables. Check carefully!!
     private int reversal_expansive = 0;
@@ -298,7 +298,7 @@ public class ExpConditionStaircase : MonoBehaviour
         Ypressed = GetComponent<DataInputFold>().bttnYpressed;
 
         satisfied_expansive = LaunchUI.reversal_expansive_num >= thr_reversal;
-        satisfied_compressive = LaunchUI.reversal_compressive_num >= 11;
+        satisfied_compressive = LaunchUI.reversal_compressive_num >= thr_reversal;
         reversal_satisfied = (satisfied_expansive & satisfied_compressive);
         if (dark.alpha < 0.1)
         {
