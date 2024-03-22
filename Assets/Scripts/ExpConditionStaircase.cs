@@ -108,7 +108,7 @@ public class ExpConditionStaircase : MonoBehaviour
     private float gain_next;
     private float initial_expansive = 2.1f;
     private float initial_compressive = 0.567f;
-    private float step_initial = 0.3f;
+    private float step_initial = 0.5f;
     private float step_unchanged;
     
     private float gain_current_expansive;
