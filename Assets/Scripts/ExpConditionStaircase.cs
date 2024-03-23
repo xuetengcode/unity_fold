@@ -94,8 +94,8 @@ public class ExpConditionStaircase : MonoBehaviour
     private int correct_compressive_A = 0;
     private int wrong_compressive_B = 0;
     private int thr_correct = 2;
-    private int thr_reversal = 10;//each
-    private int thr_trials = 30;//half for each sequence
+    private int thr_reversal = 11;//each sequence, accumulating across top-ups
+    private int thr_trials = 30; //half for each sequence and each session, not accumulating across top-ups
 
     // reversal variables. Check carefully!!
     private int reversal_expansive = 0;
@@ -108,14 +108,14 @@ public class ExpConditionStaircase : MonoBehaviour
     private float gain_next;
     private float initial_expansive = 2.1f;
     private float initial_compressive = 0.567f;
-    private float step_initial = 0.3f;
+    private float step_initial = 0.5f;
     private float step_unchanged;
     
     private float gain_current_expansive;
     private float gain_current_compressive;
 
-    private List<float> step_sizes_expansive = new List<float> { 0.3f, 0.15f, 0.075f, 0.0375f, 0.025f, 0.0125f, 0.00625f};
-    private List<float> step_sizes_compressive = new List<float> { 0.2f, 0.15f ,0.1f, 0.08f, 0.07f, 0.06f, 0.05f, 0.04f, 0.025f, 0.0125f};
+    private List<float> step_sizes_expansive = new List<float> { 0.5f, 0.4f, 0.3f, 0.2f, 0.1f, 0.08f, 0.06f, 0.05f, 0.04f, 0.03f};
+    private List<float> step_sizes_compressive = new List<float> { 0.5f, 0.4f, 0.3f, 0.2f, 0.1f, 0.08f, 0.06f, 0.05f, 0.04f, 0.03f};
     private float current_step_expansive;
     private float current_step_compressive;
     private int expansive_compressive;
