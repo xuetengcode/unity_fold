@@ -39,7 +39,8 @@ public class LaunchUI : MonoBehaviour
     public static int reversal_compressive_num = 0;
     public static float initial_expansive = -1;
     public static float initial_compressive = -1;
-
+    public static List<float> saved_status;
+    public static bool restore = false;
 
     public FadeInOut fade;
 
