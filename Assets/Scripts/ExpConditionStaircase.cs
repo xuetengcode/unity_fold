@@ -365,14 +365,18 @@ public class ExpConditionStaircase : MonoBehaviour
                             float curr_exp_log = curr_exp - 1;
                             // expansive_compressive, curr_expansive, curr_compressive, distance, gain, width, angle, more, less, curr_exp_log, Apressed, LastA, Bpressed, LastB,
                             // correct_expansive_B, wrong_expansive_A, correct_compressive_A, wrong_compressive_B, reversal_expansive, reversal_compressive
-                            File.AppendAllText(resultFileName, expansive_compressive + ", " + curr_expansive + ", " + curr_compressive + ", " 
+                            
+                            // first half
+                            
+                            File.AppendAllText(resultFileName, 
+                                expansive_compressive + ", " + curr_expansive + ", " + curr_compressive + ", " 
                                 + exp_distance + ", " + exp_gain + ", " + exp_width + ", " + rand_rotation + ", " + exp_more + ", " + exp_less + ", " 
                                 + curr_exp_log + ", " + Apressed + ", " + LastA + ", " + Bpressed + ", " + LastB + "," 
                                 + correct_expansive_B + ", " + wrong_expansive_A + ", " 
                                 + correct_compressive_A + ", " + wrong_compressive_B + ", " 
                                 + LaunchUI.reversal_expansive_num + ", " + LaunchUI.reversal_compressive_num 
                                 + "," + current_step_expansive + ", " + current_step_compressive
-                                + "\n");
+                                );
                         }
                     }
 
@@ -410,6 +414,26 @@ public class ExpConditionStaircase : MonoBehaviour
                         {
                             StairCase_compressive(gain_current_compressive, Apressed > LastA, Bpressed > LastB);
                             gain_current_compressive = gain_next;
+                        }
+                    }
+
+                    if (!firstRound) // first frame, we do nothing
+                    // this is for second half of the data
+                    {
+                        if (dark != null) dark.alpha = 1;
+                        SetBlind();
+                        if (save_file)
+                        {
+                            float curr_exp_log = curr_exp - 1;
+                            // expansive_compressive, curr_expansive, curr_compressive, distance, gain, width, angle, more, less, curr_exp_log, Apressed, LastA, Bpressed, LastB,
+                            // correct_expansive_B, wrong_expansive_A, correct_compressive_A, wrong_compressive_B, reversal_expansive, reversal_compressive
+
+                            // first half
+
+                            File.AppendAllText(resultFileName,
+                                LaunchUI.reversal_expansive_num + ", " + LaunchUI.reversal_compressive_num
+                                + "," + current_step_expansive + ", " + current_step_compressive
+                                + "\n");
                         }
                     }
 
