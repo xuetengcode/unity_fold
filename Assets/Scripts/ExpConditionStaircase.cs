@@ -94,7 +94,7 @@ public class ExpConditionStaircase : MonoBehaviour
     private int correct_compressive_A = 0;
     private int wrong_compressive_B = 0;
     private int thr_correct = 2;
-    private int thr_reversal = 11;//each sequence, accumulating across top-ups
+    private int thr_reversal = 10;//each sequence, accumulating across top-ups
     private int thr_trials = 20; //half for each sequence and each session, not accumulating across top-ups
     private int thr_rounds = 10; // top up rounds
 
