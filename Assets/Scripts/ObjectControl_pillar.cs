@@ -19,6 +19,12 @@ public class ObjectControl_pillar : MonoBehaviour
     [SerializeField] private GameObject marker_pentagon;
     [SerializeField] private GameObject marker_triangle;
 
+    // load pillar (where shapes are sitting on) locations so that we dont need to hardcode their centers
+    [SerializeField] private GameObject platform_1;
+    [SerializeField] private GameObject platform_2;
+    [SerializeField] private GameObject platform_3;
+    [SerializeField] private GameObject platform_4;
+
     [SerializeField] GameObject _roomExp;
 
     private GameObject object_active;
@@ -26,9 +32,13 @@ public class ObjectControl_pillar : MonoBehaviour
 
     private float randx;
     private float randz;
+
+    private bool groundCollision = false; // true when game object is contacting ground
     private Vector3 base_location;
 
     int total_area = 7;
+
+    private float spawn_height = 0.5f; // how much +y above platforms should the objects spawn?
 
     float[,] marker_areas = {
         {0.468f, 0.468f,   1.4f, 1.4f,    2f, 2f}, // 0 xxyyzz floor
@@ -43,6 +53,8 @@ public class ObjectControl_pillar : MonoBehaviour
         {-0.6f, -0.6f,    1.027f, 1.027f,    -0.7f, -0.7f}, // 2 xxyyzz
         {-0.6f, -0.6f,    1.0278f, 1.0278f,    -2f, -2f}, // 2 xxyyzz
     };
+
+    private float[,] platform_centers = new float[4,3]; // center of the platforms where the objects need to spawn
 
     List<int> all_marker_idexs;
     List<int> all_obj_idexs;
@@ -101,6 +113,20 @@ public class ObjectControl_pillar : MonoBehaviour
         all_marker_idexs = Enumerable.Range(0,4).ToList();
         //all_obj_idexs.AddRange(Enumerable.Range(0, 2));
         all_obj_idexs = Enumerable.Range(0, total_objects).ToList();
+
+        float[,] platform_centers_reference = { // this is a little bit of a weird way to initialzie the array so that it is a private attribute of this class :/ 
+        // but these values cannot be initialized before the start method
+        {platform_1.transform.position.x,     spawn_height + platform_1.transform.position.y + (platform_1.transform.localScale.y)/2,    platform_1.transform.position.z}, // platform 1 xyz
+        {platform_2.transform.position.x,     spawn_height + platform_2.transform.position.y + (platform_2.transform.localScale.y)/2,    platform_2.transform.position.z}, // platform 2 xyz
+        {platform_3.transform.position.x,     spawn_height + platform_3.transform.position.y + (platform_3.transform.localScale.y)/2,    platform_3.transform.position.z}, // platform 3 xyz
+        {platform_4.transform.position.x,     spawn_height + platform_4.transform.position.y + (platform_4.transform.localScale.y)/2,    platform_4.transform.position.z}, // platform 4 xyz
+        };
+
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 3; j++){
+                platform_centers[i,j] = platform_centers_reference[i,j];
+            }
+        }
     }
 
     // Update is called once per frame
@@ -110,8 +136,11 @@ public class ObjectControl_pillar : MonoBehaviour
         Bpressed = DataInput.bttnBpressed;
         Xpressed = DataInput.bttnXpressed;
         Ypressed = DataInput.bttnYpressed;
-        if (Input.GetKeyDown(KeyCode.Space) | Xpressed > LastX | _roomExp.GetComponent<RoomExperiment_pillar>()._collideNext | firstRound)
+
+        if (Input.GetKeyDown(KeyCode.Space) | Xpressed > LastX | _roomExp.GetComponent<RoomExperiment_pillar>()._collideNext | firstRound | groundCollision) // added condiiton if colliding with ground
         {
+            if(groundCollision == true) groundCollision = false;
+            
             firstRound = false;
             // those are the grabbable objects
 
@@ -211,7 +240,9 @@ public class ObjectControl_pillar : MonoBehaviour
     {
         //randx = UnityEngine.Random.Range(object_areas[idx2go, 0], object_areas[idx2go, 1]);
         //randz = UnityEngine.Random.Range(object_areas[idx2go, 4], object_areas[idx2go, 5]);
-        sourceObj.transform.position = new Vector3(object_areas[idx2go, 0], object_areas[idx2go, 2], object_areas[idx2go, 4]);
+
+        // sourceObj.transform.position = new Vector3(object_areas[idx2go, 0], object_areas[idx2go, 2], object_areas[idx2go, 4]);
+        sourceObj.transform.position = new Vector3(platform_centers[idx2go, 0], platform_centers[idx2go, 1], platform_centers[idx2go, 2]);
     }
 
     public void RandLocMarker(GameObject sourceObj, int idx2go)
@@ -240,4 +271,9 @@ public class ObjectControl_pillar : MonoBehaviour
             conditions[n] = value;
         }
     }
+
+    public void CollideWithGround(){
+        this.groundCollision = true;
+    }
+
 }
