@@ -28,6 +28,19 @@ public class LaunchUI : MonoBehaviour
     private string playerName = "";
     public static List<int> SharedConditions = new List<int> { 0, 1};
     public static List<int> SharedCounters = new List<int> { 0, 0 }; // number of visits to room and fold
+    public static int curr_exp = 0; 
+
+    public static List<float> all_distance = new List<float> { 1.5f };
+    public static List<float> all_width = new List<float> { 1f }; //{ 1f, 1.125f, 1.25f};
+    public static List<float> gains_both = new List<float>();
+    public static List<float> gains_expansive = new List<float> { 2f };
+    public static List<float> gains_compressive = new List<float> { 0.667f };
+    public static int reversal_expansive_num = 0;
+    public static int reversal_compressive_num = 0;
+    public static float initial_expansive = -1;
+    public static float initial_compressive = -1;
+    public static List<float> saved_status;
+    public static bool restore = false;
 
     public FadeInOut fade;
 

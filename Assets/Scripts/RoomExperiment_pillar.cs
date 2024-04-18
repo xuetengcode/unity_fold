@@ -23,7 +23,11 @@ public class RoomExperiment_pillar : MonoBehaviour
     public bool save_file = true;
     public bool _collideNext = false;
     public string object_active;
-    
+    public string marker_tag = " ";
+    public int object_active_id = -1;
+    public int object_active_location = -1;
+    public List<int> all_marker_idexs = new List<int> { -1, -1, -1, -1};
+
     public bool _expReady = false;
 
     private float adaptation_gain;
@@ -140,7 +144,7 @@ public class RoomExperiment_pillar : MonoBehaviour
             resultFileName = Application.persistentDataPath + "/output/" + tester_str + "_" + adaptation_gain + "_" + dateString + "_" + viewing + "_room_" + round_id + "_head.csv";
             if (!File.Exists(resultFileName))
             {
-                File.WriteAllText(resultFileName, "time, x, y, z, rotx, roty, rotz, hold, post \n");
+                File.WriteAllText(resultFileName, "time, x, y, z, rotx, roty, rotz, hold, post, object, object_location, p1, p2, p3, p4, marker_tag \n");
             }
         }
         
@@ -220,10 +224,12 @@ public class RoomExperiment_pillar : MonoBehaviour
                 if (_collideNext) post = 1;
                 DateTime currentDateTime = DateTime.Now;
                 string dateString = currentDateTime.ToString("yyyy'-'MM'-'dd'_'HH'-'mm'-'ss.fff");
+                // time, x, y, z, rotx, roty, rotz, hold, post, object, object_location, p1, p2, p3, p4, marker_tag
                 update_once = $"{dateString}," +
                     $"{MainCamera.transform.position.x / adaptation_gain},{MainCamera.transform.position.y},{MainCamera.transform.position.z / adaptation_gain}," +
                     $"{MainCamera.transform.eulerAngles.x},{MainCamera.transform.eulerAngles.y},{MainCamera.transform.eulerAngles.z}," +
-                    $"{hold}, {post}" + "\n";
+                    $"{hold}, {post}, {object_active_id}, {object_active_id}, {all_marker_idexs[0]}, {all_marker_idexs[1]}, {all_marker_idexs[2]}, {all_marker_idexs[3]}, {marker_tag}" + 
+                    "\n";
                 File.AppendAllText(resultFileName, update_once);
                 post = 0;
             }

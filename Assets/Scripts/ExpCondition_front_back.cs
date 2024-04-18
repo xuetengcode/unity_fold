@@ -12,7 +12,7 @@ using System.Linq;
 //using UnityEngine.SceneManagement;
 
 // 1 - gain
-public class ExpCondition : MonoBehaviour
+public class ExpCondition_front_back : MonoBehaviour
 {
     public FadeInOut fade;
     //[SerializeField] private string tester = "tx";
@@ -26,8 +26,8 @@ public class ExpCondition : MonoBehaviour
     [SerializeField] private int exp_repeat = 5;
 
     //[SerializeField] private Vector3 _rotation;
-    [SerializeField] private GameObject _left;
-    [SerializeField] private GameObject _right;
+    [SerializeField] private GameObject fold_left;
+    [SerializeField] private GameObject fold_right;
 
     [SerializeField] private XROrigin _xrOrigin;
     //[SerializeField] private Vector3 _PlayerLocation;
@@ -35,12 +35,12 @@ public class ExpCondition : MonoBehaviour
     //private GameObject _stand = GameObject.Find("stand");
     //[SerializeField] private GameObject _stand;
     public GameObject _cameraL;
-    [SerializeField] public CanvasGroup _blindCanvasGroup;
+    [SerializeField] public CanvasGroup dark;
     [SerializeField] private GameObject _floor;
     [SerializeField] private GameObject _appertureTop;
     [SerializeField] private GameObject _appertureBottom;
 
-    public List<int> parallax = new List<int> { 0, 0 };
+    public List<int> bumper_counter = new List<int> { 0, 0 };
     public bool save_file = false;
     [SerializeField] private GameObject MainCamera;
     public bool firstRound = true;
@@ -89,12 +89,25 @@ public class ExpCondition : MonoBehaviour
     public bool blind_on = true;
     
     private bool nextTriggered = false;
-    
+
+    private List<float> stair_gains;
+    private float current_direction = -1f;
+    private int ma_correct = 0;
+    private int ma_wrong = 0;
+    private int thr_correct = 2;
+
+    private float gain_next;
+    private float gain_max = 2f;
+    private float gain_min = 0.667f;
+    private float step_initial = 0.3f;
+    private float gain_initial = 2f;
+
+
     // Start is called before the first frame update
     private void Start()
     {
-        meshRendererL = _left.GetComponent<MeshRenderer>();
-        meshRendererR = _right.GetComponent<MeshRenderer>();
+        meshRendererL = fold_left.GetComponent<MeshRenderer>();
+        meshRendererR = fold_right.GetComponent<MeshRenderer>();
         if (tester < 10)
         {
             tester_str = $"0{tester}";
@@ -107,20 +120,20 @@ public class ExpCondition : MonoBehaviour
         //Material1.mainTextureScale = oldMaterial.mainTextureScale;
 
         // start in dark
-        if (_blindCanvasGroup == null)
+        if (dark == null)
         {
-            Debug.Log("_blindCanvasGroup not set");
+            Debug.Log("Dark canvas not set");
             _floor.SetActive(true);
         }
         else
         {
-            _blindCanvasGroup.alpha = 1;
+            dark.alpha = 1;
             _floor.SetActive(false);
         }
         _appertureTop.SetActive(false);
         _appertureBottom.SetActive(false);
-        _left.SetActive(false);
-        _right.SetActive(false);
+        fold_left.SetActive(false);
+        fold_right.SetActive(false);
         fade = GetComponentInChildren<FadeInOut>();
         // bino or mono
         if (LocalConditions[0] == 0)
@@ -172,20 +185,6 @@ public class ExpCondition : MonoBehaviour
             //}
         }
 
-        /*
-         * change the location of player
-         */
-
-        //_xrOrigin.transform.position = _PlayerLocation;
-        //_xrOrigin.transform.position = _stand.transform.position;
-
-        // get size of fold
-        //renderer = GetComponentInChildren<MeshRenderer>();
-        //size = renderer.bounds.size;
-        //Debug.Log("fold size is '" + size + "'.");
-
-        //   _left.transform.localScale = new Vector3(1.414f, 0, 2);
-
         // generate all experiment conditions
         GenCondition();
 
@@ -200,7 +199,6 @@ public class ExpCondition : MonoBehaviour
         LastX = GetComponent<DataInputFold>().bttnXpressed;
         LastY = GetComponent<DataInputFold>().bttnYpressed;
 
-        //SetFold((float)exp_conditions[curr_exp][1], (float)exp_conditions[curr_exp][2]); // initial position
         // the first set of parameters are used in Start()
         //curr_exp += 1;
         cameraTransform = _xrOrigin.Camera.transform;
@@ -226,9 +224,9 @@ public class ExpCondition : MonoBehaviour
         Ypressed = GetComponent<DataInputFold>().bttnYpressed;
 
         // Apply gain
-        ApplyGain(exp_gain);
+        ApplyGain(exp_distance, exp_gain);
 
-        if (_blindCanvasGroup.alpha < 0.1)
+        if (dark.alpha < 0.1)
         {
             //Debug.Log($"{blind_on}");
             //if (Input.GetKeyDown(KeyCode.Space) | Apressed > LastA | Bpressed > LastB | curr_exp == 0)
@@ -284,7 +282,7 @@ public class ExpCondition : MonoBehaviour
 
                     if (!firstRound) // first frame, we do nothing
                     {
-                        if (_blindCanvasGroup != null) _blindCanvasGroup.alpha = 1;
+                        if (dark != null) dark.alpha = 1;
                         SetBlind();
                         if (save_file)
                         {
@@ -306,8 +304,8 @@ public class ExpCondition : MonoBehaviour
                     SetFold(exp_distance, exp_width);
                     // change angle by set value
                     //Debug.Log("random angle is '" + rand_rotation + "'.");
-                    _left.transform.eulerAngles = new Vector3(-90, 45, rand_rotation);
-                    _right.transform.eulerAngles = new Vector3(-90, -45, -rand_rotation);
+                    fold_left.transform.eulerAngles = new Vector3(-90, 45, rand_rotation);
+                    fold_right.transform.eulerAngles = new Vector3(-90, -45, -rand_rotation);
                     //Debug.Log(firstRound);
 
                     Debug.Log($"==> curr_exp: {curr_exp}/{exp_conditions.Count}: Gain: {exp_gain}, Width: {exp_width}, Distance: {exp_distance}, Angle {rand_rotation}, Mateiral {(float)exp_conditions[curr_exp][3]}");
@@ -325,17 +323,17 @@ public class ExpCondition : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape) | Xpressed > LastX)
         {
-            Debug.Log("[========] X event");
-            _blindCanvasGroup.alpha = 0;
+            Debug.Log("Show scene");
+            dark.alpha = 0;
             _floor.SetActive(true);
             _appertureTop.SetActive(true);
             _appertureBottom.SetActive(true);
-            _left.SetActive(true);
-            _right.SetActive(true);
+            fold_left.SetActive(true);
+            fold_right.SetActive(true);
         }
         else if (Ypressed > LastY)
         {
-            Debug.Log("[========] Y event");
+            Debug.Log("Switch scene");
             UnityEngine.SceneManagement.Scene scene = SceneManager.GetActiveScene();
             Debug.Log("Active Scene is '" + scene.name + "'.");
             //Debug.Log("Updating shared counter '" + LaunchUI.SharedCounters[0] + ", " + +LaunchUI.SharedCounters[1] + "'.");
@@ -355,9 +353,6 @@ public class ExpCondition : MonoBehaviour
                 StartCoroutine(_ChangeScene(scene.buildIndex - 1));
                 //SceneManager.LoadScene(scene.buildIndex - 1);
             }
-            //_xrOrigin.transform.position = new Vector3(0, 0, 0);
-            //_xrOrigin.transform.position = _stand.transform.position;
-            //_xrOrigin.transform.rotation = _stand.transform.rotation;
         }
         if (save_file)
         {
@@ -378,25 +373,14 @@ public class ExpCondition : MonoBehaviour
         
     }
 
-    public void ApplyGain(float local_gain)
+    public void ApplyGain(float local_distance, float local_gain)
     {
         if (local_gain != 1)
         {
-            // Get the current position of the VR headset
+            // Get the current position of the VR headset then apply gain
             Vector3 currentTrackedPosition = cameraTransform.localPosition;
-
-            // Calculate the physical movement delta
-            //Vector3 deltaMovement = currentTrackedPosition - lastTrackedPosition;
-
-            // Apply the gain factors separately for X and Z axes
-            //Vector3 gainedMovement = new Vector3(deltaMovement.x * (1 - local_gain), 0, 0);
-            //Vector3 gainedMovement = new Vector3(deltaMovement.z * gainZ, 0, -deltaMovement.x * gainX);
-            // Update the XR Origin's position
-            //_left.transform.position += gainedMovement;
-            //_right.transform.position += gainedMovement;
-
-            _left.transform.position = new Vector3(currentTrackedPosition.x * (1 - local_gain), _left.transform.position.y, _left.transform.position.z);
-            _right.transform.position = new Vector3(currentTrackedPosition.x * (1 - local_gain), _left.transform.position.y, _left.transform.position.z);
+            fold_left.transform.position = new Vector3(fold_left.transform.position.x, fold_left.transform.position.y, local_distance + (currentTrackedPosition.z * (1 - local_gain)));//fold_left.transform.position.z +
+            fold_right.transform.position = new Vector3(fold_right.transform.position.x, fold_right.transform.position.y, local_distance + (currentTrackedPosition.z * (1 - local_gain)));//fold_right.transform.position.z +
 
             // Update last tracked position for the next frame
             //lastTrackedPosition = currentTrackedPosition;
@@ -404,12 +388,12 @@ public class ExpCondition : MonoBehaviour
     }
     public void SetBlind()
     {
-        parallax = new List<int> { 0, 0 };
+        bumper_counter = new List<int> { 0, 0 };
         _floor.SetActive(false);
         _appertureTop.SetActive(false);
         _appertureBottom.SetActive(false);
-        _left.SetActive(false);
-        _right.SetActive(false);
+        fold_left.SetActive(false);
+        fold_right.SetActive(false);
         //_xrOrigin.transform.position = _stand.transform.position;
     }
     public IEnumerator _ChangeScene(int nextIdx)
@@ -428,16 +412,16 @@ public class ExpCondition : MonoBehaviour
         /*
          * fold: x -> left/right, y -> height, z -> far
          */
-        _left.transform.position = new Vector3(0, fold_yy, distance);
+        fold_left.transform.position = new Vector3(0, fold_yy, distance);
         //_left.transform.Rotate(new Vector3(-90, 45, 0));
 
-        _right.transform.position = new Vector3(0, fold_yy, distance);
+        fold_right.transform.position = new Vector3(0, fold_yy, distance);
         //_right.transform.Rotate(new Vector3(-90, -45, 0));
 
         // change scale
 
-        _left.transform.localScale = new Vector3(width * origial_width, 1e-8f, height);
-        _right.transform.localScale = _left.transform.localScale;
+        fold_left.transform.localScale = new Vector3(width * origial_width * distance, 1e-8f, height * distance);
+        fold_right.transform.localScale = fold_left.transform.localScale;
 
         if ((float)exp_conditions[curr_exp][3] == 0f)
         {
@@ -506,4 +490,67 @@ public class ExpCondition : MonoBehaviour
         }
     }
     
+    void SingleStairCase(float stair_gain, bool inputA, bool inputB)
+    {
+        // current_direction
+        // next_gain
+
+        stair_gains.Add(stair_gain);
+        if (stair_gain > 1)
+        {
+            current_direction = -1;
+            if (inputA)
+            {
+                // got correct answer
+                ma_correct++;
+                ma_wrong = 0;
+            }
+            else
+            {
+                // got wrong answer
+                ma_correct = 0;
+                ma_wrong++;
+            }
+        }
+        else if (stair_gain < 1)
+        {
+            current_direction = 1;
+            if (inputB)
+            {
+                // got correct answer
+                ma_correct++;
+                ma_wrong = 0;
+                current_direction = 1;
+            }
+            else
+            {
+                // got wrong answer
+                ma_correct = 0;
+                ma_wrong++;
+            }
+        }
+
+        if (ma_correct >= thr_correct)
+        {
+            gain_next = stair_gain + current_direction * step_initial;
+            Debug.Log($"[Staircase] correct and updating gain to {stair_gain}");
+        }
+        else if (ma_wrong > 0)
+        {
+            gain_next = stair_gain - current_direction * step_initial;
+            Debug.Log($"[Staircase] wrong and updating gain to {stair_gain}");
+        }
+        
+    }
+    private void limit_gain()
+    {
+        if (gain_next > gain_max)
+        {
+            gain_next = gain_max;
+        }
+        else if (gain_next < gain_min)
+        {
+            gain_next = gain_min;
+        }
+    }
 }

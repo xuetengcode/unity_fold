@@ -10,7 +10,11 @@ TagManager:
   - boundaryF
   - boundaryB
   - cube
-  - sphere
+  - front_back
+  - triangle
+  - pentagon
+  - cylinder
+  - Ground
   layers:
   - Default
   - TransparentFX

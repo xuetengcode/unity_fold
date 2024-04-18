@@ -9,13 +9,21 @@ public class ObjectControl_pillar : MonoBehaviour
 {
     [SerializeField] private GameObject object_cube;
     [SerializeField] private GameObject object_cylinder;
-
+    [SerializeField] private GameObject object_pentagon; 
+    [SerializeField] private GameObject object_triangle;
+    
     //[SerializeField] private GameObject _targetCube;
     //[SerializeField] private GameObject _targetCylnder;
     [SerializeField] private GameObject marker_cube;
     [SerializeField] private GameObject marker_cylinder;
     [SerializeField] private GameObject marker_pentagon;
     [SerializeField] private GameObject marker_triangle;
+
+    // load pillar (where shapes are sitting on) locations so that we dont need to hardcode their centers
+    [SerializeField] private GameObject platform_1;
+    [SerializeField] private GameObject platform_2;
+    [SerializeField] private GameObject platform_3;
+    [SerializeField] private GameObject platform_4;
 
     [SerializeField] GameObject _roomExp;
 
@@ -24,23 +32,29 @@ public class ObjectControl_pillar : MonoBehaviour
 
     private float randx;
     private float randz;
+
+    private bool groundCollision = false; // true when game object is contacting ground
     private Vector3 base_location;
 
     int total_area = 7;
 
-    float[,] object_areas = { // zyx: y + 1.6
-        {-1.176f, 0.712f,    0.073f, 0.073f,    -3.73f, 3.681f}, // 0 xxyyzz floor
-        {-1.869f, -1.297f,    0.772f, 0.772f,    -2.926f, -1.589f}, // 1 xxyyzz
+    private float spawn_height = 0.5f; // how much +y above platforms should the objects spawn?
+
+    float[,] marker_areas = {
+        {0.468f, 0.468f,   1.4f, 1.4f,    2f, 2f}, // 0 xxyyzz floor
+        {0.468f, 0.468f,   1.4f, 1.4f,    0.7f, 0.7f}, // 0 xxyyzz floor
+        {0.468f, 0.468f,   1.4f, 1.4f,    -0.7f, -0.7f}, // 0 xxyyzz floor
+        {0.468f, 0.468f,   1.4f, 1.4f,    -2f, -2f}, // 0 xxyyzz floor
     };
 
-    float[,] marker_areas = { // zyx: y + 1.6
-        {-1.537f, -1.297f,    0.772f, 0.772f,    -1.07f, -0.561f}, // 2 xxyyzz
-        {-1.869f, -1.297f,    0.772f, 0.772f,    -0.134f, 0.366f}, // 3 xxyyzz
-        {-1.537f, -1.297f,    0.772f, 0.772f,    -1.07f, -0.561f}, // 2 xxyyzz
-        {-1.869f, -1.297f,    0.772f, 0.772f,    -0.134f, 0.366f}, // 3 xxyyzz
-        {-1.537f, -1.297f,    0.772f, 0.772f,    -1.07f, -0.561f}, // 2 xxyyzz
-        {-1.869f, -1.297f,    0.772f, 0.772f,    -0.134f, 0.366f}, // 3 xxyyzz
+    float[,] object_areas = {
+        {-0.6f, -0.6f,    1.027f, 1.027f,    2f, 2f}, // 2 xxyyzz
+        {-0.6f, -0.6f,    1.027f, 1.027f,    0.7f, 0.7f}, // 2 xxyyzz
+        {-0.6f, -0.6f,    1.027f, 1.027f,    -0.7f, -0.7f}, // 2 xxyyzz
+        {-0.6f, -0.6f,    1.0278f, 1.0278f,    -2f, -2f}, // 2 xxyyzz
     };
+
+    private float[,] platform_centers = new float[4,3]; // center of the platforms where the objects need to spawn
 
     List<int> all_marker_idexs;
     List<int> all_obj_idexs;
@@ -77,7 +91,8 @@ public class ObjectControl_pillar : MonoBehaviour
     private int idx_pentagon;
     private int idx_triangle;
 
-
+    private int total_objects = 4;
+    private bool firstRound = true;
     // Start is called before the first frame update
 
     /*
@@ -91,13 +106,27 @@ public class ObjectControl_pillar : MonoBehaviour
         Xpressed = DataInput.bttnXpressed;
         Ypressed = DataInput.bttnYpressed;
 
-        all_objects = new List<GameObject> {object_cube, object_cylinder};
+        all_objects = new List<GameObject> {object_cube, object_cylinder, object_pentagon, object_triangle };
 
         // Range (int start, int count);
         //all_marker_idexs.AddRange(Enumerable.Range(0, 4));
         all_marker_idexs = Enumerable.Range(0,4).ToList();
         //all_obj_idexs.AddRange(Enumerable.Range(0, 2));
-        all_obj_idexs = Enumerable.Range(0, 2).ToList();
+        all_obj_idexs = Enumerable.Range(0, total_objects).ToList();
+
+        float[,] platform_centers_reference = { // this is a little bit of a weird way to initialzie the array so that it is a private attribute of this class :/ 
+        // but these values cannot be initialized before the start method
+        {platform_1.transform.position.x,     spawn_height + platform_1.transform.position.y + (platform_1.transform.localScale.y)/2,    platform_1.transform.position.z}, // platform 1 xyz
+        {platform_2.transform.position.x,     spawn_height + platform_2.transform.position.y + (platform_2.transform.localScale.y)/2,    platform_2.transform.position.z}, // platform 2 xyz
+        {platform_3.transform.position.x,     spawn_height + platform_3.transform.position.y + (platform_3.transform.localScale.y)/2,    platform_3.transform.position.z}, // platform 3 xyz
+        {platform_4.transform.position.x,     spawn_height + platform_4.transform.position.y + (platform_4.transform.localScale.y)/2,    platform_4.transform.position.z}, // platform 4 xyz
+        };
+
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 3; j++){
+                platform_centers[i,j] = platform_centers_reference[i,j];
+            }
+        }
     }
 
     // Update is called once per frame
@@ -107,13 +136,18 @@ public class ObjectControl_pillar : MonoBehaviour
         Bpressed = DataInput.bttnBpressed;
         Xpressed = DataInput.bttnXpressed;
         Ypressed = DataInput.bttnYpressed;
-        if (Input.GetKeyDown(KeyCode.Space) | Xpressed > LastX | _roomExp.GetComponent<RoomExperiment_pillar>()._collideNext)
+
+        if (Input.GetKeyDown(KeyCode.Space) | Xpressed > LastX | _roomExp.GetComponent<RoomExperiment_pillar>()._collideNext | firstRound | groundCollision) // added condiiton if colliding with ground
         {
+            if(groundCollision == true) groundCollision = false;
+            
+            firstRound = false;
             // those are the grabbable objects
 
-            ShuffleIndexes(all_obj_idexs);
-            idxObject = Random.Range(0, 1);
+            ShuffleIndexes(all_obj_idexs); // this is to get which object to show
+            idxObject = Random.Range(0, total_objects); // this is where the object goes
             object_active = all_objects[all_obj_idexs[0]];
+
             all_objects[all_obj_idexs[0]].SetActive(true);
             for (int i_obj = 1; i_obj < all_obj_idexs.Count; i_obj++)
             {
@@ -188,9 +222,14 @@ public class ObjectControl_pillar : MonoBehaviour
             idx_triangle = all_marker_idexs[3];
 
             RandLocMarker(marker_cube, idx_cube);
-            RandLocMarker(marker_cylinder, idx_cylinder);
+            RandLocMarkerCylinder(marker_cylinder, idx_cylinder);
             RandLocMarker(marker_pentagon, idx_pentagon);
             RandLocMarker(marker_triangle, idx_triangle);
+
+            // pass the info back for output
+            GetComponent<RoomExperiment_pillar>().object_active_id = idxObject;
+            GetComponent<RoomExperiment_pillar>().object_active_location = all_obj_idexs[0];
+            GetComponent<RoomExperiment_pillar>().all_marker_idexs = all_marker_idexs;
 
         }
         LastA = Apressed; LastB = Bpressed;
@@ -199,16 +238,24 @@ public class ObjectControl_pillar : MonoBehaviour
 
     public void RandLocObject(GameObject sourceObj, int idx2go)
     {
-        randx = UnityEngine.Random.Range(object_areas[idx2go, 0], object_areas[idx2go, 1]);
-        randz = UnityEngine.Random.Range(object_areas[idx2go, 4], object_areas[idx2go, 5]);
-        sourceObj.transform.position = new Vector3(randx, object_areas[idx2go, 2], randz);
+        //randx = UnityEngine.Random.Range(object_areas[idx2go, 0], object_areas[idx2go, 1]);
+        //randz = UnityEngine.Random.Range(object_areas[idx2go, 4], object_areas[idx2go, 5]);
+
+        // sourceObj.transform.position = new Vector3(object_areas[idx2go, 0], object_areas[idx2go, 2], object_areas[idx2go, 4]);
+        sourceObj.transform.position = new Vector3(platform_centers[idx2go, 0], platform_centers[idx2go, 1], platform_centers[idx2go, 2]);
     }
 
     public void RandLocMarker(GameObject sourceObj, int idx2go)
     {
-        randx = UnityEngine.Random.Range(marker_areas[idx2go, 0], marker_areas[idx2go, 1]);
-        randz = UnityEngine.Random.Range(marker_areas[idx2go, 4], marker_areas[idx2go, 5]);
-        sourceObj.transform.position = new Vector3(randx, marker_areas[idx2go, 2], randz);
+        //randx = UnityEngine.Random.Range(marker_areas[idx2go, 0], marker_areas[idx2go, 1]);
+        //randz = UnityEngine.Random.Range(marker_areas[idx2go, 4], marker_areas[idx2go, 5]);
+        sourceObj.transform.position = new Vector3(marker_areas[idx2go, 0], marker_areas[idx2go, 2], marker_areas[idx2go, 4]);
+    }
+    public void RandLocMarkerCylinder(GameObject sourceObj, int idx2go)
+    {
+        //randx = UnityEngine.Random.Range(marker_areas[idx2go, 0], marker_areas[idx2go, 1]);
+        //randz = UnityEngine.Random.Range(marker_areas[idx2go, 4], marker_areas[idx2go, 5]);
+        sourceObj.transform.position = new Vector3(0.464f, marker_areas[idx2go, 2], marker_areas[idx2go, 4]);
     }
 
     void ShuffleIndexes(List<int> conditions)
@@ -224,4 +271,9 @@ public class ObjectControl_pillar : MonoBehaviour
             conditions[n] = value;
         }
     }
+
+    public void CollideWithGround(){
+        this.groundCollision = true;
+    }
+
 }
