@@ -1632,6 +1632,9 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ad3f5558914e60246839c0d9a58cac63, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 650993999}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ad3f5558914e60246839c0d9a58cac63, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 650993994}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ad3f5558914e60246839c0d9a58cac63, type: 3}
       insertIndex: -1
@@ -2536,6 +2539,19 @@ MonoBehaviour:
   _roomExp: {fileID: 1650824821}
   _correct: {fileID: 8300000, guid: 16fba6d30ed741d4a9fdd6e79ee2f3ac, type: 3}
   _wrong: {fileID: 8300000, guid: a0079de7a77ca764dbb7fc0d2eaa6bbe, type: 3}
+--- !u!114 &650993999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 650993990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d90c7b68e2fc8034a91aceb62001c9ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectControl: {fileID: 3257650465687098047}
 --- !u!1 &662577108
 GameObject:
   m_ObjectHideFlags: 0
@@ -3874,10 +3890,12 @@ GameObject:
   - component: {fileID: 1290443747}
   - component: {fileID: 1290443752}
   - component: {fileID: 1290443751}
+  - component: {fileID: 1290443755}
   - component: {fileID: 1290443750}
   - component: {fileID: 1290443749}
   - component: {fileID: 1290443753}
   - component: {fileID: 1280873698}
+  - component: {fileID: 1290443754}
   m_Layer: 0
   m_Name: object_cube
   m_TagString: Untagged
@@ -4222,6 +4240,31 @@ MonoBehaviour:
   m_StartingSingleGrabTransformers: []
   m_StartingMultipleGrabTransformers: []
   m_AddDefaultGrabTransformers: 1
+--- !u!114 &1290443754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1290443746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff3460883958a5247ac17feabe82ab1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1290443755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1290443746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d90c7b68e2fc8034a91aceb62001c9ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectControl: {fileID: 3257650465687098047}
 --- !u!1 &1321707711
 GameObject:
   m_ObjectHideFlags: 0
@@ -4422,7 +4465,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11440770, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_PresetInfoIsWorld
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11452418, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: startInPopupMode
@@ -5256,6 +5299,9 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 633b28f7650f87f4b98ab9c4f6f404db, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 1676295650}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 633b28f7650f87f4b98ab9c4f6f404db, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 1676295646}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 633b28f7650f87f4b98ab9c4f6f404db, type: 3}
       insertIndex: -1
@@ -5487,6 +5533,19 @@ MonoBehaviour:
   _roomExp: {fileID: 1650824821}
   _correct: {fileID: 8300000, guid: 16fba6d30ed741d4a9fdd6e79ee2f3ac, type: 3}
   _wrong: {fileID: 8300000, guid: a0079de7a77ca764dbb7fc0d2eaa6bbe, type: 3}
+--- !u!114 &1676295650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 328116457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d90c7b68e2fc8034a91aceb62001c9ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectControl: {fileID: 3257650465687098047}
 --- !u!1 &1815260687
 GameObject:
   m_ObjectHideFlags: 0
@@ -5954,6 +6013,7 @@ GameObject:
   - component: {fileID: 2058151245}
   - component: {fileID: 2058151248}
   - component: {fileID: 2058151247}
+  - component: {fileID: 2058151253}
   - component: {fileID: 2058151251}
   - component: {fileID: 2058151250}
   - component: {fileID: 2058151249}
@@ -6245,6 +6305,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.0000004, y: 2.0000005, z: 1.0000002}
   m_Center: {x: 0.00000005960466, y: 0, z: -0.00000008940697}
+--- !u!114 &2058151253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2058151244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d90c7b68e2fc8034a91aceb62001c9ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectControl: {fileID: 3257650465687098047}
 --- !u!1 &2076442025
 GameObject:
   m_ObjectHideFlags: 0
@@ -10590,6 +10663,10 @@ MonoBehaviour:
   marker_cylinder: {fileID: 1552708696}
   marker_pentagon: {fileID: 774176966}
   marker_triangle: {fileID: 1947882021}
+  platform_1: {fileID: 103237276}
+  platform_2: {fileID: 1260572883}
+  platform_3: {fileID: 870120922}
+  platform_4: {fileID: 631079248}
   _roomExp: {fileID: 1650824821}
 --- !u!114 &3257650465687098048
 MonoBehaviour:
@@ -10921,7 +10998,7 @@ GameObject:
   - component: {fileID: 985166285}
   m_Layer: 0
   m_Name: floor
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
